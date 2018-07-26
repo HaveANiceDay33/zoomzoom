@@ -91,17 +91,17 @@ public class MenuManager {
 		defaultSlider.setValue(1f);
 		HvlComponentDefault.setDefault(defaultSlider);
 
-		HvlCheckbox defaultCheckbox = new HvlCheckbox(128, 64, false, new HvlComponentDrawable(){
+		HvlCheckbox defaultCheckbox = new HvlCheckbox(180, 75, false, new HvlComponentDrawable(){
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.darkGray);
-				MainClient.gameFont.drawWord("[not ready]", xArg, yArg, Color.white);
+				MainClient.gameFont.drawWordc("Not ready!", xArg+(widthArg/2), yArg+(heightArg/2), Color.red);
 			}
 		}, new HvlComponentDrawable(){
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
-				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.lightGray);
-				MainClient.gameFont.drawWord("[ ready ]", xArg, yArg, Color.white);
+				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.darkGray);
+				MainClient.gameFont.drawWordc("Ready!", xArg+(widthArg/2), yArg+(heightArg/2), Color.green);
 			}
 		});
 		HvlComponentDefault.setDefault(defaultCheckbox);
@@ -266,7 +266,7 @@ public class MenuManager {
 					hvlDrawQuad(Display.getWidth() - 96f - 16f, 64f, 64f, 64f, MainClient.getTexture(newTexture + 1), color);
 				}
 			}
-
+			MainClient.gameFont.drawWordc("Select a Car and choose and a Color, then Press Ready", Display.getWidth()/2, 200, Color.white);
 			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 100, 100, MainClient.getTexture(MainClient.WRX_INDEX));
 			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 100, 100, MainClient.getTexture(MainClient.WRX_A_INDEX), color);
 			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+50, 100, 100, MainClient.getTexture(MainClient.GTI_INDEX));
@@ -318,7 +318,7 @@ public class MenuManager {
 							hvlDrawQuad(256, offset * PLAYER_LIST_SPACING + 16f, PLAYER_LIST_SPACING - 4f, PLAYER_LIST_SPACING - 4f, MainClient.getTexture(info.carTexture));
 							hvlDrawQuad(256, offset * PLAYER_LIST_SPACING + 16f, PLAYER_LIST_SPACING - 4f, PLAYER_LIST_SPACING - 4f, MainClient.getTexture(info.carTexture + 1), userColor);
 						}
-						MainClient.gameFont.drawWord("[" + (info.ready ? "X" : "  ") + "]", 256f + 48f, offset * PLAYER_LIST_SPACING + 16f, userColor);
+						MainClient.gameFont.drawWord("[ " + (info.ready ? "READY" : "  ") + " ]", 256f + 48f, offset * PLAYER_LIST_SPACING + 16f, userColor);
 					}
 					MainClient.gameFont.drawWord(s, 16, offset * PLAYER_LIST_SPACING + 16f, userColor);
 					offset++;
