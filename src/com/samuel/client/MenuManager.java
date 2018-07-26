@@ -291,6 +291,7 @@ public class MenuManager {
 				InfoLobby lobbyInfo = MainClient.getNClient().<InfoLobby>getValue(KC.key_PlayerLobbyInfo(MainClient.getNUIDK()));
 				InfoGame gameInfo = MainClient.getNClient().<InfoGame>getValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()));
 				gameInfo.location = new HvlCoord2D(Game.player.getXPos(), Game.player.getYPos());
+				gameInfo.rotation = Game.player.turnAngle;
 				gameInfo.carTexture = lobbyInfo.carTexture;
 				gameInfo.color = color;
 				MainClient.getNClient().setValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()), gameInfo, false);

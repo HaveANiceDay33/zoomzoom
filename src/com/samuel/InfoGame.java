@@ -10,12 +10,14 @@ public class InfoGame implements Serializable{
 	private static final long serialVersionUID = 8089596510722966271L;
 	
 	public HvlCoord2D location;
+	public float rotation;
 	public int carTexture;
 	public Color color;
 	public float finishTime;
 	
-	public InfoGame(HvlCoord2D locationArg, int carTextureArg, Color colorArg){
+	public InfoGame(HvlCoord2D locationArg, float rotationArg, int carTextureArg, Color colorArg){
 		location = locationArg;
+		rotation = rotationArg;
 		carTexture = carTextureArg;
 		color = colorArg;
 		finishTime = -1f;

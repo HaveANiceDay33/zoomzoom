@@ -70,7 +70,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 					if(readyTimer == 0){
 						state = GameState.RUNNING;
 						for(SocketWrapper s : lobbyInfo.keySet()){
-							gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color));
+							gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), 0f, lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color));
 							getServer().setValue(KC.key_PlayerGameInfo(getUIDK(s)), gameInfo.get(s), false);
 						}
 					}
