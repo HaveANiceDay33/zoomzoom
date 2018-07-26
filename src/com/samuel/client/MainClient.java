@@ -5,13 +5,14 @@ import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.input.HvlInput;
+import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 
 public class MainClient extends HvlTemplateDClient2D{
 
 	public MainClient(HvlGameInfo gameInfoArg){
-		super(144, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.05f, gameInfoArg);
+		super(144, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "73.140.238.157", 25565, 0.05f, gameInfoArg);
 	}
 	static HvlFontPainter2D gameFont;
 	public final static int NEEDLE_INDEX = 0;
@@ -64,6 +65,6 @@ public class MainClient extends HvlTemplateDClient2D{
 	@Override
 	public void onDisconnection() {
 		// TODO Auto-generated method stub
-		
+		HvlMenu.setCurrent(MenuManager.ip);
 	}
 }
