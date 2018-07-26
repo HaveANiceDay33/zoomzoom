@@ -259,6 +259,7 @@ public class Game {
 				TerrainGenerator.draw(delta);
 				//drawOtherPlayers(TrackGenerator.START_X, TrackGenerator.START_Y, 0, MainClient.WRX_INDEX, new Color(255,0,255), "Computer");
 				drawPlayerCars();
+				drawPlayerTimes();
 				player.draw(delta);
 			}
 		});
