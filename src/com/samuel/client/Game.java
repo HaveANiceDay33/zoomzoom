@@ -110,7 +110,7 @@ public class Game {
 			for(InfoGame g : postSort){
 				offset += MenuManager.PLAYER_LIST_SPACING;
 				System.out.println(g.username + " : " + g.finishTime);
-				MainClient.gameFont.drawWord(g.username + " : " + HvlMath.cropDecimals(g.finishTime, 2), 512f, offset, g.color);
+				MainClient.gameFont.drawWord(g.username + " : " + HvlMath.cropDecimals(g.finishTime, 2), 1500f, offset, g.color);
 			}
 		}
 	}
