@@ -48,6 +48,14 @@ public class Game {
 	static Player player;
 	static TrackGenerator trackGen;
 	
+	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, String userName) {
+		MainClient.gameFont.drawWordc(userName, xPos, yPos - 60, Color.black, 0.5f);
+		hvlRotate(xPos,yPos-30, turnAngle);
+		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex));
+		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex + 1), customColor);
+		hvlResetRotation();
+	}
+	
 	public static void drawTach(int x, int y) {
 		accurateAngleRPM = HvlMath.map(currentRPM, 0, 8000, -145, 145);
 		hvlDrawQuadc(x, y, 330, 330, MainClient.getTexture(MainClient.CIRCLE_INDEX), Color.black);
@@ -212,7 +220,7 @@ public class Game {
 				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2, 10000, 10000, new Color(70, 116, 15));
 				trackGen.update(delta);
 				TerrainGenerator.draw(delta);
-				
+				drawOtherPlayers(TrackGenerator.START_X, TrackGenerator.START_Y, 0, MainClient.WRX_INDEX, new Color(255,0,255), "Computer");
 				player.draw(delta);
 			}
 		});
@@ -230,7 +238,7 @@ public class Game {
 
 				endTimer = HvlMath.stepTowards(endTimer,  delta, 0);
 				if(endTimer < 0.1) {
-					HvlMenu.setCurrent(MenuManager.menuCar);
+					//HvlMenu.setCurrent(MenuManager.menuCar);
 				}
 			} else {
 				trackTimer += delta;
