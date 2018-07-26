@@ -68,6 +68,7 @@ public class Game {
 							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
 						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
 						Game.drawOtherPlayers(info.location.x, info.location.y, 0, info.carTexture, info.color, s);
+						System.out.println(info.location.x + "\t"+ info.location.y);
 					}
 				}
 				counter++;

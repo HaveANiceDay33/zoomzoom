@@ -10,8 +10,8 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlMath;
 
 public class TrackGenerator {
-	public static int START_X = Display.getWidth()/2;
-	public static int START_Y = Display.getHeight()/2;
+	public static int START_X = 1920/2;
+	public static int START_Y = 1080/2;
 	int orientation;
 	int segmentLength;
 	int finishOr;
