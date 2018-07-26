@@ -107,7 +107,6 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		getServer().addMember(target, KC.key_GameReadyTimer());
 		getServer().addMember(target, KC.key_GameState());
 		getServer().addMember(target, KC.key_GameGameInfoList());
-		getServer().addMember(target, KC.key_GameFinishTimeList());
 	}
 
 	@Override

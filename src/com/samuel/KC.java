@@ -32,16 +32,16 @@ public class KC {
 		return new HvlKey("game").with("gameinfolist");
 	}
 	
-	public static HvlKey key_GameFinishTimeList(){
-		return new HvlKey("game").with("gameinfolist");
-	}
-	
 	public static HvlKey key_GameReadyTimer(){
 		return new HvlKey("game").with("readytimer");
 	}
 	
 	public static HvlKey key_GameState(){
 		return new HvlKey("game").with("state");
+	}
+	
+	public static HvlKey key_GameMap(){
+		return new HvlKey("game").with("map");
 	}
 	
 }
