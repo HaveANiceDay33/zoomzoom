@@ -55,6 +55,10 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		
 		sendLobbyListUpdates();
 		
+		if(usernames.size() == 0){
+			state = GameState.LOBBY;
+		}
+		
 		if(usernames.size() == lobbyInfo.size() && lobbyInfo.size() == getAuthenticatedUsers().size()){
 			int valid = 0;
 			for(SocketWrapper s : lobbyInfo.keySet()){
@@ -68,7 +72,6 @@ public class MainServer extends HvlTemplateDGameServer2D{
 						gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color));
 						getServer().setValue(KC.key_PlayerGameInfo(getUIDK(s)), gameInfo.get(s), false);
 					}
-					lobbyInfo.clear();
 				}
 			}else{
 				readyTimer = 1f;
@@ -98,25 +101,26 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	private void sendLobbyListUpdates(){
 		usernames.clear();
 		lobbyInfo.clear();
+		gameInfo.clear();
 		for(SocketWrapper s : getAuthenticatedUsers()){
 			if(getServer().hasValue(KC.key_PlayerUsername(getUIDK(s)))){
 				usernames.put(s, getServer().<String>getValue(KC.key_PlayerUsername(getUIDK(s))));
 				if(getServer().hasValue(KC.key_PlayerLobbyInfo(getUIDK(s)))){
 					lobbyInfo.put(s, getServer().<InfoLobby>getValue(KC.key_PlayerLobbyInfo(getUIDK(s))));
 				}
+				if(getServer().hasValue(KC.key_PlayerGameInfo(getUIDK(s)))){
+					gameInfo.put(s, getServer().<InfoGame>getValue(KC.key_PlayerGameInfo(getUIDK(s))));
+				}
 			}
 		}
 		getServer().setValue(KC.key_GameUsernameList(), new ArrayList<>(usernames.values()), false);
 		getServer().setValue(KC.key_GameLobbyInfoList(), new ArrayList<>(lobbyInfo.values()), false);
+		getServer().setValue(KC.key_GameGameInfoList(), new ArrayList<>(gameInfo.values()), false);
 		for(SocketWrapper s : getAuthenticatedUsers()){
 			if(getServer().hasValue(KC.key_PlayerUsername(getUIDK(s)))){
 				getServer().setValue(KC.key_PlayerListIndex(getUIDK(s)), new ArrayList<>(usernames.keySet()).indexOf(s), false);
 			}
 		}
-	}
-	
-	private void sendGameListUpdates(){
-		
 	}
 
 }
