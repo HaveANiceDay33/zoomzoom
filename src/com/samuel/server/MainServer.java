@@ -69,12 +69,26 @@ public class MainServer extends HvlTemplateDGameServer2D{
 					readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
 					if(readyTimer == 0){
 						state = GameState.RUNNING;
+						readyTimer = 1f;
 						for(SocketWrapper s : lobbyInfo.keySet()){
 							gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), 0f, lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color));
 							getServer().setValue(KC.key_PlayerGameInfo(getUIDK(s)), gameInfo.get(s), false);
 						}
 					}
 				}else{
+					readyTimer = 1f;
+				}
+			}
+		}else if(state == GameState.RUNNING){
+			boolean allFinished = true;
+			for(SocketWrapper s : gameInfo.keySet()){
+				if(gameInfo.get(s).finishTime == -1f) allFinished = false;
+			}
+			if(allFinished){
+				readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
+				if(readyTimer == 0){
+					state = GameState.LOBBY;
+					gameInfo.clear();
 					readyTimer = 1f;
 				}
 			}

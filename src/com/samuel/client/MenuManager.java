@@ -294,6 +294,8 @@ public class MenuManager {
 				gameInfo.rotation = Game.player.turnAngle;
 				gameInfo.carTexture = lobbyInfo.carTexture;
 				gameInfo.color = color;
+				if(Game.player.finalTrackTime != 0)
+					gameInfo.finishTime = Game.player.finalTrackTime;
 				MainClient.getNClient().setValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()), gameInfo, false);
 			}
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
