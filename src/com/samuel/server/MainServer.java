@@ -8,12 +8,15 @@ import org.newdawn.slick.Color;
 import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.base.HvlMetaServer.SocketWrapper;
 import com.osreboot.hvol.dgameserver.HvlTemplateDGameServer2D;
+import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeResizable;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.samuel.GameState;
+import com.samuel.InfoGame;
 import com.samuel.InfoLobby;
 import com.samuel.KC;
+import com.samuel.client.TrackGenerator;
 
 public class MainServer extends HvlTemplateDGameServer2D{
 
@@ -27,6 +30,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	
 	private LinkedHashMap<SocketWrapper, String> usernames;
 	private LinkedHashMap<SocketWrapper, InfoLobby> lobbyInfo;
+	private LinkedHashMap<SocketWrapper, InfoGame> gameInfo;
 	
 	private GameState state;
 	private float readyTimer;
@@ -39,6 +43,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	
 		usernames = new LinkedHashMap<>();
 		lobbyInfo = new LinkedHashMap<>();
+		gameInfo = new LinkedHashMap<>();
 		
 		state = GameState.LOBBY;
 		readyTimer = 1f;
@@ -48,7 +53,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	public void update(float delta){
 		font.drawWord(getServer().getTable().toString(), 0,  0, Color.white);
 		
-		sendListUpdates();
+		sendLobbyListUpdates();
 		
 		if(usernames.size() == lobbyInfo.size() && lobbyInfo.size() == getAuthenticatedUsers().size()){
 			int valid = 0;
@@ -57,7 +62,14 @@ public class MainServer extends HvlTemplateDGameServer2D{
 			}
 			if(valid == usernames.size() && valid > 1f){
 				readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
-				if(readyTimer == 0) state = GameState.RUNNING;
+				if(readyTimer == 0){
+					state = GameState.RUNNING;
+					for(SocketWrapper s : lobbyInfo.keySet()){
+						gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color));
+						getServer().setValue(KC.key_PlayerGameInfo(getUIDK(s)), gameInfo.get(s), false);
+					}
+					lobbyInfo.clear();
+				}
 			}else{
 				readyTimer = 1f;
 			}
@@ -73,6 +85,8 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		getServer().addMember(target, KC.key_GameLobbyInfoList());
 		getServer().addMember(target, KC.key_GameReadyTimer());
 		getServer().addMember(target, KC.key_GameState());
+		getServer().addMember(target, KC.key_GameGameInfoList());
+		getServer().addMember(target, KC.key_GameFinishTimeList());
 	}
 
 	@Override
@@ -81,7 +95,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		lobbyInfo.remove(target);
 	}
 	
-	private void sendListUpdates(){
+	private void sendLobbyListUpdates(){
 		usernames.clear();
 		lobbyInfo.clear();
 		for(SocketWrapper s : getAuthenticatedUsers()){
@@ -99,6 +113,10 @@ public class MainServer extends HvlTemplateDGameServer2D{
 				getServer().setValue(KC.key_PlayerListIndex(getUIDK(s)), new ArrayList<>(usernames.keySet()).indexOf(s), false);
 			}
 		}
+	}
+	
+	private void sendGameListUpdates(){
+		
 	}
 
 }

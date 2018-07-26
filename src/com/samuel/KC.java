@@ -12,6 +12,10 @@ public class KC {
 		return key.with("lobbyinfo");
 	}
 	
+	public static HvlKey key_PlayerGameInfo(HvlKey key){
+		return key.with("gameinfo");
+	}
+	
 	public static HvlKey key_PlayerListIndex(HvlKey key){
 		return key.with("listindex");
 	}
@@ -22,6 +26,14 @@ public class KC {
 	
 	public static HvlKey key_GameLobbyInfoList(){
 		return new HvlKey("game").with("lobbyinfolist");
+	}
+	
+	public static HvlKey key_GameGameInfoList(){
+		return new HvlKey("game").with("gameinfolist");
+	}
+	
+	public static HvlKey key_GameFinishTimeList(){
+		return new HvlKey("game").with("gameinfolist");
 	}
 	
 	public static HvlKey key_GameReadyTimer(){

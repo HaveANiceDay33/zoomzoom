@@ -5,7 +5,6 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
@@ -26,6 +25,7 @@ import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.HvlTextBox;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.samuel.GameState;
+import com.samuel.InfoGame;
 import com.samuel.InfoLobby;
 import com.samuel.KC;
 import com.samuel.Main;
@@ -90,7 +90,7 @@ public class MenuManager {
 		});
 		defaultSlider.setValue(1f);
 		HvlComponentDefault.setDefault(defaultSlider);
-		
+
 		HvlCheckbox defaultCheckbox = new HvlCheckbox(128, 64, false, new HvlComponentDrawable(){
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
@@ -105,7 +105,7 @@ public class MenuManager {
 			}
 		});
 		HvlComponentDefault.setDefault(defaultCheckbox);
-		
+
 		ip.add(new HvlArrangerBox.Builder().setStyle(ArrangementStyle.VERTICAL).setWidth(250).setHeight(400).setX((Display.getWidth()/2)-125).setY((Display.getHeight()/2)-200).build());
 
 		ip.getFirstArrangerBox().add(new HvlSpacer(30, 30));
@@ -225,7 +225,7 @@ public class MenuManager {
 			}
 
 		}).build());
-		
+
 		HvlMenu.setCurrent(ip);
 
 		color = new Color(Color.white);
@@ -243,7 +243,7 @@ public class MenuManager {
 				HvlMenu.setCurrent(game);
 				Game.initialize();
 			}
-			
+
 			if(!MainClient.getNClient().hasValue(KC.key_PlayerUsername(MainClient.getNUIDK()))){
 				MainClient.getNClient().setValue(KC.key_PlayerUsername(MainClient.getNUIDK()), username, false);
 				MainClient.getNClient().setValue(KC.key_PlayerLobbyInfo(MainClient.getNUIDK()), new InfoLobby(-1, false, Color.gray), false);
@@ -284,6 +284,11 @@ public class MenuManager {
 		} else if(HvlMenu.getCurrent() == game) {
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.LOBBY){
 				HvlMenu.setCurrent(menuCar);
+			}
+			if(MainClient.getNClient().hasValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()))){
+				InfoGame info = MainClient.getNClient().<InfoGame>getValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()));
+				
+
 			}
 			Game.update(delta);
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
@@ -326,8 +331,8 @@ public class MenuManager {
 			}
 		}
 	}
-	
+
 	private static void drawPlayerCars(){
-		
+
 	}
 }
