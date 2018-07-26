@@ -7,7 +7,7 @@ public class SubaruWRX extends Car{
 	public SubaruWRX() {
 		setACCELERATION(36);
 		setGEAR_COUNT(6);
-		setTIRE_GRIP(0.34f);
+		setTIRE_GRIP(0.38f);
 		setMAX_RPM(7000);
 		setMIN_RPM(0);
 		setTextureSelect(MainClient.WRX_INDEX);

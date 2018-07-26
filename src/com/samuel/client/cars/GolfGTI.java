@@ -7,7 +7,7 @@ public class GolfGTI extends Car{
 	public GolfGTI() {
 		setACCELERATION(35);
 		setGEAR_COUNT(6);
-		setTIRE_GRIP(0.29f);
+		setTIRE_GRIP(0.4f);
 		setMAX_RPM(6500);
 		setMIN_RPM(0);
 		setTextureSelect(MainClient.GTI_INDEX);

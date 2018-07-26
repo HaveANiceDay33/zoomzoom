@@ -240,7 +240,7 @@ public class MenuManager {
 
 		if(HvlMenu.getCurrent() == menuCar){
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.RUNNING){
-				selectedTrack = new TestTrack();//TODO server set track
+				//selectedTrack = new TestTrack();//TODO server set track
 				HvlMenu.setCurrent(game);
 				Game.initialize();
 			}
