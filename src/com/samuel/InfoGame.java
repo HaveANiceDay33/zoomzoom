@@ -14,12 +14,14 @@ public class InfoGame implements Serializable{
 	public int carTexture;
 	public Color color;
 	public float finishTime;
+	public String username;
 	
-	public InfoGame(HvlCoord2D locationArg, float rotationArg, int carTextureArg, Color colorArg){
+	public InfoGame(HvlCoord2D locationArg, float rotationArg, int carTextureArg, Color colorArg, String usernameArg){
 		location = locationArg;
 		rotation = rotationArg;
 		carTexture = carTextureArg;
 		color = colorArg;
+		username = usernameArg;
 		finishTime = -1f;
 	}
 	
