@@ -1,7 +1,7 @@
-package com.samuel.cars;
+package com.samuel.client.cars;
 
-import com.samuel.Car;
-import com.samuel.Main;
+import com.samuel.client.Car;
+import com.samuel.client.MainClient;
 
 public class AcuraNSX extends Car{
 	public AcuraNSX() {
@@ -10,7 +10,7 @@ public class AcuraNSX extends Car{
 		setTIRE_GRIP(0.38f);
 		setMAX_RPM(7600);
 		setMIN_RPM(0);
-		setTextureSelect(Main.NSX_INDEX);
+		setTextureSelect(MainClient.NSX_INDEX);
 		maxSpeedsPerGear = new int[getGEAR_COUNT()];
 		maxSpeedsPerGear[0] = 45;
 		maxSpeedsPerGear[1] = 76;

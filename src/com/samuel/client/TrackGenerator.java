@@ -1,4 +1,4 @@
-package com.samuel;
+package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
 

@@ -1,7 +1,7 @@
-package com.samuel.cars;
+package com.samuel.client.cars;
 
-import com.samuel.Car;
-import com.samuel.Main;
+import com.samuel.client.Car;
+import com.samuel.client.MainClient;
 
 public class GolfGTI extends Car{
 	public GolfGTI() {
@@ -10,7 +10,7 @@ public class GolfGTI extends Car{
 		setTIRE_GRIP(0.29f);
 		setMAX_RPM(6500);
 		setMIN_RPM(0);
-		setTextureSelect(Main.GTI_INDEX);
+		setTextureSelect(MainClient.GTI_INDEX);
 		maxSpeedsPerGear = new int[getGEAR_COUNT()];
 		maxSpeedsPerGear[0] = 40;
 		maxSpeedsPerGear[1] = 64;

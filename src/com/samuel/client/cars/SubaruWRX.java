@@ -1,7 +1,7 @@
-package com.samuel.cars;
+package com.samuel.client.cars;
 
-import com.samuel.Car;
-import com.samuel.Main;
+import com.samuel.client.Car;
+import com.samuel.client.MainClient;
 
 public class SubaruWRX extends Car{
 	public SubaruWRX() {
@@ -10,7 +10,7 @@ public class SubaruWRX extends Car{
 		setTIRE_GRIP(0.34f);
 		setMAX_RPM(7000);
 		setMIN_RPM(0);
-		setTextureSelect(Main.WRX_INDEX);
+		setTextureSelect(MainClient.WRX_INDEX);
 		maxSpeedsPerGear = new int[getGEAR_COUNT()];
 		maxSpeedsPerGear[0] = 37;
 		maxSpeedsPerGear[1] = 56;

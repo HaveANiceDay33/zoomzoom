@@ -1,4 +1,4 @@
-package com.samuel;
+package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
@@ -19,10 +19,10 @@ import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.HvlTextBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
-import com.samuel.cars.AcuraNSX;
-import com.samuel.cars.GolfGTI;
-import com.samuel.cars.SubaruWRX;
-import com.samuel.tracks.TestTrack;
+import com.samuel.client.cars.AcuraNSX;
+import com.samuel.client.cars.GolfGTI;
+import com.samuel.client.cars.SubaruWRX;
+import com.samuel.client.tracks.TestTrack;
 
 public class MenuManager {
 	public static HvlMenu game, menuCar, ip, menuMap;
@@ -36,7 +36,7 @@ public class MenuManager {
 		menuMap = new HvlMenu();
 		ip = new HvlMenu();
 		
-		HvlComponentDefault.setDefault(HvlLabeledButton.class, new HvlLabeledButton.Builder().setWidth(100).setHeight(100).setFont(Main.gameFont).setTextColor(Color.white).setTextScale(0.25f).setOnDrawable(new HvlComponentDrawable() {
+		HvlComponentDefault.setDefault(HvlLabeledButton.class, new HvlLabeledButton.Builder().setWidth(100).setHeight(100).setFont(MainClient.gameFont).setTextColor(Color.white).setTextScale(0.25f).setOnDrawable(new HvlComponentDrawable() {
 			@Override
 			public void draw(float delta, float x, float y, float width, float height) {
 				hvlDrawQuad(x,y,width,height,Color.lightGray);
@@ -54,7 +54,7 @@ public class MenuManager {
 			}
 		}).build());
 		
-		HvlComponentDefault.setDefault(HvlLabel.class, new HvlLabel.Builder().setColor(Color.white).setFont(Main.gameFont).setScale(0.8f).build());
+		HvlComponentDefault.setDefault(HvlLabel.class, new HvlLabel.Builder().setColor(Color.white).setFont(MainClient.gameFont).setScale(0.8f).build());
 		
 		ip.add(new HvlArrangerBox.Builder().setStyle(ArrangementStyle.VERTICAL).setWidth(250).setHeight(400).setX((Display.getWidth()/2)-125).setY((Display.getHeight()/2)-200).build());
 
@@ -63,7 +63,7 @@ public class MenuManager {
 		ip.getFirstArrangerBox().add(new HvlSpacer(10, 10));
 
 		
-		ip.getFirstArrangerBox().add(new HvlTextBox.Builder().setWidth(200).setHeight(50).setFont(Main.gameFont).setTextColor(Color.darkGray).setTextScale(0.8f).setOffsetY(20).setOffsetX(20).setText("").setFocusedDrawable(new HvlComponentDrawable() {	
+		ip.getFirstArrangerBox().add(new HvlTextBox.Builder().setWidth(200).setHeight(50).setFont(MainClient.gameFont).setTextColor(Color.darkGray).setTextScale(0.8f).setOffsetY(20).setOffsetX(20).setText("").setFocusedDrawable(new HvlComponentDrawable() {	
 			@Override
 			public void draw(float delta, float x, float y, float width, float height) {
 				hvlDrawQuad(x,y,width,height, Color.lightGray);	
@@ -81,7 +81,7 @@ public class MenuManager {
 		ip.getFirstArrangerBox().add(new HvlSpacer(10, 10));
 
 		
-		ip.getFirstArrangerBox().add(new HvlTextBox.Builder().setWidth(200).setHeight(50).setFont(Main.gameFont).setTextColor(Color.darkGray).setTextScale(0.8f).setOffsetY(20).setOffsetX(20).setText("").setFocusedDrawable(new HvlComponentDrawable() {	
+		ip.getFirstArrangerBox().add(new HvlTextBox.Builder().setWidth(200).setHeight(50).setFont(MainClient.gameFont).setTextColor(Color.darkGray).setTextScale(0.8f).setOffsetY(20).setOffsetX(20).setText("").setFocusedDrawable(new HvlComponentDrawable() {	
 			@Override
 			public void draw(float delta, float x, float y, float width, float height) {
 				hvlDrawQuad(x,y,width,height, Color.lightGray);	
@@ -102,6 +102,7 @@ public class MenuManager {
 				if(!ip.getFirstArrangerBox().getFirstOfType(HvlTextBox.class).getText().equals("") && !ip.getFirstArrangerBox().getChildOfType(HvlTextBox.class, 1).getText().equals("")){
 					String IP = ip.getFirstArrangerBox().getFirstOfType(HvlTextBox.class).getText();
 					String USER_NAME = ip.getFirstArrangerBox().getChildOfType(HvlTextBox.class, 1).getText();
+					MainClient.getNClient().start();
 					HvlMenu.setCurrent(menuCar);
 				}
 			}
@@ -158,13 +159,13 @@ public class MenuManager {
 	public static void update(float delta) {
 		HvlMenu.updateMenus(delta);
 		if(HvlMenu.getCurrent() == menuCar){
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 100, 100, Main.getTexture(Main.WRX_INDEX));
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+50, 100, 100, Main.getTexture(Main.GTI_INDEX));
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+50, 100, 100, Main.getTexture(Main.NSX_INDEX));
+			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 100, 100, MainClient.getTexture(MainClient.WRX_INDEX));
+			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+50, 100, 100, MainClient.getTexture(MainClient.GTI_INDEX));
+			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+50, 100, 100, MainClient.getTexture(MainClient.NSX_INDEX));
 
-			Main.gameFont.drawWordc("Subaru WRX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+150, Color.red, 0.7f);
-			Main.gameFont.drawWordc("Volkswagen GTI", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+150, new Color(19,101,0), 0.7f);
-			Main.gameFont.drawWordc("Acura NSX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+150, new Color(129,0,0), 0.7f);
+			MainClient.gameFont.drawWordc("Subaru WRX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+150, Color.red, 0.7f);
+			MainClient.gameFont.drawWordc("Volkswagen GTI", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+150, new Color(19,101,0), 0.7f);
+			MainClient.gameFont.drawWordc("Acura NSX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+150, new Color(129,0,0), 0.7f);
 
 		} else if(HvlMenu.getCurrent() == game) {
 			Game.update(delta);
@@ -172,9 +173,9 @@ public class MenuManager {
 				HvlMenu.setCurrent(ip);
 			}
 		} else if(HvlMenu.getCurrent() == menuMap) {
-			hvlDrawQuadc(menuMap.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+100, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 200, 200, Main.getTexture(Main.TEST_TRACK_INDEX));
+			hvlDrawQuadc(menuMap.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+100, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 200, 200, MainClient.getTexture(MainClient.TEST_TRACK_INDEX));
 
-			Main.gameFont.drawWordc("Test Track", menuMap.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+100, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+200, Color.white, 0.7f);
+			MainClient.gameFont.drawWordc("Test Track", menuMap.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+100, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+200, Color.white, 0.7f);
 		}
 		
 	}

@@ -1,4 +1,4 @@
-package com.samuel;
+package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
@@ -17,19 +17,19 @@ public class Track {
 	}
 	public void draw(float delta) {
 		if(textureSelect == 0) {
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.STR_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 		}
 		if(textureSelect == 2) {
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.STR_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 		}
 		if(textureSelect == 1) {
 			hvlRotate(this.xPos, this.yPos,90);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.STR_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 3) {
 			hvlRotate(this.xPos, this.yPos,90);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.STR_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		
@@ -44,48 +44,48 @@ public class Track {
 				finishAngle = 270;
 			}
 			hvlRotate(this.xPos, this.yPos, finishAngle);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.FINISH_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.FINISH_INDEX));
 			hvlResetRotation();
 		}
 		
 		if(textureSelect == 100) {
 			hvlRotate(this.xPos, this.yPos,90);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 99) {
 			hvlRotate(this.xPos, this.yPos,270);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 98) {
 			hvlRotate(this.xPos, this.yPos,0);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 97) {
 			hvlRotate(this.xPos, this.yPos,180);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 96) {
 			hvlRotate(this.xPos, this.yPos,0);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 95) {
 			hvlRotate(this.xPos, this.yPos,270);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 94) {
 			hvlRotate(this.xPos, this.yPos,180);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 		if(textureSelect == 93) {
 			hvlRotate(this.xPos, this.yPos,90);
-			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, Main.getTexture(Main.TURN_ROAD_INDEX));
+			hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 			hvlResetRotation();
 		}
 	}

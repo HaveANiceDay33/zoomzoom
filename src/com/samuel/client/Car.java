@@ -1,4 +1,4 @@
-package com.samuel;
+package com.samuel.client;
 
 public class Car {
 	public int GEAR_COUNT;

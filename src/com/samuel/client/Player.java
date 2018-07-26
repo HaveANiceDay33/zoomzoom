@@ -1,4 +1,4 @@
-package com.samuel;
+package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
@@ -26,7 +26,7 @@ public class Player {
 	}
 	public void draw(float delta) {
 		hvlRotate(xPos,yPos-30, turnAngle);
-		hvlDrawQuadc(xPos, yPos, 100, 100, Main.getTexture(selectedCar.textureSelect));
+		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(selectedCar.textureSelect));
 		hvlResetRotation();
 	}
 	public void update(float delta) {

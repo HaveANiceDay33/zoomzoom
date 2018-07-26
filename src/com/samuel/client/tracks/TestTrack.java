@@ -1,6 +1,6 @@
-package com.samuel.tracks;
+package com.samuel.client.tracks;
 
-import com.samuel.Level;
+import com.samuel.client.Level;
 
 public class TestTrack extends Level{
 	public TestTrack() {

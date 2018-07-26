@@ -1,4 +1,4 @@
-package com.samuel;
+package com.samuel.client;
 
 public class Level {
 	public int[] tiles;

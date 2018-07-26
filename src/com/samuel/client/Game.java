@@ -1,4 +1,4 @@
-package com.samuel;
+package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
@@ -50,12 +50,12 @@ public class Game {
 	
 	public static void drawTach(int x, int y) {
 		accurateAngleRPM = HvlMath.map(currentRPM, 0, 8000, -145, 145);
-		hvlDrawQuadc(x, y, 330, 330, Main.getTexture(Main.CIRCLE_INDEX), Color.black);
-		hvlDrawQuadc(x,y, 330, 330, Main.getTexture(Main.TACH_INDEX));
+		hvlDrawQuadc(x, y, 330, 330, MainClient.getTexture(MainClient.CIRCLE_INDEX), Color.black);
+		hvlDrawQuadc(x,y, 330, 330, MainClient.getTexture(MainClient.TACH_INDEX));
 		hvlRotate(x, y, accurateAngleRPM);
-		hvlDrawQuadc(x, y, 5, 255, Main.getTexture(Main.NEEDLE_INDEX));
-		hvlDrawQuadc(x, y, 30, 30, Main.getTexture(Main.CIRCLE_INDEX));
-		hvlDrawQuadc(x, y, 25, 25, Main.getTexture(Main.CIRCLE_INDEX), Color.black);
+		hvlDrawQuadc(x, y, 5, 255, MainClient.getTexture(MainClient.NEEDLE_INDEX));
+		hvlDrawQuadc(x, y, 30, 30, MainClient.getTexture(MainClient.CIRCLE_INDEX));
+		hvlDrawQuadc(x, y, 25, 25, MainClient.getTexture(MainClient.CIRCLE_INDEX), Color.black);
 		hvlResetRotation();
 		for(float i = 0; i < 62; i++) {
 			double radiansRot = (Math.toRadians(4.8) * i)-Math.toRadians(-124);
@@ -66,27 +66,27 @@ public class Game {
 		for(float i = 0; i < 9; i++) {
 			double radiansRot = (Math.toRadians(37) * i)-Math.toRadians(-123);
 			if(i == 8 || i == 7) {
-				Main.gameFont.drawWordc((int)(i)+"",x+(float)(Math.cos(radiansRot) * 137), y+(float)(Math.sin(radiansRot) * 137), Color.red);
+				MainClient.gameFont.drawWordc((int)(i)+"",x+(float)(Math.cos(radiansRot) * 137), y+(float)(Math.sin(radiansRot) * 137), Color.red);
 			} else {
-				Main.gameFont.drawWordc((int)(i)+"",x+(float)(Math.cos(radiansRot) * 137), y+(float)(Math.sin(radiansRot) * 137), Color.white);
+				MainClient.gameFont.drawWordc((int)(i)+"",x+(float)(Math.cos(radiansRot) * 137), y+(float)(Math.sin(radiansRot) * 137), Color.white);
 			}
 		}
 
 
-		Main.gameFont.drawWordc(""+currentGear, x, y+75,Color.white);
+		MainClient.gameFont.drawWordc(""+currentGear, x, y+75,Color.white);
 		if(currentRPM >= player.selectedCar.MAX_RPM-500) {
-			hvlDrawQuadc(x+30, y+75, 10,10, Main.getTexture(Main.CIRCLE_INDEX));
+			hvlDrawQuadc(x+30, y+75, 10,10, MainClient.getTexture(MainClient.CIRCLE_INDEX));
 		}
 	}
 	public static void drawSpeed(int x, int y) {
 		accurateAngleSpeed = HvlMath.map(speed, 0, 180, -145, 145);
-		hvlDrawQuadc(x, y, 330, 330, Main.getTexture(Main.CIRCLE_INDEX), Color.black);
+		hvlDrawQuadc(x, y, 330, 330, MainClient.getTexture(MainClient.CIRCLE_INDEX), Color.black);
 
-		hvlDrawQuadc(x,y, 330, 330, Main.getTexture(Main.TACH_INDEX));
+		hvlDrawQuadc(x,y, 330, 330, MainClient.getTexture(MainClient.TACH_INDEX));
 		hvlRotate(x, y,accurateAngleSpeed);
-		hvlDrawQuadc(x, y, 5, 255, Main.getTexture(Main.NEEDLE_INDEX));
-		hvlDrawQuadc(x, y, 30, 30, Main.getTexture(Main.CIRCLE_INDEX));
-		hvlDrawQuadc(x, y, 25, 25, Main.getTexture(Main.CIRCLE_INDEX), Color.black);
+		hvlDrawQuadc(x, y, 5, 255, MainClient.getTexture(MainClient.NEEDLE_INDEX));
+		hvlDrawQuadc(x, y, 30, 30, MainClient.getTexture(MainClient.CIRCLE_INDEX));
+		hvlDrawQuadc(x, y, 25, 25, MainClient.getTexture(MainClient.CIRCLE_INDEX), Color.black);
 		
 		hvlResetRotation();
 		for(float i = 0; i < 62; i++) {
@@ -97,9 +97,9 @@ public class Game {
 		}
 		for(float i = 0; i < 10; i++) {
 			double radiansRot = (Math.toRadians(33) * i)-Math.toRadians(-123);
-			Main.gameFont.drawWordc((int)(i*20)+"",x+(float)(Math.cos(radiansRot) * 137), y+(float)(Math.sin(radiansRot) * 137), Color.white);
+			MainClient.gameFont.drawWordc((int)(i*20)+"",x+(float)(Math.cos(radiansRot) * 137), y+(float)(Math.sin(radiansRot) * 137), Color.white);
 		}
-		Main.gameFont.drawWordc(speed+" MPH",x, y+75, Color.white);
+		MainClient.gameFont.drawWordc(speed+" MPH",x, y+75, Color.white);
 	}
 	public static void keyPresses() {
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
@@ -220,13 +220,13 @@ public class Game {
 		drawSpeed(1730, 870);
 		if(startTimer >= 0.1) {
 			startTimer = HvlMath.stepTowards(startTimer,  delta, 0);
-			Main.gameFont.drawWordc((int)startTimer + "", Display.getWidth()/2, Display.getHeight()/2 - 200, Color.black, 10f);
+			MainClient.gameFont.drawWordc((int)startTimer + "", Display.getWidth()/2, Display.getHeight()/2 - 200, Color.black, 10f);
 		} 
 		else {
 			if(TrackGenerator.trackComplete == true) {
 				player.finalTrackTime = trackTimer;
-				Main.gameFont.drawWordc("Your final time is: "+HvlMath.cropDecimals(player.finalTrackTime, 2), 1500, 100, Color.black, 2.5f);
-				Main.gameFont.drawWordc("Time Until Next Race: "+(int)endTimer, 1500, 200, Color.black, 2f);
+				MainClient.gameFont.drawWordc("Your final time is: "+HvlMath.cropDecimals(player.finalTrackTime, 2), 1500, 100, Color.black, 2.5f);
+				MainClient.gameFont.drawWordc("Time Until Next Race: "+(int)endTimer, 1500, 200, Color.black, 2f);
 
 				endTimer = HvlMath.stepTowards(endTimer,  delta, 0);
 				if(endTimer < 0.1) {
@@ -239,7 +239,7 @@ public class Game {
 			}
 
 		}
-		Main.gameFont.drawWord(minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
+		MainClient.gameFont.drawWord(minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
 		//HvlDebugUtil.drawFPSCounter(Main.gameFont, 20, 20, 1f, Color.black);
 	}
 }
