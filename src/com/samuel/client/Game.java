@@ -1,4 +1,4 @@
- package com.samuel.client;
+package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
@@ -30,28 +30,28 @@ public class Game {
 	static int clutchTimer;
 	static float rpmMod;
 	static int FRICTION;
-	
+
 	static float accurateAngleRPM;
 	static float accurateAngleSpeed;
 	static float speedGoal;
-	
+
 	static HvlInput shiftUpInput;
 	static HvlInput shiftDownInput;
 	static HvlCamera2D tracker;
 	HvlMenu menu;
 	HvlMenu game;
-	
+
 	static float minutesElap; 
 	static float secsElap;
-	
+
 	static float startTimer;
 	static float trackTimer;
-	
+
 	static float endTimer;
-	
+
 	static Player player;
 	static TrackGenerator trackGen;
-	
+
 	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, String userName) {
 		MainClient.gameFont.drawWordc(userName, xPos, yPos - 60, Color.black, 0.5f);
 		hvlRotate(xPos,yPos-30, turnAngle);
@@ -59,7 +59,7 @@ public class Game {
 		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex + 1), customColor);
 		hvlResetRotation();
 	}
-	
+
 	public static void drawPlayerCars(){
 		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
 			int counter = 0;
@@ -75,9 +75,10 @@ public class Game {
 			}
 		}
 	}
-	
+
 	public static void drawPlayerTimes() {
-		
+		ArrayList<InfoGame> preSort = new ArrayList<>();
+
 		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
 			int counter = 0;
 			for(String s : MainClient.getNClient().<ArrayList<String>>getValue(KC.key_GameUsernameList())){
@@ -85,14 +86,33 @@ public class Game {
 					if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
 							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
 						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
-						
+						if(info.finishTime != -1f) 
+							preSort.add(info);
 					}
 				}
 				counter++;
 			}
 		}
+
+		if(preSort.size() > 0){
+			ArrayList<InfoGame> postSort = new ArrayList<>();
+			while(preSort.size() > 0){
+				InfoGame lowest = null;
+				for(InfoGame g : new ArrayList<>(preSort)){
+					if(lowest == null || g.finishTime < lowest.finishTime) lowest = g;
+				}
+				preSort.remove(lowest);
+				postSort.add(lowest);
+			}
+			
+			float offset = 16f;
+			for(InfoGame g : postSort){
+				offset += MenuManager.PLAYER_LIST_SPACING;
+				MainClient.gameFont.drawWord(g.username + " : " + g.finishTime, 16f, offset, g.color);
+			}
+		}
 	}
-	
+
 	public static void drawTach(int x, int y) {
 		accurateAngleRPM = HvlMath.map(currentRPM, 0, 8000, -145, 145);
 		hvlDrawQuadc(x, y, 330, 330, MainClient.getTexture(MainClient.CIRCLE_INDEX), Color.black);
@@ -132,7 +152,7 @@ public class Game {
 		hvlDrawQuadc(x, y, 5, 255, MainClient.getTexture(MainClient.NEEDLE_INDEX));
 		hvlDrawQuadc(x, y, 30, 30, MainClient.getTexture(MainClient.CIRCLE_INDEX));
 		hvlDrawQuadc(x, y, 25, 25, MainClient.getTexture(MainClient.CIRCLE_INDEX), Color.black);
-		
+
 		hvlResetRotation();
 		for(float i = 0; i < 62; i++) {
 			double radiansRot = (Math.toRadians(4.8) * i)-Math.toRadians(-124);
@@ -186,7 +206,7 @@ public class Game {
 		currentRPMGoal = 0;
 		speed = 0;
 		FRICTION = 20;
-		
+
 		shiftUpInput.setPressedAction(new HvlAction1<HvlInput>() {
 			@Override
 			public void run(HvlInput a) {
@@ -205,7 +225,7 @@ public class Game {
 				}
 			}
 		});
-		
+
 		trackGen.generateTrack();
 		TerrainGenerator.generateTerrain();
 	}
@@ -220,11 +240,11 @@ public class Game {
 		if(startTimer <= 0.1) {
 			speedGoal = HvlMath.stepTowards(speedGoal, 0.5f, (((float)currentRPMGoal / (float)player.selectedCar.MAX_RPM) * (float)player.selectedCar.maxSpeedsPerGear[currentGear - 1]));
 		}
-		
+
 		if(speedGoal <= 0) {
 			speedGoal = 0;
 		}
-		
+
 		if(currentRPMGoal <= player.selectedCar.MIN_RPM) {
 			currentRPMGoal = player.selectedCar.MIN_RPM;
 		}
@@ -245,7 +265,7 @@ public class Game {
 		}
 		currentRPM = (int) HvlMath.stepTowards(currentRPM, 35, currentRPMGoal); 
 		speed = (int) HvlMath.stepTowards(speed, 1, speedGoal);
-		
+
 		//Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);
 
 		player.update(delta);
@@ -287,8 +307,8 @@ public class Game {
 
 		}
 		MainClient.gameFont.drawWord(minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
-		
-		
+
+
 		//HvlDebugUtil.drawFPSCounter(Main.gameFont, 20, 20, 1f, Color.black);
 	}
 }
