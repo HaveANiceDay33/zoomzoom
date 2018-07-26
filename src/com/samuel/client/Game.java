@@ -106,11 +106,11 @@ public class Game {
 			}
 			//System.out.println(postSort.size());
 
-			float offset = 16f;
+			float offset = 150f;
 			for(InfoGame g : postSort){
 				offset += MenuManager.PLAYER_LIST_SPACING;
 				System.out.println(g.username + " : " + g.finishTime);
-				MainClient.gameFont.drawWord(g.username + " : " + HvlMath.cropDecimals(g.finishTime, 2), 1500f, offset, g.color);
+				MainClient.gameFont.drawWord(g.username + " : " + HvlMath.cropDecimals(g.finishTime, 2), 1500f, offset, g.color, 1.5f);
 			}
 		}
 	}
