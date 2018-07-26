@@ -5,6 +5,8 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -17,6 +19,8 @@ import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
+import com.samuel.InfoGame;
+import com.samuel.KC;
 
 public class Game {
 	static int currentGear;
@@ -54,6 +58,21 @@ public class Game {
 		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex));
 		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex + 1), customColor);
 		hvlResetRotation();
+	}
+	public static void drawPlayerCars(){
+		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
+			int counter = 0;
+			for(String s : MainClient.getNClient().<ArrayList<String>>getValue(KC.key_GameUsernameList())){
+				if(counter != MainClient.getNClient().<Integer>getValue(KC.key_PlayerListIndex(MainClient.getNUIDK()))){
+					if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
+							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
+						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
+						Game.drawOtherPlayers(info.location.x, info.location.y, 0, info.carTexture, info.color, s);
+					}
+				}
+				counter++;
+			}
+		}
 	}
 	
 	public static void drawTach(int x, int y) {
@@ -220,7 +239,8 @@ public class Game {
 				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2, 10000, 10000, new Color(70, 116, 15));
 				trackGen.update(delta);
 				TerrainGenerator.draw(delta);
-				drawOtherPlayers(TrackGenerator.START_X, TrackGenerator.START_Y, 0, MainClient.WRX_INDEX, new Color(255,0,255), "Computer");
+				//drawOtherPlayers(TrackGenerator.START_X, TrackGenerator.START_Y, 0, MainClient.WRX_INDEX, new Color(255,0,255), "Computer");
+				drawPlayerCars();
 				player.draw(delta);
 			}
 		});

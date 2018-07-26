@@ -295,7 +295,6 @@ public class MenuManager {
 				gameInfo.color = color;
 				MainClient.getNClient().setValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()), gameInfo, false);
 			}
-			drawPlayerCars();
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
 		} else if(HvlMenu.getCurrent() == menuMap) {
 			hvlDrawQuadc(menuMap.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+100, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 200, 200, MainClient.getTexture(MainClient.TEST_TRACK_INDEX));
@@ -336,19 +335,5 @@ public class MenuManager {
 		}
 	}
 
-	private static void drawPlayerCars(){
-		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
-			int counter = 0;
-			for(String s : MainClient.getNClient().<ArrayList<String>>getValue(KC.key_GameUsernameList())){
-				if(counter != MainClient.getNClient().<Integer>getValue(KC.key_PlayerListIndex(MainClient.getNUIDK()))){
-					if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
-							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
-						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
-						Game.drawOtherPlayers(info.location.x, info.location.y, 0, info.carTexture, info.color, s);
-					}
-				}
-				counter++;
-			}
-		}
-	}
+
 }
