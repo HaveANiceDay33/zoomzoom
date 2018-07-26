@@ -82,18 +82,18 @@ public class Game {
 		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
 			int counter = 0;
 			for(String s : MainClient.getNClient().<ArrayList<String>>getValue(KC.key_GameUsernameList())){
-				if(counter != MainClient.getNClient().<Integer>getValue(KC.key_PlayerListIndex(MainClient.getNUIDK()))){
+				//if(counter != MainClient.getNClient().<Integer>getValue(KC.key_PlayerListIndex(MainClient.getNUIDK()))){
 					if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
 							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
 						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
 						if(info.finishTime != -1f) 
 							preSort.add(info);
 					}
-				}
+			//	}
 				counter++;
 			}
 		}
-
+		//System.out.println(preSort.size());
 		if(preSort.size() > 0){
 			ArrayList<InfoGame> postSort = new ArrayList<>();
 			while(preSort.size() > 0){
@@ -104,11 +104,13 @@ public class Game {
 				preSort.remove(lowest);
 				postSort.add(lowest);
 			}
-			
+			//System.out.println(postSort.size());
+
 			float offset = 16f;
 			for(InfoGame g : postSort){
 				offset += MenuManager.PLAYER_LIST_SPACING;
-				MainClient.gameFont.drawWord(g.username + " : " + g.finishTime, 16f, offset, g.color);
+				System.out.println(g.username + " : " + g.finishTime);
+				MainClient.gameFont.drawWord(g.username + " : " + HvlMath.cropDecimals(g.finishTime, 2), 512f, offset, g.color);
 			}
 		}
 	}
@@ -274,12 +276,11 @@ public class Game {
 		tracker.doTransform(new HvlAction0() {
 			@Override
 			public void run() {
-				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2, 10000, 10000, new Color(70, 116, 15));
+				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2, 20000, 20000, new Color(70, 116, 15));
 				trackGen.update(delta);
 				TerrainGenerator.draw(delta);
 				//drawOtherPlayers(TrackGenerator.START_X, TrackGenerator.START_Y, 0, MainClient.WRX_INDEX, new Color(255,0,255), "Computer");
 				drawPlayerCars();
-				drawPlayerTimes();
 				player.draw(delta);
 			}
 		});
@@ -307,6 +308,7 @@ public class Game {
 
 		}
 		MainClient.gameFont.drawWord(minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
+		drawPlayerTimes();
 
 
 		//HvlDebugUtil.drawFPSCounter(Main.gameFont, 20, 20, 1f, Color.black);
