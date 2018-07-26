@@ -285,6 +285,7 @@ public class MenuManager {
 		} else if(HvlMenu.getCurrent() == game) {
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.LOBBY){
 				HvlMenu.setCurrent(menuCar);
+				menuCar.getFirstArrangerBox().getFirstOfType(HvlCheckbox.class).setChecked(false);
 			}
 			Game.update(delta);
 			if(MainClient.getNClient().hasValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()))){
