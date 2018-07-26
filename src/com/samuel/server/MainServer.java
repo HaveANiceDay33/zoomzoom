@@ -21,30 +21,30 @@ import com.samuel.client.TrackGenerator;
 public class MainServer extends HvlTemplateDGameServer2D{
 
 	public final static int FONT_INDEX = 0;
-	
+
 	public MainServer(HvlGameInfo gameInfoArg){
 		super(144, 512, 512, "Zoom zoom Server", new HvlDisplayModeResizable(),"localhost" , 25565, .05f, gameInfoArg);
 	}
-	
+
 	public static HvlFontPainter2D font;
-	
+
 	private LinkedHashMap<SocketWrapper, String> usernames;
 	private LinkedHashMap<SocketWrapper, InfoLobby> lobbyInfo;
 	private LinkedHashMap<SocketWrapper, InfoGame> gameInfo;
-	
+
 	private GameState state;
 	private float readyTimer;
 
 	@Override
 	public void initialize(){
 		getTextureLoader().loadResource("osfont");
-		
+
 		font =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL, 0.125f, 8f, 0);
-	
+
 		usernames = new LinkedHashMap<>();
 		lobbyInfo = new LinkedHashMap<>();
 		gameInfo = new LinkedHashMap<>();
-		
+
 		state = GameState.LOBBY;
 		readyTimer = 1f;
 	}
@@ -52,36 +52,38 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	@Override
 	public void update(float delta){
 		font.drawWord(getServer().getTable().toString(), 0,  0, Color.white);
-		
+
 		sendLobbyListUpdates();
-		
+
 		if(usernames.size() == 0){
 			state = GameState.LOBBY;
 		}
-		
-		if(usernames.size() == lobbyInfo.size() && lobbyInfo.size() == getAuthenticatedUsers().size()){
-			int valid = 0;
-			for(SocketWrapper s : lobbyInfo.keySet()){
-				if(lobbyInfo.get(s).ready) valid++;
-			}
-			if(valid == usernames.size() && valid > 1f){
-				readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
-				if(readyTimer == 0){
-					state = GameState.RUNNING;
-					for(SocketWrapper s : lobbyInfo.keySet()){
-						gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color));
-						getServer().setValue(KC.key_PlayerGameInfo(getUIDK(s)), gameInfo.get(s), false);
-					}
+
+		if(state == GameState.LOBBY){
+			if(usernames.size() == lobbyInfo.size() && lobbyInfo.size() == getAuthenticatedUsers().size()){
+				int valid = 0;
+				for(SocketWrapper s : lobbyInfo.keySet()){
+					if(lobbyInfo.get(s).ready) valid++;
 				}
-			}else{
-				readyTimer = 1f;
+				if(valid == usernames.size() && valid > 1f){
+					readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
+					if(readyTimer == 0){
+						state = GameState.RUNNING;
+						for(SocketWrapper s : lobbyInfo.keySet()){
+							gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color));
+							getServer().setValue(KC.key_PlayerGameInfo(getUIDK(s)), gameInfo.get(s), false);
+						}
+					}
+				}else{
+					readyTimer = 1f;
+				}
 			}
 		}
-		
+
 		getServer().setValue(KC.key_GameState(), state, false);
 		getServer().setValue(KC.key_GameReadyTimer(), readyTimer, false);
 	}
-	
+
 	@Override
 	public void onConnection(SocketWrapper target){
 		getServer().addMember(target, KC.key_GameUsernameList());
@@ -97,7 +99,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		usernames.remove(target);
 		lobbyInfo.remove(target);
 	}
-	
+
 	private void sendLobbyListUpdates(){
 		usernames.clear();
 		lobbyInfo.clear();
