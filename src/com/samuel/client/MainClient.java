@@ -13,7 +13,7 @@ import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 public class MainClient extends HvlTemplateDClient2D{
 
 	public MainClient(HvlGameInfo gameInfoArg){
-		super(144, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "73.140.238.157", 25565, 0.05f, gameInfoArg);
+		super(144, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.05f, gameInfoArg);
 	}
 	static HvlFontPainter2D gameFont;
 	public final static int NEEDLE_INDEX = 0;
