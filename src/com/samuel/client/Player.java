@@ -27,6 +27,7 @@ public class Player {
 	public void draw(float delta) {
 		hvlRotate(xPos,yPos-30, turnAngle);
 		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(selectedCar.textureSelect));
+		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(selectedCar.textureSelect + 1), MenuManager.color);
 		hvlResetRotation();
 	}
 	public void update(float delta) {

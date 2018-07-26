@@ -1,5 +1,6 @@
 package com.samuel.client;
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
 
 import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
@@ -20,14 +21,17 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int FONT_INDEX = 2;
 	public final static int CIRCLE_INDEX = 3;
 	public final static int WRX_INDEX = 4;
-	public final static int GTI_INDEX = 5;
-	public final static int NSX_INDEX = 6;
-	public final static int STR_ROAD_INDEX = 7;
-	public final static int TURN_ROAD_INDEX = 8;
-	public final static int TREE_INDEX = 9;
-	public final static int FLOWER_INDEX = 10;
-	public final static int FINISH_INDEX = 11;
-	public final static int TEST_TRACK_INDEX = 12;
+	public final static int WRX_A_INDEX = 5;
+	public final static int GTI_INDEX = 6;
+	public final static int GTI_A_INDEX = 7;
+	public final static int NSX_INDEX = 8;
+	public final static int NSX_A_INDEX = 9;
+	public final static int STR_ROAD_INDEX = 10;
+	public final static int TURN_ROAD_INDEX = 11;
+	public final static int TREE_INDEX = 12;
+	public final static int FLOWER_INDEX = 13;
+	public final static int FINISH_INDEX = 14;
+	public final static int TEST_TRACK_INDEX = 15;
 
 	@Override
 	public void initialize() {		
@@ -37,16 +41,19 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("circle");//3
 		
 		getTextureLoader().loadResource("wrx");//4
-		getTextureLoader().loadResource("gti");//5
-		getTextureLoader().loadResource("NSX");//6
+		getTextureLoader().loadResource("ALPHAwrx");//5
+		getTextureLoader().loadResource("gti");//6
+		getTextureLoader().loadResource("ALPHAgti");//7
+		getTextureLoader().loadResource("NSX");//8
+		getTextureLoader().loadResource("ALPHANSX");//9
 		
-		getTextureLoader().loadResource("StraightRoad");//7
-		getTextureLoader().loadResource("fRightTurn"); //8
-		getTextureLoader().loadResource("Tree");//9
-		getTextureLoader().loadResource("flower");//10
-		getTextureLoader().loadResource("FinishLine");//11
-		getTextureLoader().loadResource("testTrack");//12
-
+		getTextureLoader().loadResource("StraightRoad");//10
+		getTextureLoader().loadResource("fRightTurn"); //11
+		getTextureLoader().loadResource("Tree");//12
+		getTextureLoader().loadResource("flower");//13
+		getTextureLoader().loadResource("FinishLine");//14
+		getTextureLoader().loadResource("testTrack");//15
+		
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0
 		gameFont =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL,.18f,8f,0); //font definition
@@ -55,6 +62,7 @@ public class MainClient extends HvlTemplateDClient2D{
 	}
 	@Override
 	public void update(float delta) {
+		//gameFont.drawWord(getClient().getTable().toString(), 0, 0, Color.darkGray);
 		MenuManager.update(delta);
 	}
 	@Override

@@ -5,7 +5,8 @@ import com.samuel.client.MainClient;
 import com.samuel.server.MainServer;
 
 public class Main{
-	public static String 
+	
+	public static final String 
 	INFO_GAME = "Zoom Zoom", 
 	INFO_VERSION = "0.1";
 	
