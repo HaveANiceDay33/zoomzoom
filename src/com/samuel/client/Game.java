@@ -68,7 +68,6 @@ public class Game {
 							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
 						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
 						Game.drawOtherPlayers(info.location.x, info.location.y, info.rotation, info.carTexture, info.color, s);
-						System.out.println(info.location.x + "\t"+ info.location.y);
 					}
 				}
 				counter++;
@@ -255,7 +254,7 @@ public class Game {
 			if(TrackGenerator.trackComplete == true) {
 				player.finalTrackTime = trackTimer;
 				MainClient.gameFont.drawWordc("Your final time is: "+HvlMath.cropDecimals(player.finalTrackTime, 2), 1500, 100, Color.black, 2.5f);
-				MainClient.gameFont.drawWordc("Time Until Next Race: "+(int)endTimer, 1500, 200, Color.black, 2f);
+				//MainClient.gameFont.drawWordc("Time Until Next Race: "+(int)endTimer, 1500, 200, Color.black, 2f);
 
 				endTimer = HvlMath.stepTowards(endTimer,  delta, 0);
 				if(endTimer < 0.1) {
