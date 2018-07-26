@@ -23,7 +23,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	public final static int FONT_INDEX = 0;
 
 	public MainServer(HvlGameInfo gameInfoArg){
-		super(144, 512, 512, "Zoom zoom Server", new HvlDisplayModeResizable(),"localhost" , 25565, .05f, gameInfoArg);
+		super(144, 512, 512, "Zoom zoom Server", new HvlDisplayModeResizable(),"localhost" , 25565, .016f, gameInfoArg);
 	}
 
 	public static HvlFontPainter2D font;

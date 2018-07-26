@@ -59,6 +59,7 @@ public class Game {
 		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex + 1), customColor);
 		hvlResetRotation();
 	}
+	
 	public static void drawPlayerCars(){
 		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
 			int counter = 0;
@@ -68,6 +69,23 @@ public class Game {
 							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
 						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
 						Game.drawOtherPlayers(info.location.x, info.location.y, info.rotation, info.carTexture, info.color, s);
+					}
+				}
+				counter++;
+			}
+		}
+	}
+	
+	public static void drawPlayerTimes() {
+		
+		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
+			int counter = 0;
+			for(String s : MainClient.getNClient().<ArrayList<String>>getValue(KC.key_GameUsernameList())){
+				if(counter != MainClient.getNClient().<Integer>getValue(KC.key_PlayerListIndex(MainClient.getNUIDK()))){
+					if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
+							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
+						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
+						
 					}
 				}
 				counter++;
@@ -268,6 +286,8 @@ public class Game {
 
 		}
 		MainClient.gameFont.drawWord(minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
+		
+		
 		//HvlDebugUtil.drawFPSCounter(Main.gameFont, 20, 20, 1f, Color.black);
 	}
 }
