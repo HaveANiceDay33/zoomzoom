@@ -34,6 +34,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 
 	private GameState state;
 	private float readyTimer;
+	private int map;
 
 	@Override
 	public void initialize(){
@@ -47,6 +48,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 
 		state = GameState.LOBBY;
 		readyTimer = 1f;
+		map = 0;
 	}
 
 	@Override
@@ -68,7 +70,8 @@ public class MainServer extends HvlTemplateDGameServer2D{
 				if(valid == usernames.size() && valid > 1f){
 					readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
 					if(readyTimer == 0){
-						state = GameState.RUNNING;
+						state = GameState.MAP;
+						pickNewMap();
 						readyTimer = 1f;
 						for(SocketWrapper s : lobbyInfo.keySet()){
 							gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), 0f, lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color, usernames.get(s)));
@@ -92,12 +95,23 @@ public class MainServer extends HvlTemplateDGameServer2D{
 					readyTimer = 1f;
 				}
 			}
+		}else if(state == GameState.MAP){
+			readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
+			if(readyTimer == 0){
+				state = GameState.RUNNING;
+				readyTimer = 1f;
+			}
 		}
 
 		getServer().setValue(KC.key_GameState(), state, false);
 		getServer().setValue(KC.key_GameReadyTimer(), readyTimer, false);
 	}
 
+	private void pickNewMap(){
+		map = 0;
+		getServer().setValue(KC.key_GameMap(), map, false);
+	}
+	
 	@Override
 	public void onConnection(SocketWrapper target){
 		if(state == GameState.RUNNING) getServer().kick(target);
@@ -107,6 +121,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		getServer().addMember(target, KC.key_GameReadyTimer());
 		getServer().addMember(target, KC.key_GameState());
 		getServer().addMember(target, KC.key_GameGameInfoList());
+		getServer().addMember(target, KC.key_GameMap());
 	}
 
 	@Override
