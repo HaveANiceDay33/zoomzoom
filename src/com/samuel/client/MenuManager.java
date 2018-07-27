@@ -318,7 +318,7 @@ public class MenuManager {
 					selectedTrack = new TestTrack();
 					break;
 			}
-			MainClient.gameFont.drawWordc("Now traveling to "+selectedTrack.name+"...", Display.getWidth()/2, 10, Color.black, 3f);
+			MainClient.gameFont.drawWordc("Now traveling to "+selectedTrack.name+"...", Display.getWidth()/2, 100, Color.black, 3f);
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.RUNNING){
 				Game.initialize();
 				HvlMenu.setCurrent(game);

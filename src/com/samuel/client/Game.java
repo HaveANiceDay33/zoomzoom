@@ -194,7 +194,7 @@ public class Game {
 	}
 	public static void initialize() {
 		player = new Player(Display.getWidth()/2, Display.getHeight()/2);
-		tracker = new HvlCamera2D(Display.getWidth()/2, Display.getHeight()/2, 0 , 0.1f, HvlCamera2D.ALIGNMENT_CENTER);
+		tracker = new HvlCamera2D(Display.getWidth()/2, Display.getHeight()/2, 0 , 1f, HvlCamera2D.ALIGNMENT_CENTER);
 		trackGen = new TrackGenerator();
 		player.turnAngle = 0;
 		startTimer = 6;
