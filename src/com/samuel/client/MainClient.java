@@ -33,6 +33,7 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int FINISH_INDEX = 14;
 	public final static int TEST_TRACK_INDEX = 15;
 	public final static int CURVE_TRACK_INDEX = 16;
+	public final static int OSHELL_TRACK_INDEX = 17;
 
 
 	@Override
@@ -56,6 +57,7 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("FinishLine");//14
 		getTextureLoader().loadResource("testTrack");//15
 		getTextureLoader().loadResource("curveyboi");//16
+		getTextureLoader().loadResource("oshell");//17
 		
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0

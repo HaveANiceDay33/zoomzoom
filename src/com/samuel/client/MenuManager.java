@@ -34,12 +34,13 @@ import com.samuel.client.cars.AcuraNSX;
 import com.samuel.client.cars.GolfGTI;
 import com.samuel.client.cars.SubaruWRX;
 import com.samuel.client.tracks.CurveyBoi;
+import com.samuel.client.tracks.OS_Hell;
 import com.samuel.client.tracks.TestTrack;
 
 public class MenuManager {
 
 	public static final float PLAYER_LIST_SPACING = 48f;
-	public static final int NUM_TRACKS = 2;
+	public static final int NUM_TRACKS = 3;
 
 	public static HvlMenu game, menuCar, ip, menuMap;
 	static HvlInput changeToGame;
@@ -243,7 +244,6 @@ public class MenuManager {
 		if(HvlMenu.getCurrent() == menuCar){
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.MAP){
 				HvlMenu.setCurrent(menuMap);
-				//Game.initialize();
 			}
 
 			if(!MainClient.getNClient().hasValue(KC.key_PlayerUsername(MainClient.getNUIDK()))){
@@ -311,7 +311,10 @@ public class MenuManager {
 				case 1:
 					selectedTrack = new CurveyBoi();
 					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.CURVE_TRACK_INDEX));
-
+					break;
+				case 2:
+					selectedTrack = new OS_Hell();
+					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.OSHELL_TRACK_INDEX));
 					break;
 				default:
 					selectedTrack = new TestTrack();

@@ -49,7 +49,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 
 		state = GameState.LOBBY;
 		readyTimer = 1f;
-		map = 0;
+		map = HvlMath.randomInt(MenuManager.NUM_TRACKS);
 	}
 
 	@Override
@@ -60,6 +60,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 
 		if(usernames.size() == 0){
 			state = GameState.LOBBY;
+			map = HvlMath.randomInt(MenuManager.NUM_TRACKS);
 		}
 
 		if(state == GameState.LOBBY){

@@ -53,11 +53,12 @@ public class Game {
 	static TrackGenerator trackGen;
 
 	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, String userName) {
-		MainClient.gameFont.drawWordc(userName, xPos, yPos - 60, Color.black, 0.5f);
 		hvlRotate(xPos,yPos-30, turnAngle);
 		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex));
 		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex + 1), customColor);
 		hvlResetRotation();
+		MainClient.gameFont.drawWordc(userName, xPos + 1, yPos - 79, Color.black, 0.75f);
+		MainClient.gameFont.drawWordc(userName, xPos, yPos - 80, customColor, 0.75f);
 	}
 
 	public static void drawPlayerCars(){
@@ -82,18 +83,15 @@ public class Game {
 		if(MainClient.getNClient().hasValue(KC.key_GameGameInfoList())){
 			int counter = 0;
 			for(String s : MainClient.getNClient().<ArrayList<String>>getValue(KC.key_GameUsernameList())){
-				//if(counter != MainClient.getNClient().<Integer>getValue(KC.key_PlayerListIndex(MainClient.getNUIDK()))){
-					if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
-							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
-						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
-						if(info.finishTime != -1f) 
-							preSort.add(info);
-					}
-			//	}
+				if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
+						&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
+					InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
+					if(info.finishTime != -1f) 
+						preSort.add(info);
+				}
 				counter++;
 			}
 		}
-		//System.out.println(preSort.size());
 		if(preSort.size() > 0){
 			ArrayList<InfoGame> postSort = new ArrayList<>();
 			while(preSort.size() > 0){
@@ -104,7 +102,6 @@ public class Game {
 				preSort.remove(lowest);
 				postSort.add(lowest);
 			}
-			//System.out.println(postSort.size());
 
 			float offset = 150f;
 			for(InfoGame g : postSort){
@@ -192,9 +189,12 @@ public class Game {
 			}
 		});
 	}
+
+	public static final boolean CAMERA_MODE = false;
+
 	public static void initialize() {
 		player = new Player(Display.getWidth()/2, Display.getHeight()/2);
-		tracker = new HvlCamera2D(Display.getWidth()/2, Display.getHeight()/2, 0 , 1f, HvlCamera2D.ALIGNMENT_CENTER);
+		tracker = new HvlCamera2D(Display.getWidth()/2, Display.getHeight()/2, 0 , CAMERA_MODE ? 0.1f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
 		trackGen = new TrackGenerator();
 		player.turnAngle = 0;
 		startTimer = 6;
