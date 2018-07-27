@@ -166,7 +166,10 @@ public class MenuManager {
 
 
 		menuCar.add(new HvlArrangerBox.Builder().setStyle(HvlArrangerBox.ArrangementStyle.HORIZONTAL).setX(Display.getWidth()/2).setY(Display.getHeight()/2).build());
-		menuCar.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setClickedCommand(new HvlAction1<HvlButton>(){
+		
+		menuCar.getFirstArrangerBox().add(new HvlArrangerBox.Builder().setStyle(HvlArrangerBox.ArrangementStyle.VERTICAL).build());
+		
+		menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).add(new HvlLabeledButton.Builder().setClickedCommand(new HvlAction1<HvlButton>(){
 
 			@Override
 			public void run(HvlButton a) {
@@ -175,8 +178,8 @@ public class MenuManager {
 			}
 
 		}).build());
-		menuCar.getFirstArrangerBox().add(new HvlSpacer(100,50));
-		menuCar.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setClickedCommand(new HvlAction1<HvlButton>(){
+		menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).add(new HvlSpacer(100,50));
+		menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).add(new HvlLabeledButton.Builder().setClickedCommand(new HvlAction1<HvlButton>(){
 
 			@Override
 			public void run(HvlButton a) {
@@ -186,8 +189,8 @@ public class MenuManager {
 
 		}).build());
 		HvlMenu.setCurrent(menuCar);
-		menuCar.getFirstArrangerBox().add(new HvlSpacer(100,50));
-		menuCar.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setClickedCommand(new HvlAction1<HvlButton>(){
+		menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).add(new HvlSpacer(100,50));
+		menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).add(new HvlLabeledButton.Builder().setClickedCommand(new HvlAction1<HvlButton>(){
 
 			@Override
 			public void run(HvlButton a) {
@@ -272,15 +275,15 @@ public class MenuManager {
 				}
 			}
 			MainClient.gameFont.drawWordc("Select a Car and choose and a Color, then Press Ready", Display.getWidth()/2, 200, Color.white);
-			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 0f, MainClient.WRX_INDEX, color);
-			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+50, 0f, MainClient.GTI_INDEX, color);
-			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+50, 0f, MainClient.NSX_INDEX, color);
+			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 0).getY()+50, 0f, MainClient.WRX_INDEX, color);
+			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 1).getY()+50, 0f, MainClient.GTI_INDEX, color);
+			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 2).getY()+50, 0f, MainClient.NSX_INDEX, color);
 
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
 
-			MainClient.gameFont.drawWordc("Subaru WRX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+150, color, 0.7f);
-			MainClient.gameFont.drawWordc("Volkswagen GTI", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+150, color, 0.7f);
-			MainClient.gameFont.drawWordc("Acura NSX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+150, color, 0.7f);
+			MainClient.gameFont.drawWordc("Subaru WRX", menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 0).getY()+120, color, 0.7f);
+			MainClient.gameFont.drawWordc("Volkswagen GTI", menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 1).getY()+120, color, 0.7f);
+			MainClient.gameFont.drawWordc("Acura NSX", menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 2).getY()+120, color, 0.7f);
 			
 			MainClient.gameFont.drawWordc("Ready Up!", menuCar.getFirstArrangerBox().getChildOfType(HvlCheckbox.class, 0).getX()+90, menuCar.getFirstArrangerBox().getChildOfType(HvlCheckbox.class, 0).getY()-50, Color.white);
 			MainClient.gameFont.drawWordc("Red", menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 0).getX()+32, menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 0).getY()-50, Color.white);

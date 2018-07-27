@@ -9,7 +9,7 @@ public class Track {
 	public float yPos;
 	public int textureSelect;
 	public int finishAngle;
-	public static int TRACK_SIZE = 250;
+	public static final int TRACK_SIZE = 250;
 	public Track(float xPos, float yPos, int textureSelect) {
 		this.xPos = xPos;
 		this.yPos = yPos;
