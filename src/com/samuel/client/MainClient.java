@@ -32,6 +32,8 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int FLOWER_INDEX = 13;
 	public final static int FINISH_INDEX = 14;
 	public final static int TEST_TRACK_INDEX = 15;
+	public final static int CURVE_TRACK_INDEX = 16;
+
 
 	@Override
 	public void initialize() {		
@@ -53,6 +55,7 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("flower");//13
 		getTextureLoader().loadResource("FinishLine");//14
 		getTextureLoader().loadResource("testTrack");//15
+		getTextureLoader().loadResource("curveyboi");//16
 		
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0

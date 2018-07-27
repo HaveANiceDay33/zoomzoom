@@ -217,17 +217,17 @@ public class MenuManager {
 		menuCar.getFirstArrangerBox().add(new HvlSpacer(100,50));
 		menuCar.getFirstArrangerBox().add(new HvlCheckbox.Builder().build());
 
-		menuMap.add(new HvlArrangerBox.Builder().setStyle(HvlArrangerBox.ArrangementStyle.HORIZONTAL).setX(Display.getWidth()/2).setY(Display.getHeight()/2).build());
-		menuMap.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setWidth(200).setHeight(200).setClickedCommand(new HvlAction1<HvlButton>(){
-
-			@Override
-			public void run(HvlButton a) {
-				selectedTrack = new TestTrack();				
-				HvlMenu.setCurrent(game);
-				Game.initialize();
-			}
-
-		}).build());
+//		menuMap.add(new HvlArrangerBox.Builder().setStyle(HvlArrangerBox.ArrangementStyle.HORIZONTAL).setX(Display.getWidth()/2).setY(Display.getHeight()/2).build());
+//		menuMap.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setWidth(200).setHeight(200).setClickedCommand(new HvlAction1<HvlButton>(){
+//
+//			@Override
+//			public void run(HvlButton a) {
+//				selectedTrack = new TestTrack();				
+//				HvlMenu.setCurrent(game);
+//				Game.initialize();
+//			}
+//
+//		}).build());
 
 		HvlMenu.setCurrent(ip);
 
@@ -303,15 +303,22 @@ public class MenuManager {
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
 		} else if(HvlMenu.getCurrent() == menuMap) {
 			//int trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
-			int trackNum = 0;
+			int trackNum = 1;
 			switch(trackNum) {
 				case 0:
 					selectedTrack = new TestTrack();
+					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.TEST_TRACK_INDEX));
+					break;
 				case 1:
 					selectedTrack = new CurveyBoi();
+					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.CURVE_TRACK_INDEX));
+
+					break;
 				default:
 					selectedTrack = new TestTrack();
+					break;
 			}
+			MainClient.gameFont.drawWordc("Now traveling to "+selectedTrack.name+"...", Display.getWidth()/2, 10, Color.black, 3f);
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.RUNNING){
 				Game.initialize();
 				HvlMenu.setCurrent(game);
