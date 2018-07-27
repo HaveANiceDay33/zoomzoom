@@ -33,11 +33,13 @@ import com.samuel.Main;
 import com.samuel.client.cars.AcuraNSX;
 import com.samuel.client.cars.GolfGTI;
 import com.samuel.client.cars.SubaruWRX;
+import com.samuel.client.tracks.CurveyBoi;
 import com.samuel.client.tracks.TestTrack;
 
 public class MenuManager {
 
 	public static final float PLAYER_LIST_SPACING = 48f;
+	public static final int NUM_TRACKS = 2;
 
 	public static HvlMenu game, menuCar, ip, menuMap;
 	static HvlInput changeToGame;
@@ -240,10 +242,7 @@ public class MenuManager {
 
 		if(HvlMenu.getCurrent() == menuCar){
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.MAP){
-				MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
-				selectedTrack = new TestTrack();//TODO server set track
 				HvlMenu.setCurrent(menuMap);
-				
 				//Game.initialize();
 			}
 
@@ -303,9 +302,21 @@ public class MenuManager {
 			}
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
 		} else if(HvlMenu.getCurrent() == menuMap) {
-			hvlDrawQuadc(menuMap.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+100, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 200, 200, MainClient.getTexture(MainClient.TEST_TRACK_INDEX));
-
-			MainClient.gameFont.drawWordc("Test Track", menuMap.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+100, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+200, Color.white, 0.7f);
+			//int trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
+			int trackNum = 0;
+			switch(trackNum) {
+				case 0:
+					selectedTrack = new TestTrack();
+				case 1:
+					selectedTrack = new CurveyBoi();
+				default:
+					selectedTrack = new TestTrack();
+			}
+			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.RUNNING){
+				Game.initialize();
+				HvlMenu.setCurrent(game);
+			}
+			
 		}
 	}
 
