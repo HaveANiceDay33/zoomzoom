@@ -16,6 +16,7 @@ import com.samuel.GameState;
 import com.samuel.InfoGame;
 import com.samuel.InfoLobby;
 import com.samuel.KC;
+import com.samuel.client.MenuManager;
 import com.samuel.client.TrackGenerator;
 
 public class MainServer extends HvlTemplateDGameServer2D{
@@ -108,14 +109,17 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	}
 
 	private void pickNewMap(){
-		map = 0;
+		int oldMap = map;
+		while(oldMap == map){
+			map = HvlMath.randomInt(MenuManager.NUM_TRACKS);
+		}
 		getServer().setValue(KC.key_GameMap(), map, false);
 	}
-	
+
 	@Override
 	public void onConnection(SocketWrapper target){
 		if(state == GameState.RUNNING) getServer().kick(target);
-		
+
 		getServer().addMember(target, KC.key_GameUsernameList());
 		getServer().addMember(target, KC.key_GameLobbyInfoList());
 		getServer().addMember(target, KC.key_GameReadyTimer());
