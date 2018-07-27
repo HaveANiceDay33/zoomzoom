@@ -239,10 +239,12 @@ public class MenuManager {
 		}
 
 		if(HvlMenu.getCurrent() == menuCar){
-			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.RUNNING){
-				//selectedTrack = new TestTrack();//TODO server set track
-				HvlMenu.setCurrent(game);
-				Game.initialize();
+			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.MAP){
+				MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
+				selectedTrack = new TestTrack();//TODO server set track
+				HvlMenu.setCurrent(menuMap);
+				
+				//Game.initialize();
 			}
 
 			if(!MainClient.getNClient().hasValue(KC.key_PlayerUsername(MainClient.getNUIDK()))){
