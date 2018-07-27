@@ -31,6 +31,8 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int TEST_TRACK_INDEX = 15;
 	public final static int CURVE_TRACK_INDEX = 16;
 	public final static int OSHELL_TRACK_INDEX = 17;
+	public final static int PLASMA1_INDEX = 18;
+	public final static int PLASMA2_INDEX = 19;
 
 
 	@Override
@@ -55,6 +57,8 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("testTrack");//15
 		getTextureLoader().loadResource("curveyboi");//16
 		getTextureLoader().loadResource("oshell");//17
+		getTextureLoader().loadResource("Plasma1");//18
+		getTextureLoader().loadResource("Plasma2");//19
 		
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0

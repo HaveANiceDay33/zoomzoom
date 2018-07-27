@@ -30,6 +30,7 @@ public class CarEffectApplicator {
 	}
 
 	public static void drawCar(CarEffect effect, float xArg, float yArg, float rotationArg, int carTextureArg, Color color){
+		float timer = MainClient.getNewestInstance().getTimer().getTotalTime();
 		if(effect == null){
 			hvlRotate(xArg, yArg - 30, rotationArg);
 			hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg));
@@ -41,15 +42,38 @@ public class CarEffectApplicator {
 			maskFrame.doCapture(new HvlAction0(){
 				@Override
 				public void run(){
-					hvlRotate(xArg, yArg, -rotationArg);
+					hvlRotate(xArg, yArg, -rotationArg - 30);
 					hvlDrawQuadc(xArg, yArg, 2000, 2000, new Color(color.r - 0.5f, color.g - 0.5f, color.b - 0.5f));
-					for(float f = 0; f < 10; f++){
+					for(float f = 0; f < 3; f++){
 						float offset = HvlMath.randomFloatBetween(-1000f, 1000f);
-						hvlDrawLine(xArg + offset, yArg - 1000f, xArg + offset, yArg + 1000f, color, HvlMath.randomIntBetween(600, 1600));
+						hvlDrawQuadc(xArg + offset, yArg, HvlMath.randomFloatBetween(10, 50), 2000, color);
 					}
 					hvlResetRotation();
 				}
 			});
+			maskShader.doShade(new HvlAction0(){
+				@Override
+				public void run(){
+					maskShader.sendRenderFrame("frame1", 2, maskFrame);
+					hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg + 1), Color.white);
+				}
+			});
+			hvlResetRotation();
+		}else if(effect == CarEffect.SHIFTED){
+			hvlRotate(xArg, yArg - 30, rotationArg);
+			hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg));
+			maskFrame.doCapture(new HvlAction0(){
+				@Override
+				public void run(){
+					hvlRotate(xArg, yArg, -rotationArg);
+					Color fadeColor = new Color(color);
+					fadeColor.a = (float)Math.sin(timer)/2f + 0.5f;
+					hvlDrawQuadc(xArg, yArg, 2000f, 2000f, (timer/4f), 0f, (timer/4f) + 2f, 4f, MainClient.getTexture(MainClient.PLASMA1_INDEX), color);
+					hvlDrawQuadc(xArg, yArg, 2000f, 2000f, -(timer/4f), 0f, -(timer/4f) + 2f, 4f, MainClient.getTexture(MainClient.PLASMA2_INDEX), fadeColor);
+					hvlResetRotation();
+				}
+			});
+			hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg + 1), color);
 			maskShader.doShade(new HvlAction0(){
 				@Override
 				public void run(){
