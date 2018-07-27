@@ -24,6 +24,7 @@ import com.osreboot.ridhvl.menu.component.HvlSlider.Direction;
 import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.HvlTextBox;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
+import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.samuel.GameState;
 import com.samuel.InfoGame;
 import com.samuel.InfoLobby;
@@ -77,7 +78,7 @@ public class MenuManager {
 
 		HvlComponentDefault.setDefault(HvlLabel.class, new HvlLabel.Builder().setColor(Color.white).setFont(MainClient.gameFont).setScale(0.8f).build());
 
-		HvlSlider defaultSlider = new HvlSlider(64, 256, Direction.VERTICAL, 64, 32, 1f, new HvlComponentDrawable(){
+		HvlSlider defaultSlider = new HvlSlider(64, 256, Direction.VERTICAL, 64, 16, 1f, new HvlComponentDrawable(){
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.gray);
@@ -150,7 +151,7 @@ public class MenuManager {
 		}).build());
 		ip.getChildOfType(HvlArrangerBox.class, 0).add(new HvlSpacer(30, 30));
 
-		ip.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Start Game").setTextScale(0.8f).setWidth(200).setClickedCommand(new HvlAction1<HvlButton>() {
+		ip.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Connect").setTextScale(0.8f).setWidth(200).setClickedCommand(new HvlAction1<HvlButton>() {
 
 			@Override
 			public void run(HvlButton a) {
@@ -195,7 +196,7 @@ public class MenuManager {
 			}
 
 		}).build());
-		menuCar.getChildOfType(HvlArrangerBox.class, 0).add(new HvlSpacer(30, 30));
+		menuCar.getChildOfType(HvlArrangerBox.class, 0).add(new HvlSpacer(100, 100));
 		menuCar.getFirstArrangerBox().add(new HvlSlider.Builder().setValueChangedCommand(new HvlAction2<HvlSlider, Float>(){
 			@Override
 			public void run(HvlSlider aArg, Float bArg) {
@@ -230,7 +231,6 @@ public class MenuManager {
 //			}
 //
 //		}).build());
-
 		HvlMenu.setCurrent(ip);
 
 		color = new Color(Color.white);
@@ -244,6 +244,7 @@ public class MenuManager {
 		}
 
 		if(HvlMenu.getCurrent() == menuCar){
+			hvlDrawQuad(0,0, 1920, 1080, new Color(19,80, 255, 75));
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.MAP){
 				HvlMenu.setCurrent(menuMap);
 			}
@@ -280,6 +281,11 @@ public class MenuManager {
 			MainClient.gameFont.drawWordc("Subaru WRX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+150, color, 0.7f);
 			MainClient.gameFont.drawWordc("Volkswagen GTI", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+150, color, 0.7f);
 			MainClient.gameFont.drawWordc("Acura NSX", menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+150, color, 0.7f);
+			
+			MainClient.gameFont.drawWordc("Ready Up!", menuCar.getFirstArrangerBox().getChildOfType(HvlCheckbox.class, 0).getX()+90, menuCar.getFirstArrangerBox().getChildOfType(HvlCheckbox.class, 0).getY()-50, Color.white);
+			MainClient.gameFont.drawWordc("Red", menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 0).getX()+32, menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 0).getY()-50, Color.white);
+			MainClient.gameFont.drawWordc("Green", menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 1).getX()+32, menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 1).getY()-50, Color.white);
+			MainClient.gameFont.drawWordc("Blue", menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 2).getX()+32, menuCar.getFirstArrangerBox().getChildOfType(HvlSlider.class, 2).getY()-50, Color.white);
 
 			drawPlayerLobbyInfoList();
 		} else if(HvlMenu.getCurrent() == game) {
@@ -327,7 +333,10 @@ public class MenuManager {
 				HvlMenu.setCurrent(game);
 			}
 			
+		}else if(HvlMenu.getCurrent() == ip) {
+			hvlDrawQuad(0,0, 1920, 1080, new Color(19,80, 255, 75));
 		}
+
 	}
 
 	private static void drawPlayerLobbyInfoList(){
