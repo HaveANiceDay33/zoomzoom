@@ -1,14 +1,11 @@
 package com.samuel.client;
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-
 import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
-import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
-import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
+import com.samuel.client.effects.CarEffectApplicator;
+import com.samuel.client.effects.MysteryUnlocker;
 
 public class MainClient extends HvlTemplateDClient2D{
 
@@ -37,7 +34,7 @@ public class MainClient extends HvlTemplateDClient2D{
 
 
 	@Override
-	public void initialize() {		
+	public void initialize(){		
 		getTextureLoader().loadResource("needle"); //0
 		getTextureLoader().loadResource("tach"); //1
 		getTextureLoader().loadResource("osfont");//2
@@ -63,21 +60,23 @@ public class MainClient extends HvlTemplateDClient2D{
 		//getSoundLoader().loadResource("engineSound");//0
 		gameFont =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL,.18f,8f,0); //font definition
 		MenuManager.initialize();
-
+		CarEffectApplicator.initialize();
+		MysteryUnlocker.initialize();
 	}
+	
 	@Override
-	public void update(float delta) {
+	public void update(float delta){
 		//gameFont.drawWord(getClient().getTable().toString(), 0, 0, Color.darkGray);
 		MenuManager.update(delta);
 	}
+	
 	@Override
-	public void onConnection() {
-		// TODO Auto-generated method stub
+	public void onConnection(){
 		
 	}
+	
 	@Override
-	public void onDisconnection() {
-		// TODO Auto-generated method stub
+	public void onDisconnection(){
 		HvlMenu.setCurrent(MenuManager.ip);
 	}
 }

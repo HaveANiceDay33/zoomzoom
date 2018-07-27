@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlCoord2D;
+import com.samuel.client.effects.CarEffect;
 
 public class InfoGame implements Serializable{
 	private static final long serialVersionUID = 8089596510722966271L;
@@ -15,6 +16,7 @@ public class InfoGame implements Serializable{
 	public Color color;
 	public float finishTime;
 	public String username;
+	public CarEffect effect;
 	
 	public InfoGame(HvlCoord2D locationArg, float rotationArg, int carTextureArg, Color colorArg, String usernameArg){
 		location = locationArg;

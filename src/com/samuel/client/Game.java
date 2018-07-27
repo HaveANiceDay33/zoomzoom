@@ -1,6 +1,5 @@
 package com.samuel.client;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
@@ -11,9 +10,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import com.osreboot.ridhvl.HvlDebugUtil;
 import com.osreboot.ridhvl.HvlMath;
-import com.osreboot.ridhvl.HvlTimer;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.input.HvlInput;
@@ -21,6 +18,8 @@ import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 import com.samuel.InfoGame;
 import com.samuel.KC;
+import com.samuel.client.effects.CarEffect;
+import com.samuel.client.effects.CarEffectApplicator;
 
 public class Game {
 	static int currentGear;
@@ -52,11 +51,8 @@ public class Game {
 	static Player player;
 	static TrackGenerator trackGen;
 
-	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, String userName) {
-		hvlRotate(xPos,yPos-30, turnAngle);
-		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex));
-		hvlDrawQuadc(xPos, yPos, 100, 100, MainClient.getTexture(textureIndex + 1), customColor);
-		hvlResetRotation();
+	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, CarEffect carEffect, String userName) {
+		CarEffectApplicator.drawCar(carEffect, xPos, yPos, turnAngle, textureIndex, customColor);
 		MainClient.gameFont.drawWordc(userName, xPos + 1, yPos - 79, Color.black, 0.75f);
 		MainClient.gameFont.drawWordc(userName, xPos, yPos - 80, customColor, 0.75f);
 	}
@@ -69,7 +65,7 @@ public class Game {
 					if(MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).size() >= counter
 							&& MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter) != null){
 						InfoGame info = MainClient.getNClient().<ArrayList<InfoGame>>getValue(KC.key_GameGameInfoList()).get(counter);
-						Game.drawOtherPlayers(info.location.x, info.location.y, info.rotation, info.carTexture, info.color, s);
+						Game.drawOtherPlayers(info.location.x, info.location.y, info.rotation, info.carTexture, info.color, info.effect, s);
 					}
 				}
 				counter++;
@@ -106,7 +102,6 @@ public class Game {
 			float offset = 150f;
 			for(InfoGame g : postSort){
 				offset += MenuManager.PLAYER_LIST_SPACING;
-				System.out.println(g.username + " : " + g.finishTime);
 				MainClient.gameFont.drawWord(g.username + " : " + HvlMath.cropDecimals(g.finishTime, 2), 1500f, offset, g.color, 1.5f);
 			}
 		}

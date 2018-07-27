@@ -1,11 +1,6 @@
 package com.samuel.client;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
-
 import java.util.ArrayList;
-
-import org.lwjgl.opengl.Display;
-import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
 

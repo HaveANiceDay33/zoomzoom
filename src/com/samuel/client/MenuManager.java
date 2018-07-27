@@ -1,7 +1,6 @@
 package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
 
@@ -33,6 +32,8 @@ import com.samuel.Main;
 import com.samuel.client.cars.AcuraNSX;
 import com.samuel.client.cars.GolfGTI;
 import com.samuel.client.cars.SubaruWRX;
+import com.samuel.client.effects.CarEffectApplicator;
+import com.samuel.client.effects.MysteryUnlocker;
 import com.samuel.client.tracks.CurveyBoi;
 import com.samuel.client.tracks.OS_Hell;
 import com.samuel.client.tracks.TestTrack;
@@ -169,7 +170,7 @@ public class MenuManager {
 			@Override
 			public void run(HvlButton a) {
 				selectedCar = new SubaruWRX();
-				//HvlMenu.setCurrent(menuMap);
+				MysteryUnlocker.enterCharacter('0');
 			}
 
 		}).build());
@@ -179,7 +180,7 @@ public class MenuManager {
 			@Override
 			public void run(HvlButton a) {
 				selectedCar = new GolfGTI();
-				//HvlMenu.setCurrent(menuMap);
+				MysteryUnlocker.enterCharacter('1');
 			}
 
 		}).build());
@@ -190,7 +191,7 @@ public class MenuManager {
 			@Override
 			public void run(HvlButton a) {
 				selectedCar = new AcuraNSX();
-				//HvlMenu.setCurrent(menuMap);
+				MysteryUnlocker.enterCharacter('2');
 			}
 
 		}).build());
@@ -238,6 +239,7 @@ public class MenuManager {
 		HvlMenu.updateMenus(delta);
 		if(MainClient.getNewestInstance().isAuthenticated() && HvlMenu.getCurrent() == ip){
 			HvlMenu.setCurrent(menuCar);
+			MysteryUnlocker.initialize();
 			menuCar.getFirstArrangerBox().getFirstOfType(HvlCheckbox.class).setChecked(false);
 		}
 
@@ -269,12 +271,9 @@ public class MenuManager {
 				}
 			}
 			MainClient.gameFont.drawWordc("Select a Car and choose and a Color, then Press Ready", Display.getWidth()/2, 200, Color.white);
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 100, 100, MainClient.getTexture(MainClient.WRX_INDEX));
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 100, 100, MainClient.getTexture(MainClient.WRX_A_INDEX), color);
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+50, 100, 100, MainClient.getTexture(MainClient.GTI_INDEX));
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+50, 100, 100, MainClient.getTexture(MainClient.GTI_A_INDEX), color);
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+50, 100, 100, MainClient.getTexture(MainClient.NSX_INDEX));
-			hvlDrawQuadc(menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+50, 100, 100, MainClient.getTexture(MainClient.NSX_A_INDEX), color);
+			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 0).getY()+50, 0f, MainClient.WRX_INDEX, color);
+			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 1).getY()+50, 0f, MainClient.GTI_INDEX, color);
+			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlLabeledButton.class, 2).getY()+50, 0f, MainClient.NSX_INDEX, color);
 
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
 
@@ -286,6 +285,7 @@ public class MenuManager {
 		} else if(HvlMenu.getCurrent() == game) {
 			if(MainClient.getNClient().<GameState>getValue(KC.key_GameState()) == GameState.LOBBY){
 				HvlMenu.setCurrent(menuCar);
+				MysteryUnlocker.initialize();
 				menuCar.getFirstArrangerBox().getFirstOfType(HvlCheckbox.class).setChecked(false);
 			}
 			Game.update(delta);
@@ -296,6 +296,7 @@ public class MenuManager {
 				gameInfo.rotation = Game.player.turnAngle;
 				gameInfo.carTexture = lobbyInfo.carTexture;
 				gameInfo.color = color;
+				gameInfo.effect = MysteryUnlocker.myUnlockedEffect;
 				if(Game.player.finalTrackTime != 0)
 					gameInfo.finishTime = Game.player.finalTrackTime;
 				MainClient.getNClient().setValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()), gameInfo, false);
