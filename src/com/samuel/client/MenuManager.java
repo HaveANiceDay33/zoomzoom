@@ -39,11 +39,12 @@ import com.samuel.client.effects.MysteryUnlocker;
 import com.samuel.client.tracks.CurveyBoi;
 import com.samuel.client.tracks.OS_Hell;
 import com.samuel.client.tracks.TestTrack;
+import com.samuel.client.tracks.YourMom;
 
 public class MenuManager {
 
 	public static final float PLAYER_LIST_SPACING = 48f;
-	public static final int NUM_TRACKS = 3;
+	public static final int NUM_TRACKS = 4;
 
 	public static HvlMenu game, menuCar, ip, menuMap;
 	static HvlInput changeToGame;
@@ -327,7 +328,8 @@ public class MenuManager {
 			}
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
 		} else if(HvlMenu.getCurrent() == menuMap) {
-			int trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
+			//int trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
+			int trackNum = 3;
 			switch(trackNum) {
 				case 0:
 					selectedTrack = new TestTrack();
@@ -340,6 +342,10 @@ public class MenuManager {
 				case 2:
 					selectedTrack = new OS_Hell();
 					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.OSHELL_TRACK_INDEX));
+					break;
+				case 3:
+					selectedTrack = new YourMom();
+					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.YOUR_MOM_INDEX));
 					break;
 				default:
 					selectedTrack = new TestTrack();
