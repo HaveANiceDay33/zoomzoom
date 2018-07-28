@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.ridhvl.HvlDebugUtil;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.action.HvlAction1;
@@ -228,12 +229,13 @@ public class Game {
 	}
 	public static void update(float delta) {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			rpmMod = player.selectedCar.ACCELERATION / currentGear;
+			rpmMod = (player.selectedCar.ACCELERATION / currentGear) * 142 *delta;
 		} else if(Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			rpmMod = -50 / currentGear;
+			rpmMod = (-50 / currentGear)* 142 *delta;
 		} else {
-			rpmMod = -FRICTION/currentGear;
+			rpmMod = (-FRICTION/currentGear)* 142 *delta;
 		}
+		
 		if(startTimer <= 0.1) {
 			speedGoal = HvlMath.stepTowards(speedGoal, 0.5f, (((float)currentRPMGoal / (float)player.selectedCar.MAX_RPM) * (float)player.selectedCar.maxSpeedsPerGear[currentGear - 1]));
 		}
@@ -250,17 +252,17 @@ public class Game {
 		}
 		if(!TrackGenerator.onTrack) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-				rpmMod = player.selectedCar.ACCELERATION / currentGear/4;
+				rpmMod = (player.selectedCar.ACCELERATION / currentGear/4)* 142 *delta;
 			}
 			if(currentRPMGoal > 2500) {
-				currentRPMGoal -= 15;
+				currentRPMGoal -= 15 * 142 *delta;
 			}		
 		}
-		currentRPMGoal += rpmMod;
+		currentRPMGoal += rpmMod * 142 *delta;
 		if(startTimer >= 0.1 && currentRPMGoal > 3000) {
 			currentRPMGoal = 3000;
 		}
-		currentRPM = (int) HvlMath.stepTowards(currentRPM, 35, currentRPMGoal); 
+		currentRPM = (int) HvlMath.stepTowards(currentRPM, 35* 142 *delta, currentRPMGoal); 
 		speed = (int) HvlMath.stepTowards(speed, 1, speedGoal);
 
 		//Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);
@@ -306,6 +308,6 @@ public class Game {
 		drawPlayerTimes();
 
 
-		//HvlDebugUtil.drawFPSCounter(Main.gameFont, 20, 20, 1f, Color.black);
+		HvlDebugUtil.drawFPSCounter(MainClient.gameFont, 200, 20, 1f, Color.black);
 	}
 }
