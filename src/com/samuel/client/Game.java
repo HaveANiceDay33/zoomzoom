@@ -229,7 +229,7 @@ public class Game {
 	public static void update(float delta) {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			rpmMod = player.selectedCar.ACCELERATION / currentGear;
-		} else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+		} else if(Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			rpmMod = -50 / currentGear;
 		} else {
 			rpmMod = -FRICTION/currentGear;
