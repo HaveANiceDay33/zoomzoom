@@ -47,8 +47,9 @@ public class Player {
 			turnAngleSpeed = Math.abs(130 - throttle)/142;
 		}
 		
-		turnAngleSpeed = HvlMath.stepTowards(turnAngleSpeed, (float)(selectedCar.TIRE_GRIP/throttle) * 142 * delta, 0);
 		turnAngle += turnAngleSpeed * 142 * delta;
+		turnAngleSpeed = HvlMath.stepTowards(turnAngleSpeed, (float)(selectedCar.TIRE_GRIP/throttle) * 142 * delta, 0);
+
 		ySpeed = (float) ((throttle / 7) * Math.cos(Math.toRadians(turnAngle)));
 		xSpeed = (float) ((float) (throttle / 7) * Math.sin(Math.toRadians(turnAngle)));
 
