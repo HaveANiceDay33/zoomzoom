@@ -229,15 +229,15 @@ public class Game {
 	}
 	public static void update(float delta) {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			rpmMod = (player.selectedCar.ACCELERATION / currentGear) * 142 *delta;
+			rpmMod = (player.selectedCar.ACCELERATION / currentGear);
 		} else if(Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			rpmMod = (-50 / currentGear)* 142 *delta;
+			rpmMod = (-50 / currentGear);
 		} else {
-			rpmMod = (-FRICTION/currentGear)* 142 *delta;
+			rpmMod = (-FRICTION/currentGear);
 		}
 		
 		if(startTimer <= 0.1) {
-			speedGoal = HvlMath.stepTowards(speedGoal, 0.5f, (((float)currentRPMGoal / (float)player.selectedCar.MAX_RPM) * (float)player.selectedCar.maxSpeedsPerGear[currentGear - 1]));
+			speedGoal = HvlMath.stepTowards(speedGoal, 0.5f * 142 * delta, (((float)currentRPMGoal / (float)player.selectedCar.MAX_RPM) * (float)player.selectedCar.maxSpeedsPerGear[currentGear - 1]));
 		}
 
 		if(speedGoal <= 0) {
@@ -252,17 +252,17 @@ public class Game {
 		}
 		if(!TrackGenerator.onTrack) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-				rpmMod = (player.selectedCar.ACCELERATION / currentGear/4)* 142 *delta;
+				rpmMod = (player.selectedCar.ACCELERATION / currentGear/4);
 			}
 			if(currentRPMGoal > 2500) {
-				currentRPMGoal -= 15 * 142 *delta;
+				currentRPMGoal -= (15 * 142 *delta);
 			}		
 		}
-		currentRPMGoal += rpmMod * 142 *delta;
+		currentRPMGoal += (rpmMod * 142 *delta);
 		if(startTimer >= 0.1 && currentRPMGoal > 3000) {
 			currentRPMGoal = 3000;
 		}
-		currentRPM = (int) HvlMath.stepTowards(currentRPM, 35* 142 *delta, currentRPMGoal); 
+		currentRPM = (int) HvlMath.stepTowards(currentRPM, 35 * 142 * delta, currentRPMGoal); 
 		speed = (int) HvlMath.stepTowards(speed, 1, speedGoal);
 
 		//Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);

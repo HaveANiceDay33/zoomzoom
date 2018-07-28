@@ -41,13 +41,13 @@ public class Player {
 		throttle = Game.speed * delta * Game.speed;
 	
 		if(Keyboard.isKeyDown(Keyboard.KEY_A) && throttle > 0) {
-			turnAngleSpeed = -1 * Math.abs(130 - throttle)* delta;
+			turnAngleSpeed = -1 * Math.abs(130 - throttle)/142;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D) && throttle > 0) {
-			turnAngleSpeed = Math.abs(130 - throttle) * delta;
+			turnAngleSpeed = Math.abs(130 - throttle)/142;
 		}
 		
-		turnAngleSpeed = HvlMath.stepTowards(turnAngleSpeed, (float)(selectedCar.TIRE_GRIP/throttle), 0);
+		turnAngleSpeed = HvlMath.stepTowards(turnAngleSpeed, (float)(selectedCar.TIRE_GRIP/throttle) * 142 * delta, 0);
 		turnAngle += turnAngleSpeed * 142 * delta;
 		ySpeed = (float) ((throttle / 7) * Math.cos(Math.toRadians(turnAngle)));
 		xSpeed = (float) ((float) (throttle / 7) * Math.sin(Math.toRadians(turnAngle)));
