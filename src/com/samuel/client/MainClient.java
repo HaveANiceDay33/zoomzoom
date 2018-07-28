@@ -34,7 +34,8 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int PLASMA1_INDEX = 18;
 	public final static int PLASMA2_INDEX = 19;
 	public final static int CAMARO_INDEX = 20;
-//  public final static int CAMARO_A_INDEX = 20;
+	public final static int CAMARO_A_INDEX = 21;
+	public final static int DRIFTER_INDEX = 22;
 
 
 	@Override
@@ -43,14 +44,14 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("tach"); //1
 		getTextureLoader().loadResource("osfont");//2
 		getTextureLoader().loadResource("circle");//3
-		
+
 		getTextureLoader().loadResource("wrx");//4
 		getTextureLoader().loadResource("ALPHAwrx");//5
 		getTextureLoader().loadResource("gti");//6
 		getTextureLoader().loadResource("ALPHAgti");//7
 		getTextureLoader().loadResource("NSX");//8
 		getTextureLoader().loadResource("ALPHANSX");//9
-		
+
 		getTextureLoader().loadResource("StraightRoad");//10
 		getTextureLoader().loadResource("fRightTurn"); //11
 		getTextureLoader().loadResource("Tree");//12
@@ -62,9 +63,10 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("Plasma1");//18
 		getTextureLoader().loadResource("Plasma2");//19
 		getTextureLoader().loadResource("Camaro");//20
-		getTextureLoader().loadResource("Camaro");//20
+		getTextureLoader().loadResource("ALPHACamaro");//21
+		getTextureLoader().loadResource("Drifter");//22
 
-		
+
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0
 		gameFont =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL,.18f,8f,0); //font definition
@@ -72,18 +74,18 @@ public class MainClient extends HvlTemplateDClient2D{
 		CarEffectApplicator.initialize();
 		MysteryUnlocker.initialize();
 	}
-	
+
 	@Override
 	public void update(float delta){
 		//gameFont.drawWord(getClient().getTable().toString(), 0, 0, Color.darkGray);
 		MenuManager.update(delta);
 	}
-	
+
 	@Override
 	public void onConnection(){
-		
+
 	}
-	
+
 	@Override
 	public void onDisconnection(){
 		HvlMenu.setCurrent(MenuManager.ip);

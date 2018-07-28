@@ -42,12 +42,8 @@ public class CarEffectApplicator {
 			maskFrame.doCapture(new HvlAction0(){
 				@Override
 				public void run(){
-					hvlRotate(xArg, yArg, -rotationArg - 30);
-					hvlDrawQuadc(xArg, yArg, 2000, 2000, new Color(color.r - 0.5f, color.g - 0.5f, color.b - 0.5f));
-					for(float f = 0; f < 3; f++){
-						float offset = HvlMath.randomFloatBetween(-1000f, 1000f);
-						hvlDrawQuadc(xArg + offset, yArg, HvlMath.randomFloatBetween(10, 50), 2000, color);
-					}
+					hvlRotate(xArg, yArg, -rotationArg + 30);
+					hvlDrawQuadc(xArg, yArg, 2000, 2000, 0f, 0f, 2.0f, 2.0f, MainClient.getTexture(MainClient.DRIFTER_INDEX), color);
 					hvlResetRotation();
 				}
 			});
