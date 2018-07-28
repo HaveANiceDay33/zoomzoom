@@ -5,7 +5,8 @@ public class MysteryUnlocker {
 	private static final String 
 	CODE_RESET = "000000",
 	CODE_DRIFTER = "011220",
-	CODE_SHIFTED = "220022";
+	CODE_SHIFTED = "220022",
+	CODE_NEON = "333210";
 	
 	public static CarEffect myUnlockedEffect;
 	
@@ -29,6 +30,9 @@ public class MysteryUnlocker {
 			myCode = "";
 		}else if(myCode.equals(CODE_SHIFTED)){
 			myUnlockedEffect = CarEffect.SHIFTED;
+			myCode = "";
+		}else if(myCode.equals(CODE_NEON)){
+			myUnlockedEffect = CarEffect.NEON;
 			myCode = "";
 		}
 	}

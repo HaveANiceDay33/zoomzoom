@@ -78,6 +78,13 @@ public class CarEffectApplicator {
 				}
 			});
 			hvlResetRotation();
+		}else if(effect == CarEffect.NEON){
+			Color neonColor = new Color(1f - color.r, 1f - color.g, 1f - color.b, (3f - (color.r + color.g + color.b))/3f);
+			hvlRotate(xArg, yArg - 30, rotationArg);
+			hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(MainClient.UNDERGLOW_INDEX), neonColor);
+			hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg));
+			hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg + 1), color);
+			hvlResetRotation();
 		}
 	}
 

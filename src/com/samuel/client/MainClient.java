@@ -36,6 +36,7 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int CAMARO_INDEX = 20;
 	public final static int CAMARO_A_INDEX = 21;
 	public final static int DRIFTER_INDEX = 22;
+	public final static int UNDERGLOW_INDEX = 23;
 
 
 	@Override
@@ -65,6 +66,7 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("Camaro");//20
 		getTextureLoader().loadResource("ALPHACamaro");//21
 		getTextureLoader().loadResource("Drifter");//22
+		getTextureLoader().loadResource("Underglow");//23
 
 
 		Game.keyPresses();
