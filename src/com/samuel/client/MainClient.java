@@ -33,6 +33,8 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int OSHELL_TRACK_INDEX = 17;
 	public final static int PLASMA1_INDEX = 18;
 	public final static int PLASMA2_INDEX = 19;
+	public final static int CAMARO_INDEX = 20;
+//  public final static int CAMARO_A_INDEX = 20;
 
 
 	@Override
@@ -59,6 +61,9 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("oshell");//17
 		getTextureLoader().loadResource("Plasma1");//18
 		getTextureLoader().loadResource("Plasma2");//19
+		getTextureLoader().loadResource("Camaro");//20
+		getTextureLoader().loadResource("Camaro");//20
+
 		
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0
