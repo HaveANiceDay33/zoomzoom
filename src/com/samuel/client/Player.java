@@ -38,7 +38,7 @@ public class Player {
 	}
 	public void update(float delta) {
 
-		throttle = Game.speed * delta * Game.speed;
+		throttle = Game.speed;
 	
 		if(Keyboard.isKeyDown(Keyboard.KEY_A) && throttle > 0) {
 			turnAngleSpeed = -1 * Math.abs(130 - throttle)/142;
@@ -53,8 +53,8 @@ public class Player {
 		ySpeed = (float) ((throttle / 7) * Math.cos(Math.toRadians(turnAngle)));
 		xSpeed = (float) ((float) (throttle / 7) * Math.sin(Math.toRadians(turnAngle)));
 
-		yPos -= ySpeed; 
-		xPos += xSpeed;
+		yPos -= ySpeed * delta * 142; 
+		xPos += xSpeed * delta * 142;
 	}
 	public float getXPos() {
 		return xPos;
