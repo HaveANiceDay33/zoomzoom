@@ -5,7 +5,7 @@ import com.samuel.client.MainClient;
 
 public class SubaruWRX extends Car{
 	public SubaruWRX() {
-		setACCELERATION(36);
+		setACCELERATION(29);
 		setGEAR_COUNT(6);
 		setTIRE_GRIP(0.38f);
 		setMAX_RPM(7000);
