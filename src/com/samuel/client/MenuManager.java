@@ -378,6 +378,10 @@ public class MenuManager {
 			
 		}else if(HvlMenu.getCurrent() == ip) {
 			hvlDrawQuad(0,0, 1920, 1080, new Color(19,80, 255, 75));
+			MainClient.gameFont.drawWordc("If nothing happens, it either means: \n\n1) The game you are trying to join is in a race, \n2) The entered IP is incorrect, \n3) The client and server versions mismatch" , 420, 540, Color.white);
+			MainClient.gameFont.drawWordc("Contact me: \n\nInstagram: @munro.samuel\nSnapchat: munrosamuel1\nSteam: HaveANiceDay33" , 280, 960, Color.white);
+			MainClient.gameFont.drawWordc("Controls: \n\nW: Forward\nA: Turn Left\nD: Turn Right\nS/Space: Brake\nP: Shift up\nL: Shift Down" , 200, 200, Color.white);
+			MainClient.gameFont.drawWordc("Version: "+Main.INFO_VERSION , 1800, 50, Color.white, 0.7f);
 		}
 
 	}

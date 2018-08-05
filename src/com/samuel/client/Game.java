@@ -254,7 +254,7 @@ public class Game {
 			if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
 				rpmMod = (player.selectedCar.ACCELERATION / currentGear/4);
 			}
-			if(currentRPMGoal > 2500) {
+			if(currentRPMGoal > 1000) {
 				currentRPMGoal -= (20 * 142 *delta);
 			}		
 		}

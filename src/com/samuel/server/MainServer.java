@@ -16,6 +16,7 @@ import com.samuel.GameState;
 import com.samuel.InfoGame;
 import com.samuel.InfoLobby;
 import com.samuel.KC;
+import com.samuel.Main;
 import com.samuel.client.MenuManager;
 import com.samuel.client.TrackGenerator;
 
@@ -55,7 +56,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	@Override
 	public void update(float delta){
 		font.drawWord(getServer().getTable().toString(), 0,  0, Color.white);
-
+		font.drawWord("Version: "+Main.INFO_VERSION, 320, 20, Color.white);
 		sendLobbyListUpdates();
 
 		if(usernames.size() == 0){
