@@ -255,7 +255,7 @@ public class Game {
 				rpmMod = (player.selectedCar.ACCELERATION / currentGear/4);
 			}
 			if(currentRPMGoal > 2500) {
-				currentRPMGoal -= (15 * 142 *delta);
+				currentRPMGoal -= (20 * 142 *delta);
 			}		
 		}
 		currentRPMGoal += (rpmMod * 142 *delta);
