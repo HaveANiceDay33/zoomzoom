@@ -42,6 +42,7 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int MINI_A_INDEX = 26;
 	public final static int SUPRA_INDEX = 27;
 	public final static int SUPRA_A_INDEX = 28;
+	public final static int STOCK_INDEX = 29;
 
 
 
@@ -79,6 +80,7 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("clear");//26 TEMP
 		getTextureLoader().loadResource("supra");//27
 		getTextureLoader().loadResource("clear");//28 TEMP
+		getTextureLoader().loadResource("stock");//29
 
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0
