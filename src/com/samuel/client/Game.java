@@ -304,7 +304,7 @@ public class Game {
 			}
 
 		}
-		MainClient.gameFont.drawWord(minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
+		MainClient.gameFont.drawWord((int)minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
 		drawPlayerTimes();
 
 
