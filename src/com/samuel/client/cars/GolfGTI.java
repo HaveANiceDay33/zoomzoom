@@ -5,7 +5,7 @@ import com.samuel.client.MainClient;
 
 public class GolfGTI extends Car{
 	public GolfGTI() {
-		setACCELERATION(30);
+		setACCELERATION(26);
 		setGEAR_COUNT(6);
 		setTIRE_GRIP(0.4f);
 		setMAX_RPM(6500);
