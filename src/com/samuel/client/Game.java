@@ -273,12 +273,14 @@ public class Game {
 		tracker.doTransform(new HvlAction0() {
 			@Override
 			public void run() {
-				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2, 20000, 20000, new Color(70, 116, 15));
+				hvlDrawQuadc(player.getXPos(), player.getYPos(), 1920, 1080, new Color(70, 116, 15));
 				trackGen.update(delta);
 				TerrainGenerator.draw(delta);
-				//drawOtherPlayers(TrackGenerator.START_X, TrackGenerator.START_Y, 0, MainClient.WRX_INDEX, new Color(255,0,255), "Computer");
-				drawPlayerCars();
-				player.draw(delta);
+				if(!CAMERA_MODE) {
+					drawPlayerCars();
+					player.draw(delta);
+				}
+
 			}
 		});
 		drawTach(190, 870);

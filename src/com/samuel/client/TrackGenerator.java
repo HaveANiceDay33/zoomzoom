@@ -2,6 +2,8 @@ package com.samuel.client;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.Display;
+
 import com.osreboot.ridhvl.HvlMath;
 
 public class TrackGenerator {
@@ -114,8 +116,8 @@ public class TrackGenerator {
 				closestTrack = fullTrack;
 			}
 			//System.out.println(Game.player.getXPos() + "\t "+ (closestTrack.xPos + (Track.TRACK_SIZE/2)) + "\t" + (closestTrack.xPos - (Track.TRACK_SIZE/2)));
-
 			fullTrack.draw(delta);
+			
 		}
 		
 		

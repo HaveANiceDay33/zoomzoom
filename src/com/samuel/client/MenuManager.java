@@ -369,7 +369,7 @@ public class MenuManager {
 					break;
 				case 4:
 					selectedTrack = new Retro_Track();
-					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.STOCK_INDEX));
+					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.RETRO_INDEX));
 					break;
 				default:
 					selectedTrack = new TestTrack();
