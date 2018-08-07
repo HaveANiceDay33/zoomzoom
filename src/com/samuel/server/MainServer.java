@@ -1,8 +1,12 @@
 package com.samuel.server;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.hvol.base.HvlGameInfo;
@@ -10,7 +14,18 @@ import com.osreboot.hvol.base.HvlMetaServer.SocketWrapper;
 import com.osreboot.hvol.dgameserver.HvlTemplateDGameServer2D;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeResizable;
+import com.osreboot.ridhvl.input.HvlInput;
+import com.osreboot.ridhvl.menu.HvlComponentDefault;
+import com.osreboot.ridhvl.menu.HvlMenu;
+import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
+import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
+import com.osreboot.ridhvl.menu.component.HvlButton;
+import com.osreboot.ridhvl.menu.component.HvlComponentDrawable;
+import com.osreboot.ridhvl.menu.component.HvlSpacer;
+import com.osreboot.ridhvl.menu.component.HvlTextBox;
+import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.samuel.GameState;
 import com.samuel.InfoGame;
@@ -30,13 +45,17 @@ public class MainServer extends HvlTemplateDGameServer2D{
 
 	public static HvlFontPainter2D font;
 
-	private LinkedHashMap<SocketWrapper, String> usernames;
-	private LinkedHashMap<SocketWrapper, InfoLobby> lobbyInfo;
-	private LinkedHashMap<SocketWrapper, InfoGame> gameInfo;
+	public static LinkedHashMap<SocketWrapper, String> usernames;
+	public static LinkedHashMap<SocketWrapper, InfoLobby> lobbyInfo;
+	public static LinkedHashMap<SocketWrapper, InfoGame> gameInfo;
 
-	private GameState state;
-	private float readyTimer;
-	private int map;
+	public static GameState state;
+	public static float readyTimer;
+	public static int map, nextMap;
+
+	private static HvlInput commandSubmit;
+
+	public static HvlMenu main;
 
 	@Override
 	public void initialize(){
@@ -51,13 +70,89 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		state = GameState.LOBBY;
 		readyTimer = 1f;
 		map = HvlMath.randomInt(MenuManager.NUM_TRACKS);
+		pickNextMap();
+
+		commandSubmit = new HvlInput(new HvlInput.InputFilter(){
+			@Override
+			public float getCurrentOutput(){
+				return Keyboard.isKeyDown(Keyboard.KEY_RETURN) ? 1f : 0f;
+			}
+		});
+		commandSubmit.setPressedAction(new HvlAction1<HvlInput>(){
+			@Override
+			public void run(HvlInput aArg){
+				if(main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).getFirstOfType(HvlTextBox.class).getText() != ""){
+					CommandManager.executeCommand(main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).getFirstOfType(HvlTextBox.class).getText());
+					main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).getFirstOfType(HvlTextBox.class).setText("");
+				}
+			}
+		});
+
+		CommandManager.initialize();
+
+		HvlTextBox defaultTextBox = new HvlTextBox(512, 32, "", new HvlComponentDrawable(){
+			@Override
+			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg){
+				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.gray);
+			}
+		}, new HvlComponentDrawable(){
+			@Override
+			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg){
+				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.darkGray);
+			}
+		}, font);
+		defaultTextBox.setOffsetX(4f);
+		defaultTextBox.setOffsetY(6f);
+		HvlComponentDefault.setDefault(defaultTextBox);
+
+		HvlComponentDefault.setDefault(HvlLabeledButton.class, new HvlLabeledButton.Builder().setWidth(64).setHeight(32).setFont(font).setTextColor(Color.white).setOnDrawable(new HvlComponentDrawable() {
+			@Override
+			public void draw(float delta, float x, float y, float width, float height) {
+				hvlDrawQuad(x,y,width,height,Color.lightGray);
+			}
+		}).setOffDrawable(new HvlComponentDrawable() {
+			@Override
+			public void draw(float delta, float x, float y, float width, float height) {
+				hvlDrawQuad(x,y,width,height,Color.darkGray);	
+			}
+		}).setHoverDrawable(new HvlComponentDrawable() {
+			@Override
+			public void draw(float delta, float x, float y, float width, float height) {
+				hvlDrawQuad(x,y,width,height,Color.gray);
+			}
+		}).build());
+
+		main = new HvlMenu();
+
+		main.add(new HvlArrangerBox(Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL));
+		main.getFirstArrangerBox().add(new HvlSpacer(0, Display.getHeight() - 48));
+		main.getFirstArrangerBox().add(new HvlArrangerBox(Display.getWidth(), 48, ArrangementStyle.HORIZONTAL));
+		main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).add(new HvlTextBox.Builder().setBlacklistCharacters("[\r\n]").setText("").build());
+		main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).add(new HvlSpacer(8, 0));
+		main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("run").setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton aArg){
+				commandSubmit.getPressedAction().run(null);
+			}
+		}).build());
+
+		HvlMenu.setCurrent(main);
 	}
 
 	@Override
 	public void update(float delta){
-		font.drawWord(getServer().getTable().toString(), 0,  0, Color.white);
-		font.drawWord("Version: "+Main.INFO_VERSION, 320, 20, Color.white);
+		main.getFirstArrangerBox().setDimensions(Display.getWidth(), Display.getHeight());
+		main.getFirstArrangerBox().getFirstOfType(HvlSpacer.class).setHeight(Display.getHeight() - 48);
+		main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).setWidth(Display.getWidth());
+		main.getFirstArrangerBox().getFirstOfType(HvlArrangerBox.class).getFirstOfType(HvlTextBox.class).setWidth(Display.getWidth() - 64 - 24);
+
+		HvlMenu.updateMenus(delta);
+
+		font.drawWord(getServer().getTable().toString(), 8,  8, Color.white);
+		font.drawWord("Version: " + Main.INFO_VERSION, Display.getWidth() - font.getLineWidth("Version: " + Main.INFO_VERSION) - 8, 8, Color.white);
 		sendLobbyListUpdates();
+		
+		CommandManager.update(delta);
 
 		if(usernames.size() == 0){
 			state = GameState.LOBBY;
@@ -74,7 +169,11 @@ public class MainServer extends HvlTemplateDGameServer2D{
 					readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
 					if(readyTimer == 0){
 						state = GameState.MAP;
-						pickNewMap();
+						
+						map = nextMap;
+						getServer().setValue(KC.key_GameMap(), map, false);
+						pickNextMap();
+						
 						readyTimer = 1f;
 						for(SocketWrapper s : lobbyInfo.keySet()){
 							gameInfo.put(s, new InfoGame(new HvlCoord2D(TrackGenerator.START_X, TrackGenerator.START_Y), 0f, lobbyInfo.get(s).carTexture, lobbyInfo.get(s).color, usernames.get(s)));
@@ -110,17 +209,16 @@ public class MainServer extends HvlTemplateDGameServer2D{
 		getServer().setValue(KC.key_GameReadyTimer(), readyTimer, false);
 	}
 
-	private void pickNewMap(){
+	private void pickNextMap(){
 		int oldMap = map;
-		while(oldMap == map){
-			map = HvlMath.randomInt(MenuManager.NUM_TRACKS);
+		while(oldMap == nextMap){
+			nextMap = HvlMath.randomInt(MenuManager.NUM_TRACKS);
 		}
-		getServer().setValue(KC.key_GameMap(), map, false);
 	}
 
 	@Override
 	public void onConnection(SocketWrapper target){
-		if(state == GameState.RUNNING) getServer().kick(target);
+		if(state != GameState.LOBBY) getServer().kick(target);
 
 		getServer().addMember(target, KC.key_GameUsernameList());
 		getServer().addMember(target, KC.key_GameLobbyInfoList());
