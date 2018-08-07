@@ -291,7 +291,7 @@ public class MenuManager {
 			}
 
 			if(!MainClient.getNClient().hasValue(KC.key_PlayerUsername(MainClient.getNUIDK()))){
-				MainClient.getNClient().setValue(KC.key_PlayerUsername(MainClient.getNUIDK()), username.equals("os_REE") ? "os_REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" : username, false);
+				MainClient.getNClient().setValue(KC.key_PlayerUsername(MainClient.getNUIDK()), username, false);
 				MainClient.getNClient().setValue(KC.key_PlayerLobbyInfo(MainClient.getNUIDK()), new InfoLobby(-1, false, Color.gray), false);
 			}
 
