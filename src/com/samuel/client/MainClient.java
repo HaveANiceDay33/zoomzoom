@@ -77,9 +77,9 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("Underglow");//23
 		getTextureLoader().loadResource("yourmom");//24
 		getTextureLoader().loadResource("Mini Cooper");//25
-		getTextureLoader().loadResource("clear");//26 TEMP
+		getTextureLoader().loadResource("ALPHAMini Cooper");//26
 		getTextureLoader().loadResource("supra");//27
-		getTextureLoader().loadResource("clear");//28 TEMP
+		getTextureLoader().loadResource("ALPHAsupra");//28
 		getTextureLoader().loadResource("stock");//29
 		getTextureLoader().loadResource("Shell");//30
 		getTextureLoader().loadResource("retrorev");//31
