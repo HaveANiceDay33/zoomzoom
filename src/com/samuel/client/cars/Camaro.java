@@ -5,6 +5,7 @@ import com.samuel.client.MainClient;
 
 public class Camaro extends Car{
 	public Camaro() {
+		NAME = "Chevy Camaro";
 		setACCELERATION(30);
 		setGEAR_COUNT(6);
 		setTIRE_GRIP(0.36f);

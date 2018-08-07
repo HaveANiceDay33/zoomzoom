@@ -5,6 +5,7 @@ import com.samuel.client.MainClient;
 
 public class Supra extends Car{
 	public Supra() {
+		NAME = "Toyota Supra";
 		setACCELERATION(28);
 		setGEAR_COUNT(6);
 		setTIRE_GRIP(0.39f);

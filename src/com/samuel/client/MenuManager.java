@@ -58,7 +58,8 @@ public class MenuManager {
 	
 	public static void drawStats(float x, float y) {
 		if(selectedCar != null) {
-			MainClient.gameFont.drawWord("Acc: "+selectedCar.NAME,x , y, Color.white);
+			MainClient.gameFont.drawWord(selectedCar.NAME,x , y, color, 1.2f);
+			hvlDrawQuad(x, y+40, 300, 1, color);
 			MainClient.gameFont.drawWord("Acc: "+selectedCar.ACCELERATION,x , y+50, Color.white);
 			MainClient.gameFont.drawWord("Gear Count: "+selectedCar.GEAR_COUNT,x , y+100, Color.white);
 			MainClient.gameFont.drawWord("Grip: "+selectedCar.TIRE_GRIP,x , y+150, Color.white);
@@ -313,7 +314,7 @@ public class MenuManager {
 					hvlDrawQuad(Display.getWidth() - 96f - 16f, 64f, 64f, 64f, MainClient.getTexture(newTexture + 1), color);
 				}
 			}
-			drawStats(20, 300);
+			drawStats(20, 350);
 			MainClient.gameFont.drawWordc("Select a Car and choose and a Color, then Press Ready", Display.getWidth()/2, 200, Color.white);
 			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 0).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 0).getY()+50, 0f, MainClient.WRX_INDEX, color);
 			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 1).getX()+50, menuCar.getFirstArrangerBox().getChildOfType(HvlArrangerBox.class, 0).getChildOfType(HvlLabeledButton.class, 1).getY()+50, 0f, MainClient.GTI_INDEX, color);
