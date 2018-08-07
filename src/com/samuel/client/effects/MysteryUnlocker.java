@@ -6,22 +6,23 @@ public class MysteryUnlocker {
 	CODE_RESET = "000000",
 	CODE_DRIFTER = "011220",
 	CODE_SHIFTED = "220022",
-	CODE_NEON = "333210";
-	
+	CODE_NEON = "333210",
+	CODE_KART = "444333";
+
 	public static CarEffect myUnlockedEffect;
-	
+
 	private static String myCode = "";
-	
+
 	public static void initialize(){
-		
+
 	}
-	
+
 	public static void enterCharacter(char characterArg){
 		StringBuilder builder = new StringBuilder(myCode);
 		builder.append(characterArg);
 		if(builder.length() > 6) builder.deleteCharAt(0);
 		myCode = builder.toString();
-		
+
 		if(myCode.equals(CODE_RESET)){
 			myUnlockedEffect = null;
 			myCode = "";
@@ -34,7 +35,10 @@ public class MysteryUnlocker {
 		}else if(myCode.equals(CODE_NEON)){
 			myUnlockedEffect = CarEffect.NEON;
 			myCode = "";
+		}else if(myCode.equals(CODE_KART)){
+			myUnlockedEffect = CarEffect.KART;
+			myCode = "";
 		}
 	}
-	
+
 }

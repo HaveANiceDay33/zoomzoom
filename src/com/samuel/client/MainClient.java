@@ -43,7 +43,8 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int SUPRA_INDEX = 27;
 	public final static int SUPRA_A_INDEX = 28;
 	public final static int STOCK_INDEX = 29;
-	public final static int RETRO_INDEX = 30;
+	public final static int SHELL_INDEX = 30;
+	public final static int RETRO_INDEX = 31;
 
 
 	@Override
@@ -80,8 +81,8 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("supra");//27
 		getTextureLoader().loadResource("clear");//28 TEMP
 		getTextureLoader().loadResource("stock");//29
-		getTextureLoader().loadResource("retrorev");//30
-
+		getTextureLoader().loadResource("Shell");//30
+		getTextureLoader().loadResource("retrorev");//31
 
 		Game.keyPresses();
 		//getSoundLoader().loadResource("engineSound");//0

@@ -1,6 +1,5 @@
 package com.samuel.client.effects;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
@@ -8,16 +7,21 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.FBOUnsupportedException;
 import com.osreboot.ridhvl.painter.HvlShader;
 import com.samuel.client.Game;
 import com.samuel.client.MainClient;
+import com.samuel.client.Player;
 
 public class CarEffectApplicator {
 
+	public static final float 
+	SHELL_SIZE = 28,
+	SHELL_DISTANCE = 60,
+	SHELL_SPEED = 200;
+	
 	private static HvlRenderFrame maskFrame;
 	private static HvlShader maskShader;
 
@@ -87,8 +91,27 @@ public class CarEffectApplicator {
 				hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg));
 				hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg + 1), color);
 				hvlResetRotation();
+			}else if(effect == CarEffect.KART){
+				drawShell(xArg, yArg, rotationArg, 0, timer);
+				drawShell(xArg, yArg, rotationArg, 120, timer);
+				drawShell(xArg, yArg, rotationArg, 240, timer);
+				
+				hvlRotate(xArg, yArg - 30, rotationArg);
+				hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg));
+				hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg + 1), color);
+				hvlResetRotation();
 			}
 		}
+	}
+	
+	private static void drawShell(float xArg, float yArg, float rotationArg, float degrees, float timer){
+		hvlRotate(xArg, yArg - 30, rotationArg);
+		hvlRotate(xArg, yArg, (timer * SHELL_SPEED + degrees) + (Player.turnAngleSpeed/2));
+		hvlRotate(xArg, yArg - SHELL_DISTANCE, -((timer * SHELL_SPEED + degrees) + (Player.turnAngleSpeed/2)));
+		hvlDrawQuadc(xArg, yArg - SHELL_DISTANCE, SHELL_SIZE, SHELL_SIZE, MainClient.getTexture(MainClient.SHELL_INDEX));
+		hvlResetRotation();
+		hvlResetRotation();
+		hvlResetRotation();
 	}
 
 }
