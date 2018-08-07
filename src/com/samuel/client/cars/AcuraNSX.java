@@ -5,6 +5,7 @@ import com.samuel.client.MainClient;
 
 public class AcuraNSX extends Car{
 	public AcuraNSX() {
+		NAME = "Acura NSX";
 		setACCELERATION(31);
 		setGEAR_COUNT(7);
 		setTIRE_GRIP(0.38f);

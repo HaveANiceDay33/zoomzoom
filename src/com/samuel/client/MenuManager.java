@@ -58,7 +58,7 @@ public class MenuManager {
 	
 	public static void drawStats(float x, float y) {
 		if(selectedCar != null) {
-			MainClient.gameFont.drawWord("Acc: "+selectedCar.NAME,x , y, Color.white);
+			MainClient.gameFont.drawWord(selectedCar.NAME,x , y, Color.white);
 			MainClient.gameFont.drawWord("Acc: "+selectedCar.ACCELERATION,x , y+50, Color.white);
 			MainClient.gameFont.drawWord("Gear Count: "+selectedCar.GEAR_COUNT,x , y+100, Color.white);
 			MainClient.gameFont.drawWord("Grip: "+selectedCar.TIRE_GRIP,x , y+150, Color.white);

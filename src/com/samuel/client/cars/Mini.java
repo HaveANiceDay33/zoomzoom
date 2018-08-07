@@ -5,6 +5,7 @@ import com.samuel.client.MainClient;
 
 public class Mini extends Car{
 	public Mini() {
+		NAME = "Mini Cooper";
 		setACCELERATION(26);
 		setGEAR_COUNT(5);
 		setTIRE_GRIP(0.4f);
