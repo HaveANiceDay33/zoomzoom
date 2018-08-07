@@ -1,7 +1,7 @@
 package com.samuel.client;
 
 public class Car {
-	public String name;
+	public String NAME;
 	public int GEAR_COUNT;
 	public int[] maxSpeedsPerGear;
 	public float TIRE_GRIP;
