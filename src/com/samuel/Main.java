@@ -13,7 +13,7 @@ public class Main{
 	public static final int INFO_PORT = 25565;
 	
 	public static void main(String [] args){
-		new MainClient(new HvlGameInfo(INFO_GAME, INFO_VERSION, INFO_PORT));
-		//new MainServer(new HvlGameInfo(INFO_GAME, INFO_VERSION, INFO_PORT));
+//		new MainClient(new HvlGameInfo(INFO_GAME, INFO_VERSION, INFO_PORT));
+		new MainServer(new HvlGameInfo(INFO_GAME, INFO_VERSION, INFO_PORT));
 	}
 }

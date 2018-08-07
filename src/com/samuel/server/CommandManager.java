@@ -34,7 +34,7 @@ public class CommandManager {
 			if(args.length > 1){
 				try{
 					int map = Integer.parseInt(command.split(" ")[1]);
-					if(map < MenuManager.NUM_TRACKS){
+					if(map < MenuManager.NUM_TRACKS && map >= 0){
 						MainServer.nextMap = map;
 						new CommandResponse("Next map now set to: " + map);
 					}else new CommandResponse("Can't find that map!");
