@@ -155,7 +155,7 @@ public class MenuManager {
 		ip.getFirstArrangerBox().add(new HvlSpacer(10, 10));
 
 
-		ip.getFirstArrangerBox().add(new HvlTextBox.Builder().setWidth(200).setHeight(50).setFont(MainClient.gameFont).setTextColor(Color.darkGray).setTextScale(0.8f).setOffsetY(20).setOffsetX(20).setText("").setFocusedDrawable(new HvlComponentDrawable() {	
+		ip.getFirstArrangerBox().add(new HvlTextBox.Builder().setWidth(200).setHeight(50).setMaxCharacters(15).setFont(MainClient.gameFont).setTextColor(Color.darkGray).setTextScale(0.8f).setOffsetY(20).setOffsetX(20).setText("").setFocusedDrawable(new HvlComponentDrawable() {	
 			@Override
 			public void draw(float delta, float x, float y, float width, float height) {
 				hvlDrawQuad(x,y,width,height, Color.lightGray);	
