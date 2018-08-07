@@ -49,7 +49,7 @@ public class Game {
 
 	static float endTimer;
 
-	static Player player;
+	public static Player player;
 	static TrackGenerator trackGen;
 
 	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, CarEffect carEffect, String userName) {
