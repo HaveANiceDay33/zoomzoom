@@ -14,7 +14,7 @@ public class Border {
 		this.ySize = lArg;
 	}
 	public void draw(float delta) {
-		hvlDrawQuadc(this.xPos, this.yPos, this.xSize, this.ySize, Color.transparent);
+		hvlDrawQuadc(this.xPos, this.yPos, this.xSize, this.ySize, Color.red);
 		if(Player.xPos > this.xPos - this.xSize/2 && Player.xPos < this.xPos + this.xSize/2) {
 			if(Player.yPos > this.yPos - this.ySize/2 && Player.yPos < this.yPos + this.ySize/2) {
 				this.hitWall = true;
