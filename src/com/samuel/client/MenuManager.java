@@ -364,7 +364,7 @@ public class MenuManager {
 			MainClient.gameFont.drawWord(username, Display.getWidth() - MainClient.gameFont.getLineWidth(username) - 16, 16, color);
 		} else if(HvlMenu.getCurrent() == menuMap) {
 			int trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
-			//int trackNum = 5;
+			//int trackNum = 0;
 			switch(trackNum) {
 				case 0:
 					selectedTrack = new TestTrack();

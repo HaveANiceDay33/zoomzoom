@@ -16,15 +16,20 @@ public class TrackGenerator {
 	public static boolean onTrack;
 	public static boolean trackComplete;
 	public static ArrayList<Track> tracks;
+	public static ArrayList<Border> borders;
 	public TrackGenerator() {
 		selectedLevel = MenuManager.selectedTrack;
 		tracks = new ArrayList<Track>();
+		borders = new ArrayList<Border>();
 		trackComplete = false;
 	}
 	public void generateTrack() {
 		Track startTrack = new Track(START_X, START_Y, selectedLevel.tiles[0]);
 		tracks.add(startTrack);
-		
+		for(int i = 4; i <= selectedLevel.numBorders * 4; i+=4) {
+			Border border = new Border(selectedLevel.borderArgs[i-4], selectedLevel.borderArgs[i-3],selectedLevel.borderArgs[i-2],selectedLevel.borderArgs[i-1]);
+			borders.add(border);
+		}
 		for(int i = 1; i < selectedLevel.tiles.length; i++) {
 			orientation = selectedLevel.tiles[i];
 			if((tracks.get(tracks.size()-1).textureSelect == 0 && orientation == 2)) {
@@ -63,8 +68,8 @@ public class TrackGenerator {
 					Track track = new Track(tracks.get(i-1).xPos- Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation);
 					tracks.add(track);
 				}
+
 			}
-			
 			if(tracks.get(i-1).textureSelect == 1 && tracks.get(i).textureSelect == 0) {
 				tracks.get(i-1).textureSelect = 100;
 				//System.out.println("right to up");
@@ -118,6 +123,9 @@ public class TrackGenerator {
 			//System.out.println(Game.player.getXPos() + "\t "+ (closestTrack.xPos + (Track.TRACK_SIZE/2)) + "\t" + (closestTrack.xPos - (Track.TRACK_SIZE/2)));
 			fullTrack.draw(delta);
 			
+		}
+		for(Border allBorders : borders) {
+			allBorders.draw(delta);
 		}
 		
 		

@@ -258,6 +258,13 @@ public class Game {
 				currentRPMGoal -= (20 * 142 *delta);
 			}		
 		}
+		if(Border.hitWall) {
+			Player.xPos = Display.getWidth()/2;
+			Player.yPos = Display.getHeight()/2;
+			currentRPMGoal = 0;
+			Player.throttle = 0;
+			Player.turnAngle = 0;
+		}
 		currentRPMGoal += (rpmMod * 142 *delta);
 		if(startTimer >= 0.1 && currentRPMGoal > 3000) {
 			currentRPMGoal = 3000;

@@ -4,8 +4,14 @@ import com.samuel.client.Level;
 
 public class CurveyBoi extends Level{
 	private static final String GENERATOR = "000033333000000000000111111111122222222111111100000004";//0 up //1 right //2 down //3 left //4 finish
-	private static final String NAME = "CurveyBoi";
+	private static final String NAME = "CurveyBoi";	
 	public CurveyBoi() {
-		super(GENERATOR, NAME);
+		super(GENERATOR, NAME, 1);
+		borderArgs[0] = 1600;
+		borderArgs[1] = -800;
+		borderArgs[2] = 1200;
+		borderArgs[3] = 10;
+		
+		
 	}
 }

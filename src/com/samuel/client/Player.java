@@ -16,7 +16,7 @@ public class Player {
 	static float xSpeed;
 	static float ySpeed;
 	static float throttle;
-	float turnAngle;
+	static float turnAngle;
 	public static float turnAngleSpeed;
 	
 	public float finalTrackTime;
