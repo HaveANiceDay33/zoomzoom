@@ -280,7 +280,13 @@ public class Game {
 		tracker.doTransform(new HvlAction0() {
 			@Override
 			public void run() {
-				hvlDrawQuadc(player.getXPos(), player.getYPos(), 1920, 1080, new Color(70, 116, 15));
+				if(CAMERA_MODE) {
+					hvlDrawQuadc(player.getXPos(), player.getYPos(), 40000, 40000, new Color(70, 116, 15));
+
+				}else {
+					hvlDrawQuadc(player.getXPos(), player.getYPos(), 1920, 1080, new Color(70, 116, 15));
+
+				}
 				trackGen.update(delta);
 				TerrainGenerator.draw(delta);
 				if(!CAMERA_MODE) {

@@ -46,6 +46,7 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int SHELL_INDEX = 30;
 	public final static int RETRO_INDEX = 31;
 	public final static int TIRE_INDEX = 32;
+	public final static int DRAG_INDEX = 33;
 
 	@Override
 	public void initialize(){		
@@ -84,6 +85,8 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("Shell");//30
 		getTextureLoader().loadResource("retrorev");//31
 		getTextureLoader().loadResource("tire");//32
+		getTextureLoader().loadResource("drag");//33
+
 
 
 		Game.keyPresses();
