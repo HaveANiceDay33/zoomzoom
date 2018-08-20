@@ -2,12 +2,7 @@ package com.samuel.client.effects;
 
 public class MysteryUnlocker {
 
-	private static final String 
-	CODE_RESET = "000000",
-	CODE_DRIFTER = "011220",
-	CODE_SHIFTED = "220022",
-	CODE_NEON = "333210",
-	CODE_KART = "444333";
+	private static final String CODE_RESET = "000000";
 
 	public static CarEffect myUnlockedEffect;
 
@@ -26,18 +21,14 @@ public class MysteryUnlocker {
 		if(myCode.equals(CODE_RESET)){
 			myUnlockedEffect = null;
 			myCode = "";
-		}else if(myCode.equals(CODE_DRIFTER)){
-			myUnlockedEffect = CarEffect.DRIFTER;
-			myCode = "";
-		}else if(myCode.equals(CODE_SHIFTED)){
-			myUnlockedEffect = CarEffect.SHIFTED;
-			myCode = "";
-		}else if(myCode.equals(CODE_NEON)){
-			myUnlockedEffect = CarEffect.NEON;
-			myCode = "";
-		}else if(myCode.equals(CODE_KART)){
-			myUnlockedEffect = CarEffect.KART;
-			myCode = "";
+		}else{
+			for(CarEffect e : CarEffect.values()){
+				if(myCode.equals(e.code)){
+					myUnlockedEffect = e;
+					myCode = "";
+					break;
+				}
+			}
 		}
 	}
 

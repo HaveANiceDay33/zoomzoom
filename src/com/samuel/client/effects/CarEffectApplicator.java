@@ -4,9 +4,12 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.FBOUnsupportedException;
@@ -21,10 +24,10 @@ public class CarEffectApplicator {
 	SHELL_SIZE = 28,
 	SHELL_DISTANCE = 60,
 	SHELL_SPEED = 200;
-	
+
 	private static HvlRenderFrame maskFrame;
 	private static HvlShader maskShader;
-
+	
 	public static void initialize(){
 		try{
 			maskFrame = new HvlRenderFrame(Display.getWidth(), Display.getHeight());
@@ -95,15 +98,34 @@ public class CarEffectApplicator {
 				drawShell(xArg, yArg, rotationArg, 0, timer);
 				drawShell(xArg, yArg, rotationArg, 120, timer);
 				drawShell(xArg, yArg, rotationArg, 240, timer);
-				
+
 				hvlRotate(xArg, yArg - 30, rotationArg);
 				hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg));
 				hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg + 1), color);
 				hvlResetRotation();
+			}else if(effect == CarEffect.THORNS){
+				hvlRotate(xArg, yArg - 30, rotationArg);
+				hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg));
+				maskFrame.doCapture(new HvlAction0(){
+					@Override
+					public void run(){
+						hvlRotate(xArg, yArg, -rotationArg + 30);
+						hvlDrawQuadc(xArg, yArg, 2000, 2000, 0f, 0f, 2.0f, 2.0f, MainClient.getTexture(MainClient.THORNS_INDEX), color);
+						hvlResetRotation();
+					}
+				});
+				maskShader.doShade(new HvlAction0(){
+					@Override
+					public void run(){
+						maskShader.sendRenderFrame("frame1", 2, maskFrame);
+						hvlDrawQuadc(xArg, yArg, 100, 100, MainClient.getTexture(carTextureArg + 1), Color.white);
+					}
+				});
+				hvlResetRotation();
 			}
 		}
 	}
-	
+
 	private static void drawShell(float xArg, float yArg, float rotationArg, float degrees, float timer){
 		hvlRotate(xArg, yArg - 30, rotationArg);
 		hvlRotate(xArg, yArg, (timer * SHELL_SPEED + degrees) + (Player.turnAngleSpeed/2));
