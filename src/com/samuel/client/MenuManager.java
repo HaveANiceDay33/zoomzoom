@@ -112,7 +112,7 @@ public class MenuManager {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.darkGray);
 			}
 		});
-		defaultSlider.setValue(1f);
+		defaultSlider.setValue(0f);
 		HvlComponentDefault.setDefault(defaultSlider);
 
 		HvlCheckbox defaultCheckbox = new HvlCheckbox(180, 75, false, new HvlComponentDrawable(){
@@ -252,21 +252,21 @@ public class MenuManager {
 		menuCar.getFirstArrangerBox().add(new HvlSlider.Builder().setValueChangedCommand(new HvlAction2<HvlSlider, Float>(){
 			@Override
 			public void run(HvlSlider aArg, Float bArg) {
-				color.r = bArg;
+				color.r = 1f - bArg;
 			}
 		}).build());
 		menuCar.getChildOfType(HvlArrangerBox.class, 0).add(new HvlSpacer(30, 30));
 		menuCar.getFirstArrangerBox().add(new HvlSlider.Builder().setValueChangedCommand(new HvlAction2<HvlSlider, Float>(){
 			@Override
 			public void run(HvlSlider aArg, Float bArg) {
-				color.g = bArg;
+				color.g = 1f - bArg;
 			}
 		}).build());
 		menuCar.getChildOfType(HvlArrangerBox.class, 0).add(new HvlSpacer(30, 30));
 		menuCar.getFirstArrangerBox().add(new HvlSlider.Builder().setValueChangedCommand(new HvlAction2<HvlSlider, Float>(){
 			@Override
 			public void run(HvlSlider aArg, Float bArg) {
-				color.b = bArg;
+				color.b = 1f - bArg;
 			}
 		}).build());
 		menuCar.getFirstArrangerBox().add(new HvlSpacer(100,50));
