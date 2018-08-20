@@ -388,7 +388,7 @@ public class MenuManager {
 					break;
 				case 5:
 					selectedTrack = new OS_Drag();
-					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.STOCK_INDEX));
+					hvlDrawQuad(0,0, 1920, 1080, MainClient.getTexture(MainClient.DRAG_INDEX));
 					break;
 				default:
 					selectedTrack = new TestTrack();
