@@ -112,7 +112,7 @@ public class MenuManager {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.darkGray);
 			}
 		});
-		defaultSlider.setValue(0f);
+		defaultSlider.setValue(0.5f);
 		HvlComponentDefault.setDefault(defaultSlider);
 
 		HvlCheckbox defaultCheckbox = new HvlCheckbox(180, 75, false, new HvlComponentDrawable(){
