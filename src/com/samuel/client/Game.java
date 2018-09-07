@@ -252,9 +252,9 @@ public class Game {
 		}
 		if(!TrackGenerator.onTrack) {
 			if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-				rpmMod = (player.selectedCar.ACCELERATION / currentGear/4);
+				rpmMod = (float)(player.selectedCar.ACCELERATION / currentGear/3.5);
 			}
-			if(currentRPMGoal > 1000) {
+			if(currentRPMGoal > 1300) {
 				currentRPMGoal -= (20 * 142 *delta);
 			}		
 		}
