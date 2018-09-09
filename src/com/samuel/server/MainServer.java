@@ -52,6 +52,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 	public static GameState state;
 	public static float readyTimer;
 	public static int map, nextMap;
+	public static boolean debug = false;
 
 	private static HvlInput commandSubmit;
 
@@ -165,7 +166,7 @@ public class MainServer extends HvlTemplateDGameServer2D{
 				for(SocketWrapper s : lobbyInfo.keySet()){
 					if(lobbyInfo.get(s).ready) valid++;
 				}
-				if(valid == usernames.size() && valid > 1f){
+				if(valid == usernames.size() && valid >= (debug ? 1 : 2)){
 					readyTimer = HvlMath.stepTowards(readyTimer, delta/5f, 0f);
 					if(readyTimer == 0){
 						state = GameState.MAP;

@@ -8,6 +8,7 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlTextBox;
+import com.samuel.GameState;
 import com.samuel.client.MenuManager;
 
 public class CommandManager {
@@ -49,6 +50,14 @@ public class CommandManager {
 			for(String s : MainServer.usernames.values()) output += s + ", ";
 			output.substring(0, output.length() - 3);
 			new CommandResponse(output);
+		}else if(command.startsWith("debug") && args.length == 1){
+			MainServer.debug = !MainServer.debug;
+			new CommandResponse("Debug mode set to " + MainServer.debug + ".");
+		}else if(command.startsWith("end") && args.length == 1){
+			new CommandResponse("Forcing the race to end...");
+			MainServer.state = GameState.LOBBY;
+			MainServer.gameInfo.clear();
+			MainServer.readyTimer = 1f;
 		}else{
 			new CommandResponse("Command not found!");
 		}
