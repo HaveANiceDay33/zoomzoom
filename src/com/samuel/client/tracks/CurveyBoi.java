@@ -11,7 +11,5 @@ public class CurveyBoi extends Level{
 		borderArgs[1] = -800;
 		borderArgs[2] = 16;
 		borderArgs[3] = 1;
-		
-		
 	}
 }

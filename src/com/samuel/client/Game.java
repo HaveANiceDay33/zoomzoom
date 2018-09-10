@@ -258,7 +258,7 @@ public class Game {
 				currentRPMGoal -= (20 * 142 *delta);
 			}		
 		}
-		if(Border.hitWall) {
+		if(TrackGenerator.hitWall) {
 			if(Player.xSpeed > 0) {
 				Player.xPos -= 32;
 			}
@@ -274,7 +274,7 @@ public class Game {
 			Player.xSpeed = 0;
 			Player.ySpeed = 0;
 			
-			currentRPMGoal = 0;
+			Game.currentRPMGoal = 0;
 			Player.throttle = 0;
 		}
 		currentRPMGoal += (rpmMod * 142 *delta);

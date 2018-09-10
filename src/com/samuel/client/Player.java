@@ -51,7 +51,7 @@ public class Player {
 		turnAngleSpeed = HvlMath.stepTowards(turnAngleSpeed, (float)(selectedCar.TIRE_GRIP/throttle) * 142 * delta, 0);
 
 		ySpeed = (float) ((throttle / 12) * Math.cos(Math.toRadians(turnAngle)));
-		xSpeed = (float) ((float) (throttle / 12) * Math.sin(Math.toRadians(turnAngle)));
+		xSpeed = (float) ((throttle / 12) * Math.sin(Math.toRadians(turnAngle)));
 
 		yPos -= ySpeed * delta * 142; 
 		xPos += xSpeed * delta * 142;
