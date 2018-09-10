@@ -150,17 +150,19 @@ public class TrackGenerator {
 			trackComplete = true;
 		}
 		
-		
-		if(Player.xPos > closestBorder.xPos - closestBorder.xSize*32 && Player.xPos < closestBorder.xPos + closestBorder.xSize*32) {
-			if(Player.yPos > closestBorder.yPos - closestBorder.ySize*32 && Player.yPos < closestBorder.yPos + closestBorder.ySize*32) {
-				hitWall = true;
-			} else {
+		if(borders.size() > 0) {
+			if(Player.xPos > closestBorder.xPos - closestBorder.xSize*32 && Player.xPos < closestBorder.xPos + closestBorder.xSize*32) {
+				if(Player.yPos > closestBorder.yPos - closestBorder.ySize*32 && Player.yPos < closestBorder.yPos + closestBorder.ySize*32) {
+					hitWall = true;
+				} else {
+					hitWall = false;
+				}
+			}
+			else {
 				hitWall = false;
 			}
 		}
-		else {
-			hitWall = false;
-		}
+
 //		if(onTrack) {
 //			System.out.println("ON");
 //		}else {

@@ -6,10 +6,10 @@ import com.samuel.client.MainClient;
 public class SubaruWRX extends Car{
 	public SubaruWRX() {
 		NAME = "Subaru WRX";
-		setACCELERATION(29);
+		setACCELERATION(28);
 		setGEAR_COUNT(6);
 		setTIRE_GRIP(0.38f);
-		setMAX_RPM(7000);
+		setMAX_RPM(6800);
 		setMIN_RPM(0);
 		setTextureSelect(MainClient.WRX_INDEX);
 		maxSpeedsPerGear = new int[getGEAR_COUNT()];
