@@ -2,7 +2,7 @@ package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
-import org.newdawn.slick.Color;
+import com.samuel.Main;
 
 public class Border {
 	public float xPos, yPos, xSize, ySize;
@@ -14,9 +14,13 @@ public class Border {
 		this.ySize = lArg;
 	}
 	public void draw(float delta) {
-		hvlDrawQuadc(this.xPos, this.yPos, this.xSize, this.ySize, Color.red);
-		if(Player.xPos > this.xPos - this.xSize/2 && Player.xPos < this.xPos + this.xSize/2) {
-			if(Player.yPos > this.yPos - this.ySize/2 && Player.yPos < this.yPos + this.ySize/2) {
+		
+		
+		hvlDrawQuadc(this.xPos, this.yPos, this.xSize*64, this.ySize*64, 0, 0, this.xSize, this.ySize, MainClient.getTexture(MainClient.TIRE_INDEX));
+		
+		
+		if(Player.xPos > this.xPos - this.xSize*32 && Player.xPos < this.xPos + this.xSize*32) {
+			if(Player.yPos > this.yPos - this.ySize*32 && Player.yPos < this.yPos + this.ySize*32) {
 				this.hitWall = true;
 			} else {
 				this.hitWall = false;

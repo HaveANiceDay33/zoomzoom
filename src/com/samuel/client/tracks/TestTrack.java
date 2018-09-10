@@ -9,7 +9,7 @@ public class TestTrack extends Level{
 		super(GENERATOR, NAME, 1);
 		borderArgs[0] = 2600;
 		borderArgs[1] = -100;
-		borderArgs[2] = 10;
-		borderArgs[3] = 1000;
+		borderArgs[2] = 1;
+		borderArgs[3] = 10;
 	}	
 }

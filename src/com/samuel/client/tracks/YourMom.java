@@ -9,7 +9,7 @@ public class YourMom extends Level{
 		super(GENERATOR, NAME, 1);
 		borderArgs[0] = 1600;
 		borderArgs[1] = 1400;
-		borderArgs[2] = 2000;
-		borderArgs[3] = 10;
+		borderArgs[2] = 22;
+		borderArgs[3] = 1;
 	}
 }

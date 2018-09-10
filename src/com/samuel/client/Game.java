@@ -259,11 +259,23 @@ public class Game {
 			}		
 		}
 		if(Border.hitWall) {
-			Player.xPos = Display.getWidth()/2;
-			Player.yPos = Display.getHeight()/2;
+			if(Player.xSpeed > 0) {
+				Player.xPos -= 32;
+			}
+			if(Player.xSpeed < 0) {
+				Player.xPos += 32;
+			}
+			if(Player.ySpeed > 0) {
+				Player.yPos += 32;
+			}
+			if(Player.ySpeed < 0) {
+				Player.yPos -= 32;
+			}
+			Player.xSpeed = 0;
+			Player.ySpeed = 0;
+			
 			currentRPMGoal = 0;
 			Player.throttle = 0;
-			Player.turnAngle = 0;
 		}
 		currentRPMGoal += (rpmMod * 142 *delta);
 		if(startTimer >= 0.1 && currentRPMGoal > 3000) {
