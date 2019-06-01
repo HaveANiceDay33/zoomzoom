@@ -111,7 +111,7 @@ public class Game {
 		if(MenuManager.singlePlayer) {
 			///add AI implementation here
 			if(MainClient.inputs != null) {
-				player = new Player(MainClient.inputType);
+				
 			} else {
 				MainClient.inputType = new HumanInput();
 				player = new Player(MainClient.inputType);
