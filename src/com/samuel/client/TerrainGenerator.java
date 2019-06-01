@@ -30,19 +30,20 @@ public class TerrainGenerator {
 			yFL[i] = HvlMath.randomIntBetween(MIN_SPACE, MAX_SPACE);
 		}
 	}
-	public static void draw(float delta) {
+	
+	public static void draw(float delta, Player p) {
 		for(int i = 0; i < ARRAY_SIZE_TREE; i++) {
 			for(int j = 0; j < ARRAY_SIZE_TREE; j++) {
-				if((i*xTree[i])-4500 < Game.player.xPos + Display.getWidth()/2 + 100&& (i*xTree[i])-4500 > Game.player.xPos - Display.getWidth()/2 - 100
-						&& i*yTree[i]-4500 <  Game.player.yPos + Display.getHeight()/2 + 100 && i*yTree[i]-4500 > Game.player.yPos - Display.getHeight()/2 - 100) {
+				if((i*xTree[i])-4500 < p.getXPos() + Display.getWidth()/2 + 100&& (i*xTree[i])-4500 > p.getXPos() - Display.getWidth()/2 - 100
+						&& i*yTree[i]-4500 <  p.getYPos() + Display.getHeight()/2 + 100 && i*yTree[i]-4500 > p.getYPos() - Display.getHeight()/2 - 100) {
 					hvlDrawQuadc((i*xTree[i])-4500, i*yTree[i]-4500, TILE_SIZE_TREE, TILE_SIZE_TREE, MainClient.getTexture(MainClient.TREE_INDEX));
 				}
 			}
 		}
 		for(int i = 0; i < ARRAY_SIZE_FLOWER; i++) {
 				for(int j = 0; j < ARRAY_SIZE_FLOWER; j++) {
-					if((i*xFL[i])-4500 < Game.player.xPos + Display.getWidth()/2 + 15 && (i*xFL[i])-4500 > Game.player.xPos - Display.getWidth()/2 - 15
-							&& i*yFL[i]-4500 <  Game.player.yPos + Display.getHeight()/2 + 15 && i*yFL[i]-4500 > Game.player.yPos - Display.getHeight()/2 - 15) {
+					if((i*xFL[i])-4500 < p.getXPos() + Display.getWidth()/2 + 15 && (i*xFL[i])-4500 > p.getXPos() - Display.getWidth()/2 - 15
+							&& i*yFL[i]-4500 < p.getYPos() + Display.getHeight()/2 + 15 && i*yFL[i]-4500 > p.getYPos() - Display.getHeight()/2 - 15) {
 					hvlDrawQuadc((i*xFL[i])-4500, i*yFL[i]-4500, TILE_SIZE_FLOWER, TILE_SIZE_FLOWER, MainClient.getTexture(MainClient.FLOWER_INDEX));
 				}
 			}

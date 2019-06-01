@@ -128,8 +128,8 @@ public class CarEffectApplicator {
 
 	private static void drawShell(float xArg, float yArg, float rotationArg, float degrees, float timer){
 		hvlRotate(xArg, yArg - 30, rotationArg);
-		hvlRotate(xArg, yArg, (timer * SHELL_SPEED + degrees) + (Player.turnAngleSpeed/2));
-		hvlRotate(xArg, yArg - SHELL_DISTANCE, -((timer * SHELL_SPEED + degrees) + (Player.turnAngleSpeed/2)));
+		hvlRotate(xArg, yArg, (timer * SHELL_SPEED + degrees) + (Game.player.turnAngleSpeed/2));
+		hvlRotate(xArg, yArg - SHELL_DISTANCE, -((timer * SHELL_SPEED + degrees) + (Game.player.turnAngleSpeed/2)));
 		hvlDrawQuadc(xArg, yArg - SHELL_DISTANCE, SHELL_SIZE, SHELL_SIZE, MainClient.getTexture(MainClient.SHELL_INDEX));
 		hvlResetRotation();
 		hvlResetRotation();

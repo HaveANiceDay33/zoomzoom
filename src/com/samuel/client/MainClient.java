@@ -89,8 +89,6 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("tire");//33
 		getTextureLoader().loadResource("drag");//34
 
-		Game.keyPresses();
-		//getSoundLoader().loadResource("engineSound");//0
 		gameFont =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL,.18f,8f,0); //font definition
 		MenuManager.initialize();
 		CarEffectApplicator.initialize();

@@ -17,9 +17,10 @@ public class Track {
 		this.yPos = yPos;
 		this.textureSelect = textureSelect;
 	}
-	public void draw(float delta) {
-		if(this.xPos < Game.player.xPos + Display.getWidth()/2 + Track.TRACK_SIZE && this.xPos > Game.player.xPos - Display.getWidth()/2 - Track.TRACK_SIZE
-				&& this.yPos <  Game.player.yPos + Display.getHeight()/2 + Track.TRACK_SIZE&& this.yPos > Game.player.yPos - Display.getHeight()/2- Track.TRACK_SIZE) {
+	
+	public void draw(float delta, Player p) {
+		if(this.xPos < p.getXPos() + Display.getWidth()/2 + Track.TRACK_SIZE && this.xPos > p.getXPos() - Display.getWidth()/2 - Track.TRACK_SIZE
+				&& this.yPos <  p.getYPos() + Display.getHeight()/2 + Track.TRACK_SIZE&& this.yPos > p.getYPos() - Display.getHeight()/2- Track.TRACK_SIZE) {
 
 			if(textureSelect == 0) {
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));

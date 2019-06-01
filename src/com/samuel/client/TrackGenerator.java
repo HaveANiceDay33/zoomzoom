@@ -13,16 +13,13 @@ public class TrackGenerator {
 	int segmentLength;
 	int finishOr;
 	Level selectedLevel;
-	public static boolean onTrack;
-	public static boolean hitWall;
-	public static boolean trackComplete;
+	
 	public static ArrayList<Track> tracks;
 	public static ArrayList<Border> borders;
 	public TrackGenerator() {
 		selectedLevel = MenuManager.selectedTrack;
 		tracks = new ArrayList<Track>();
 		borders = new ArrayList<Border>();
-		trackComplete = false;
 	}
 	public void generateTrack() {
 		Track startTrack = new Track(START_X, START_Y, selectedLevel.tiles[0]);
@@ -109,65 +106,7 @@ public class TrackGenerator {
 		}
 	}
 	public void update(float delta) {
-		Track closestTrack = null;
-		Border closestBorder = null;
-		for(Track fullTrack : tracks) {
-			if(closestTrack == null) {
-				closestTrack = fullTrack;
-			}
-			float distance = HvlMath.distance(Game.player.getXPos(), Game.player.getYPos(), closestTrack.xPos, closestTrack.yPos);
-			float distanceTest = HvlMath.distance(Game.player.getXPos(), Game.player.getYPos(), fullTrack.xPos, fullTrack.yPos);
-
-			if(distanceTest < distance) {
-				closestTrack = fullTrack;
-			}
-			//System.out.println(Game.player.getXPos() + "\t "+ (closestTrack.xPos + (Track.TRACK_SIZE/2)) + "\t" + (closestTrack.xPos - (Track.TRACK_SIZE/2)));
-			fullTrack.draw(delta);
-		}
-		for(Border allBorders : borders) {
-			if(closestBorder == null) {
-				closestBorder = allBorders;
-			}
-			float distance = HvlMath.distance(Game.player.getXPos(), Game.player.getYPos(), closestBorder.xPos, closestBorder.yPos);
-			float distanceTest = HvlMath.distance(Game.player.getXPos(), Game.player.getYPos(), allBorders.xPos, allBorders.yPos);
-
-			if(distanceTest < distance) {
-				closestBorder = allBorders;
-			}
-			allBorders.draw(delta);
-		}
-		
-		
-		if(Game.player.getXPos() <= closestTrack.xPos  + (Track.TRACK_SIZE/2) && Game.player.getXPos() >= closestTrack.xPos - (Track.TRACK_SIZE/2)
-				&& Game.player.getYPos() <= closestTrack.yPos + (Track.TRACK_SIZE/2)&& Game.player.getYPos() >= closestTrack.yPos - (Track.TRACK_SIZE/2)) {	
-			onTrack = true;
-		}else {
-			onTrack = false;
-		}
-		if(Game.player.getXPos() <= closestTrack.xPos  + (Track.TRACK_SIZE/2) && Game.player.getXPos() >= closestTrack.xPos - (Track.TRACK_SIZE/2)
-				&& Game.player.getYPos() <= closestTrack.yPos + (Track.TRACK_SIZE/2)&& Game.player.getYPos() >= closestTrack.yPos - (Track.TRACK_SIZE/2) && closestTrack.textureSelect == 4) {
-			onTrack = true;
-			trackComplete = true;
-		}
-		
-		if(borders.size() > 0) {
-			if(Player.xPos > closestBorder.xPos - closestBorder.xSize*32 && Player.xPos < closestBorder.xPos + closestBorder.xSize*32) {
-				if(Player.yPos > closestBorder.yPos - closestBorder.ySize*32 && Player.yPos < closestBorder.yPos + closestBorder.ySize*32) {
-					hitWall = true;
-				} else {
-					hitWall = false;
-				}
-			}
-			else {
-				hitWall = false;
-			}
-		}
-
-//		if(onTrack) {
-//			System.out.println("ON");
-//		}else {
-//			System.out.println("OFF");
-//		}
-		//hvlDrawLine(Game.player.getXPos(), Game.player.getYPos(), closestTrack.xPos, closestTrack.yPos, Color.blue);
+		for(Track fullTrack : TrackGenerator.tracks) {fullTrack.draw(delta, Game.player);}
+		for(Border allBorders : TrackGenerator.borders) {allBorders.draw(delta);}
 	}
 }
