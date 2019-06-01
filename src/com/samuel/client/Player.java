@@ -4,7 +4,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
@@ -35,11 +35,13 @@ public class Player {
 	HvlInput shiftUpInput;
 	HvlInput shiftDownInput;
 	
+	PlayerInput inputMethod; 
+	
 	public float finalTrackTime;
 	Car selectedCar;
-	public Player(float xArg, float yArg){
-		xPos = xArg;
-		yPos = yArg;
+	public Player(PlayerInput inputMethodArg){
+		xPos = Display.getWidth()/2;
+		yPos = Display.getHeight()/2;
 		selectedCar = MenuManager.selectedCar;
 		currentGear = 1;
 		currentRPM = selectedCar.MIN_RPM;
@@ -48,11 +50,14 @@ public class Player {
 		currentRPMGoal = 0;
 		speed = 0;
 		trackComplete = false;
+		turnAngle = 0;
+		
+		inputMethod = inputMethodArg;
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
 			public float getCurrentOutput() {
-				if(Keyboard.isKeyDown(Keyboard.KEY_P)&& Game.startTimer <= 0.1) {
+				if(inputMethod != null && inputMethod.isShiftingUp() && Game.startTimer <= 0.1) {
 					return 1;
 				}
 				else {
@@ -63,7 +68,7 @@ public class Player {
 		shiftDownInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
 			public float getCurrentOutput() {
-				if(Keyboard.isKeyDown(Keyboard.KEY_L)) {
+				if(inputMethod != null && inputMethod.isShiftingDown()) {
 					return 1;
 				}
 				else {
@@ -112,9 +117,9 @@ public class Player {
 	public void update(float delta) {
 		updateTrackAndBorderCollisions(delta);
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
+		if(inputMethod != null && inputMethod.isAccelerating()) {
 			rpmMod = (selectedCar.ACCELERATION / currentGear);
-		} else if(Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+		} else if(inputMethod != null && inputMethod.isBreaking()) {
 			rpmMod = (-50 / currentGear);
 		} else {
 			rpmMod = (-Game.FRICTION/currentGear);
@@ -129,7 +134,7 @@ public class Player {
 		if(currentRPMGoal >= selectedCar.MAX_RPM) {currentRPMGoal = selectedCar.MAX_RPM;}
 		if(Game.startTimer >= 0.1 && currentRPMGoal > 3000) {currentRPMGoal = 3000;}
 		if(!onTrack) {
-			if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
+			if(inputMethod != null && inputMethod.isAccelerating()) {
 				rpmMod = (float)(selectedCar.ACCELERATION / currentGear/3.5);
 			}
 			if(currentRPMGoal > 1300) {
@@ -154,10 +159,10 @@ public class Player {
 
 		throttle = speed;
 	
-		if(Keyboard.isKeyDown(Keyboard.KEY_A) && throttle > 0) {
+		if(inputMethod != null && inputMethod.isTurningLeft() && throttle > 0) {
 			turnAngleSpeed = -1 * Math.abs(130 - throttle)/142;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_D) && throttle > 0) {
+		if(inputMethod != null && inputMethod.isTurningRight() && throttle > 0) {
 			turnAngleSpeed = Math.abs(130 - throttle)/142;
 		}
 		

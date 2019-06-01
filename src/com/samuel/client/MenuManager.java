@@ -69,8 +69,7 @@ public class MenuManager {
 			MainClient.gameFont.drawWord("Gear Count: "+selectedCar.GEAR_COUNT,x , y+100, Color.white);
 			MainClient.gameFont.drawWord("Grip: "+selectedCar.TIRE_GRIP,x , y+150, Color.white);
 			MainClient.gameFont.drawWord("Max RPM: "+selectedCar.MAX_RPM,x , y+200, Color.white);
-			MainClient.gameFont.drawWord("Top Speed: "+selectedCar.maxSpeedsPerGear[selectedCar.GEAR_COUNT - 1],x , y+250, Color.white);
-
+			MainClient.gameFont.drawWord("Top Speed: "+selectedCar.maxSpeedsPerGear[selectedCar.GEAR_COUNT - 1], x, y+250, Color.white);
 		}
 	}
 

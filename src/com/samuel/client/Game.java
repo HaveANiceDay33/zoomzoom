@@ -44,6 +44,8 @@ public class Game {
 
 	public static Player player;
 	static TrackGenerator trackGen;
+	
+	ArrayList<Player> players;
 
 	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, CarEffect carEffect, String userName) {
 		CarEffectApplicator.drawCar(carEffect, xPos, yPos, turnAngle, textureIndex, customColor);
@@ -106,23 +108,35 @@ public class Game {
 	public static final boolean CAMERA_MODE = false;
 
 	public static void initialize() {
-		player = new Player(Display.getWidth()/2, Display.getHeight()/2);
+		if(MenuManager.singlePlayer) {
+			///add AI implementation here
+			if(MainClient.inputs != null) {
+				player = new Player(MainClient.inputType);
+			} else {
+				MainClient.inputType = new HumanInput();
+				player = new Player(MainClient.inputType);
+			}
+		} else {
+			if(MainClient.inputType != null) {
+				player = new Player(MainClient.inputType);
+			} else {
+				MainClient.inputType = new HumanInput();
+				player = new Player(MainClient.inputType);
+			}
+		}
+		
 		tracker = new HvlCamera2D(Display.getWidth()/2, Display.getHeight()/2, 0 , CAMERA_MODE ? 0.1f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
 		trackGen = new TrackGenerator();
-		player.turnAngle = 0;
 		startTimer = 6;
 		endTimer = 5;
 		trackTimer = 0;
 		secsElap = 0;
-	
 		trackGen.generateTrack();
 		TerrainGenerator.generateTerrain();
 	}
 	public static void update(float delta) {
 		//Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);
 		player.update(delta);
-		
-		
 		tracker.setX(player.getXPos());
 		tracker.setY(player.getYPos());
 		tracker.doTransform(new HvlAction0() {

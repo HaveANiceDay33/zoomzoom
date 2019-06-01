@@ -1,4 +1,6 @@
 package com.samuel.client;
+import java.util.ArrayList;
+
 import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
@@ -8,7 +10,10 @@ import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
 public class MainClient extends HvlTemplateDClient2D{
-
+	
+	public static PlayerInput inputType;
+	public static ArrayList<PlayerInput> inputs;
+	
 	public MainClient(HvlGameInfo gameInfoArg){
 		super(144, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.016f, gameInfoArg);
 	}
@@ -54,7 +59,7 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("needle"); //0
 		getTextureLoader().loadResource("tach"); //1
 		getTextureLoader().loadResource("osfont");//2
-		getTextureLoader().loadResource("circle");//3
+		getTextureLoader().loadResource("redCircle");//3
 
 		getTextureLoader().loadResource("wrx");//4
 		getTextureLoader().loadResource("ALPHAwrx");//5
