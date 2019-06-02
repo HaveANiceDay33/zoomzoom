@@ -181,8 +181,8 @@ public class Game {
 
 				endTimer -= delta;
 				if(endTimer <= 0) {
-					MenuManager.menuCar.getFirstArrangerBox().getFirstOfType(HvlCheckbox.class).setChecked(false);
-					HvlMenu.setCurrent(MenuManager.menuCar);
+					//MenuManager.menuCar.getFirstArrangerBox().getFirstOfType(HvlCheckbox.class).setChecked(false);
+					//HvlMenu.setCurrent(MenuManager.menuCar);
 				}
 			} else {
 				trackTimer += delta;

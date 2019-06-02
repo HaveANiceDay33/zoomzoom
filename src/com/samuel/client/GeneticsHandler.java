@@ -89,7 +89,7 @@ public class GeneticsHandler {
 		
 		Player child = new Player();
 		
-		float geneticBias = (c1.getFitness() - c2.getFitness())/c1.getFitness();
+		float geneticBias = (c2.getFitness() - c1.getFitness())/c2.getFitness();
 	
 		for(int l = 0; l < child.decisionNet.layers.size(); l++) {
 			for(int n = 0; n < child.decisionNet.layers.get(l).numNodes; n++) {

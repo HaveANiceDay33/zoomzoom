@@ -315,7 +315,7 @@ public class Player implements Cloneable{
 		
 		if(finishIndex - playerTrack != 0) {
 			decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).textureSelect, 0, 200, 0, 1);
-			decisionNet.layers.get(0).nodes.get(6).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 5;
+			decisionNet.layers.get(0).nodes.get(6).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 2.5f;
 		}
 		
 		decisionNet.layers.get(0).nodes.get(7).value = closestTrack().turnDirection * 5;
