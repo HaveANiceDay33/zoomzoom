@@ -12,7 +12,6 @@ import com.osreboot.ridhvl.HvlDebugUtil;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.menu.HvlMenu;
-import com.osreboot.ridhvl.menu.component.HvlCheckbox;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 import com.samuel.InfoGame;
 import com.samuel.KC;
