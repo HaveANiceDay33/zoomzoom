@@ -15,7 +15,6 @@ import com.osreboot.ridhvl.menu.component.HvlCheckbox;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 import com.samuel.InfoGame;
 import com.samuel.KC;
-import com.samuel.client.ai.ControllerHuman;
 import com.samuel.client.effects.CarEffect;
 import com.samuel.client.effects.CarEffectApplicator;
 
@@ -102,31 +101,8 @@ public class Game {
 	
 	public static final boolean CAMERA_MODE = false;
 
-	public static void initialize() {
-		players = new ArrayList<>();
-		if(MenuManager.singlePlayer) {
-			///add AI implementation here
-			if(MainClient.inputs != null) {
-				
-				for(int i = 0; i < 10000; i++) {
-					Player p = new Player(MainClient.inputs.get(i));
-					players.add(p);
-				}
-			} else {
-				MainClient.inputType = new ControllerHuman();
-				player = new Player(MainClient.inputType);
-				players.add(player);
-			}
-		} else {
-			if(MainClient.inputType != null) {
-				player = new Player(MainClient.inputType);
-				players.add(player);
-			} else {
-				MainClient.inputType = new ControllerHuman();
-				player = new Player(MainClient.inputType);
-				players.add(player);
-			}
-		}
+	public static void initialize(){
+		MainClient.gameManager.initializePlayers(MenuManager.singlePlayer);
 		
 		tracker = new HvlCamera2D(Display.getWidth()/2, Display.getHeight()/2, 0 , CAMERA_MODE ? 0.1f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
 		trackGen = new TrackGenerator();
@@ -137,6 +113,7 @@ public class Game {
 		trackGen.generateTrack();
 		TerrainGenerator.generateTerrain();
 	}
+	
 	public static void update(float delta) {
 		tracker.setX(MainClient.gameManager.getCameraLocation().x);
 		tracker.setY(MainClient.gameManager.getCameraLocation().y);
