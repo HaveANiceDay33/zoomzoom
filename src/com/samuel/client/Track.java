@@ -6,6 +6,8 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import org.lwjgl.opengl.Display;
 
+import com.osreboot.ridhvl.HvlCoord2D;
+
 public class Track {
 	public float xPos;
 	public float yPos;
@@ -20,9 +22,9 @@ public class Track {
 		this.turnDirection = turnDirection;
 	}
 	
-	public void draw(float delta, Player p) {
-		if(this.xPos < p.getXPos() + Display.getWidth()/2 + Track.TRACK_SIZE && this.xPos > p.getXPos() - Display.getWidth()/2 - Track.TRACK_SIZE
-				&& this.yPos <  p.getYPos() + Display.getHeight()/2 + Track.TRACK_SIZE&& this.yPos > p.getYPos() - Display.getHeight()/2- Track.TRACK_SIZE) {
+	public void draw(float delta, HvlCoord2D p) {
+		if(this.xPos < p.x + Display.getWidth()/2 + Track.TRACK_SIZE && this.xPos > p.x - Display.getWidth()/2 - Track.TRACK_SIZE
+				&& this.yPos <  p.y + Display.getHeight()/2 + Track.TRACK_SIZE&& this.yPos > p.y - Display.getHeight()/2- Track.TRACK_SIZE) {
 
 			if(textureSelect == 0 || textureSelect == 112 || textureSelect == 148) {
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
@@ -35,7 +37,7 @@ public class Track {
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 3 || textureSelect == 76 || textureSelect == 200) {
+			if(textureSelect == 3 || textureSelect == 136 || textureSelect == 200) {
 				hvlRotate(this.xPos, this.yPos,90);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 				hvlResetRotation();

@@ -117,8 +117,12 @@ public class Game {
 		
 		TerrainGenerator.generateTerrain();
 	}
+	
 	public static void update(float delta) {
 		//Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);
+		
+		//MARKED
+		
 		for(Player p : GeneticsHandler.population) {
 			p.update(delta);
 			if(p.isDead() && !p.dead) {
@@ -126,11 +130,12 @@ public class Game {
 				numAlive--;
 			}
 		}
+		//MARKED
 		generationTimer -= delta;
 		if(Keyboard.isKeyDown(Keyboard.KEY_K) || generationTimer <= 0) {
 			numAlive = 0;
 		}
-		
+		//MARKED
 		if(numAlive == 0) {
 			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
 			Player par1 = GeneticsHandler.population.get(0);
@@ -139,10 +144,11 @@ public class Game {
 			GeneticsHandler.duplicateParents(par1, par2);
 			numAlive = GeneticsHandler.population.size();
 		}
-		
+		//MARKED
 		Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
 		tracker.setX(GeneticsHandler.population.get(0).getXPos());
 		tracker.setY(GeneticsHandler.population.get(0).getYPos());
+		
 		tracker.doTransform(new HvlAction0() {
 			@Override
 			public void run() {
@@ -156,17 +162,20 @@ public class Game {
 				TerrainGenerator.draw(delta, GeneticsHandler.population.get(0));
 				if(!CAMERA_MODE) {
 					drawPlayerCars();
+					
+					//MARKED
 					for(Player p : GeneticsHandler.population) {
 						if(!p.dead) {
 							p.draw(delta);
 						}
-						
 					}
+					
 				}
 
 			}
 		});
 		
+		//MARKED
 		GeneticsHandler.population.get(0).drawUI(delta);
 		
 		if(startTimer >= 0.1) {
@@ -174,6 +183,7 @@ public class Game {
 			MainClient.gameFont.drawWordc((int)startTimer + "", Display.getWidth()/2, Display.getHeight()/2 - 200, Color.black, 10f);
 		} 
 		else {
+			//MARKED
 			if(GeneticsHandler.population.get(0).trackComplete == true) {
 				GeneticsHandler.population.get(0).finalTrackTime = trackTimer;
 				MainClient.gameFont.drawWordc("Your final time is: "+HvlMath.cropDecimals(GeneticsHandler.population.get(0).finalTrackTime, 2), 1500, 100, Color.black, 2.5f);
@@ -192,6 +202,7 @@ public class Game {
 
 		}
 		MainClient.gameFont.drawWord((int)minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
+		//MARKED
 		MainClient.gameFont.drawWord("Players Alive :  "+numAlive, Display.getWidth()/2, Display.getHeight() - 150, Color.black, 1f);
 		MainClient.gameFont.drawWord("Generation :  "+GeneticsHandler.currentGeneration, Display.getWidth()/2, Display.getHeight() - 100, Color.black, 1f);
 		drawPlayerTimes();

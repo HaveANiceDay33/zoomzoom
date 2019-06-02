@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
 
+import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
 public class TrackGenerator {
@@ -153,7 +154,8 @@ public class TrackGenerator {
 		}
 	}
 	public void update(float delta) {
-		for(Track fullTrack : Game.trackGen.tracks) {fullTrack.draw(delta, GeneticsHandler.population.get(0));}
+		//MARKED
+		for(Track fullTrack : Game.trackGen.tracks) {fullTrack.draw(delta, new HvlCoord2D(Game.tracker.getX(), Game.tracker.getY()));}
 		for(Border allBorders : Game.trackGen.borders) {allBorders.draw(delta);}
 	}
 }
