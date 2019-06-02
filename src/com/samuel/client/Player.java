@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.input.HvlInput;
+import com.samuel.client.ai.Controller;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
@@ -35,12 +36,12 @@ public class Player implements Cloneable{
 	HvlInput shiftUpInput;
 	HvlInput shiftDownInput;
 	
-	public PlayerInput inputMethod; 
+	public Controller inputMethod; 
 	
 	public float finalTrackTime;
 	public Car selectedCar;
 	
-	public Player(PlayerInput inputMethodArg){
+	public Player(Controller inputMethodArg){
 		xPos = Display.getWidth()/2;
 		yPos = Display.getHeight()/2;
 		selectedCar = MenuManager.selectedCar;

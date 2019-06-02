@@ -1,6 +1,6 @@
-package com.samuel.client;
+package com.samuel.client.ai;
 
-public abstract class PlayerInput {
+public abstract class Controller {
 	public abstract boolean isShiftingUp();
 	public abstract boolean isShiftingDown();
 	public abstract boolean isAccelerating();

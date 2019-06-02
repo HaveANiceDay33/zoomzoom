@@ -2,10 +2,6 @@ package com.samuel.client;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.Display;
-
-import com.osreboot.ridhvl.HvlMath;
-
 public class TrackGenerator {
 	public static int START_X = 1920/2;
 	public static int START_Y = 1080/2;

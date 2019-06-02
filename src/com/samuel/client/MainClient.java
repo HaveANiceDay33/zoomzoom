@@ -1,18 +1,17 @@
 package com.samuel.client;
-import java.util.ArrayList;
-
 import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
+import com.samuel.client.ai.GameManager;
+import com.samuel.client.ai.GameManagerDefault;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
 public class MainClient extends HvlTemplateDClient2D{
 	
-	public static PlayerInput inputType;
-	public static ArrayList<PlayerInput> inputs;
+	public static GameManager gameManager;
 	
 	public MainClient(HvlGameInfo gameInfoArg){
 		super(144, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.016f, gameInfoArg);
@@ -94,6 +93,8 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("tire");//33
 		getTextureLoader().loadResource("drag");//34
 
+		if(gameManager == null) gameManager = new GameManagerDefault();
+		
 		gameFont =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL,.18f,8f,0); //font definition
 		MenuManager.initialize();
 		CarEffectApplicator.initialize();

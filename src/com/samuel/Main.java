@@ -1,7 +1,6 @@
 package com.samuel;
 
 import com.osreboot.hvol.base.HvlGameInfo;
-import com.samuel.client.HumanInput;
 import com.samuel.client.MainClient;
 
 public class Main{

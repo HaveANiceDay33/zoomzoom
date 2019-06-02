@@ -1,27 +1,21 @@
 package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
-import java.awt.Menu;
-import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlDebugUtil;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
-import com.osreboot.ridhvl.action.HvlAction1;
-import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlCheckbox;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 import com.samuel.InfoGame;
 import com.samuel.KC;
+import com.samuel.client.ai.ControllerHuman;
 import com.samuel.client.effects.CarEffect;
 import com.samuel.client.effects.CarEffectApplicator;
 
@@ -119,7 +113,7 @@ public class Game {
 					players.add(p);
 				}
 			} else {
-				MainClient.inputType = new HumanInput();
+				MainClient.inputType = new ControllerHuman();
 				player = new Player(MainClient.inputType);
 				players.add(player);
 			}
@@ -128,7 +122,7 @@ public class Game {
 				player = new Player(MainClient.inputType);
 				players.add(player);
 			} else {
-				MainClient.inputType = new HumanInput();
+				MainClient.inputType = new ControllerHuman();
 				player = new Player(MainClient.inputType);
 				players.add(player);
 			}
@@ -148,8 +142,8 @@ public class Game {
 		
 		
 		
-		tracker.setX(players.get(0).getXPos());
-		tracker.setY(players.get(0).getYPos());
+		tracker.setX(MainClient.gameManager.getCameraLocation().x);
+		tracker.setY(MainClient.gameManager.getCameraLocation().y);
 		tracker.doTransform(new HvlAction0() {
 			@Override
 			public void run() {

@@ -1,8 +1,8 @@
-package com.samuel.client;
+package com.samuel.client.ai;
 
 import org.lwjgl.input.Keyboard;
 
-public class HumanInput extends PlayerInput{
+public class ControllerHuman extends Controller{
 
 	@Override
 	public boolean isShiftingUp() {
