@@ -138,10 +138,6 @@ public class Game {
 		TerrainGenerator.generateTerrain();
 	}
 	public static void update(float delta) {
-		//Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);
-		
-		
-		
 		tracker.setX(MainClient.gameManager.getCameraLocation().x);
 		tracker.setY(MainClient.gameManager.getCameraLocation().y);
 		tracker.doTransform(new HvlAction0() {

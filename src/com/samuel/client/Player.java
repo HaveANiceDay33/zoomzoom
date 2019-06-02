@@ -181,7 +181,7 @@ public class Player implements Cloneable{
 	
 	private Track closestTrack() {
 		Track closestTrack = null;
-		for(Track fullTrack : TrackGenerator.tracks) {
+		for(Track fullTrack : Game.trackGen.tracks) {
 			if(closestTrack == null) {
 				closestTrack = fullTrack;
 			}
@@ -197,7 +197,7 @@ public class Player implements Cloneable{
 	
 	private Border closestBorder() {
 		Border closestBorder = null;
-		for(Border allBorders : TrackGenerator.borders) {
+		for(Border allBorders : Game.trackGen.borders) {
 			if(closestBorder == null) {
 				closestBorder = allBorders;
 			}
@@ -225,7 +225,7 @@ public class Player implements Cloneable{
 			trackComplete = true;
 		}
 		
-		if(TrackGenerator.borders.size() > 0) {
+		if(Game.trackGen.borders.size() > 0) {
 			if(xPos > closestBorder().xPos - closestBorder().xSize*32 && xPos < closestBorder().xPos + closestBorder().xSize*32) {
 				if(yPos > closestBorder().yPos - closestBorder().ySize*32 && yPos < closestBorder().yPos + closestBorder().ySize*32) {
 					hitWall = true;
