@@ -5,6 +5,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotatio
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import java.awt.Menu;
+import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
@@ -45,7 +46,7 @@ public class Game {
 	public static Player player;
 	static TrackGenerator trackGen;
 	
-	ArrayList<Player> players;
+	public static ArrayList<Player> players;
 
 	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, CarEffect carEffect, String userName) {
 		CarEffectApplicator.drawCar(carEffect, xPos, yPos, turnAngle, textureIndex, customColor);
@@ -108,20 +109,28 @@ public class Game {
 	public static final boolean CAMERA_MODE = false;
 
 	public static void initialize() {
+		players = new ArrayList<>();
 		if(MenuManager.singlePlayer) {
 			///add AI implementation here
 			if(MainClient.inputs != null) {
 				
+				for(int i = 0; i < 10000; i++) {
+					Player p = new Player(MainClient.inputs.get(i));
+					players.add(p);
+				}
 			} else {
 				MainClient.inputType = new HumanInput();
 				player = new Player(MainClient.inputType);
+				players.add(player);
 			}
 		} else {
 			if(MainClient.inputType != null) {
 				player = new Player(MainClient.inputType);
+				players.add(player);
 			} else {
 				MainClient.inputType = new HumanInput();
 				player = new Player(MainClient.inputType);
+				players.add(player);
 			}
 		}
 		
@@ -136,39 +145,41 @@ public class Game {
 	}
 	public static void update(float delta) {
 		//Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);
-		player.update(delta);
-		tracker.setX(player.getXPos());
-		tracker.setY(player.getYPos());
+		
+		
+		
+		tracker.setX(players.get(0).getXPos());
+		tracker.setY(players.get(0).getYPos());
 		tracker.doTransform(new HvlAction0() {
 			@Override
 			public void run() {
 				if(CAMERA_MODE) {
-					hvlDrawQuadc(player.getXPos(), player.getYPos(), 40000, 40000, new Color(70, 116, 15));
-
+					hvlDrawQuadc(players.get(0).getXPos(), players.get(0).getYPos(), 40000, 40000, new Color(70, 116, 15));
 				}else {
-					hvlDrawQuadc(player.getXPos(), player.getYPos(), 1920, 1080, new Color(70, 116, 15));
-
+					hvlDrawQuadc(players.get(0).getXPos(), players.get(0).getYPos(), 1920, 1080, new Color(70, 116, 15));
 				}
 				trackGen.update(delta);
-				TerrainGenerator.draw(delta, player);
+				TerrainGenerator.draw(delta, players.get(0));
 				if(!CAMERA_MODE) {
 					drawPlayerCars();
-					player.draw(delta);
+					for(Player p : players) {
+						p.update(delta);
+					}
 				}
 
 			}
 		});
 		
-		player.drawUI(delta);
+		players.get(0).drawUI(delta);
 		
 		if(startTimer >= 0.1) {
 			startTimer = HvlMath.stepTowards(startTimer,  delta, 0);
 			MainClient.gameFont.drawWordc((int)startTimer + "", Display.getWidth()/2, Display.getHeight()/2 - 200, Color.black, 10f);
 		} 
 		else {
-			if(player.trackComplete == true) {
-				player.finalTrackTime = trackTimer;
-				MainClient.gameFont.drawWordc("Your final time is: "+HvlMath.cropDecimals(player.finalTrackTime, 2), 1500, 100, Color.black, 2.5f);
+			if(players.get(0).trackComplete == true) {
+				players.get(0).finalTrackTime = trackTimer;
+				MainClient.gameFont.drawWordc("Your final time is: "+HvlMath.cropDecimals(players.get(0).finalTrackTime, 2), 1500, 100, Color.black, 2.5f);
 				//MainClient.gameFont.drawWordc("Time Until Next Race: "+(int)endTimer, 1500, 200, Color.black, 2f);
 
 				endTimer -= delta;

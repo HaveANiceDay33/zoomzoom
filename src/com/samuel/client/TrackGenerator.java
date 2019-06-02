@@ -106,7 +106,7 @@ public class TrackGenerator {
 		}
 	}
 	public void update(float delta) {
-		for(Track fullTrack : TrackGenerator.tracks) {fullTrack.draw(delta, Game.player);}
+		for(Track fullTrack : TrackGenerator.tracks) {fullTrack.draw(delta, Game.players.get(0));}
 		for(Border allBorders : TrackGenerator.borders) {allBorders.draw(delta);}
 	}
 }

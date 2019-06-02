@@ -30,7 +30,7 @@ public class HumanInput extends PlayerInput{
 	}
 
 	@Override
-	public boolean isBreaking() {
+	public boolean isBraking() {
 		return Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_SPACE);
 	}
 

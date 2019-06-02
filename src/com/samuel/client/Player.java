@@ -13,17 +13,17 @@ import com.osreboot.ridhvl.input.HvlInput;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
-public class Player {
+public class Player implements Cloneable{
 	private float xPos;
 	private float yPos;
 	float xSpeed;
 	float ySpeed;
 	float throttle;
-	float turnAngle;
+	public float turnAngle;
 	public float turnAngleSpeed;
-	int currentGear;
+	public int currentGear;
 	public int speed;
-	int currentRPM;
+	public int currentRPM;
 	int currentRPMGoal;
 	float rpmMod;
 	float speedGoal;
@@ -35,10 +35,11 @@ public class Player {
 	HvlInput shiftUpInput;
 	HvlInput shiftDownInput;
 	
-	PlayerInput inputMethod; 
+	public PlayerInput inputMethod; 
 	
 	public float finalTrackTime;
-	Car selectedCar;
+	public Car selectedCar;
+	
 	public Player(PlayerInput inputMethodArg){
 		xPos = Display.getWidth()/2;
 		yPos = Display.getHeight()/2;
@@ -115,11 +116,12 @@ public class Player {
 	}
 	
 	public void update(float delta) {
+		draw(delta);
 		updateTrackAndBorderCollisions(delta);
 		
 		if(inputMethod != null && inputMethod.isAccelerating()) {
 			rpmMod = (selectedCar.ACCELERATION / currentGear);
-		} else if(inputMethod != null && inputMethod.isBreaking()) {
+		} else if(inputMethod != null && inputMethod.isBraking()) {
 			rpmMod = (-50 / currentGear);
 		} else {
 			rpmMod = (-Game.FRICTION/currentGear);
@@ -298,4 +300,8 @@ public class Player {
 		return yPos;
 	}
 	
+	public Object clone() throws CloneNotSupportedException {
+	    Player cloned = (Player)super.clone();  
+	    return cloned;
+	}
 }

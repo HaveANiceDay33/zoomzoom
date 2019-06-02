@@ -6,5 +6,5 @@ public abstract class PlayerInput {
 	public abstract boolean isAccelerating();
 	public abstract boolean isTurningLeft();
 	public abstract boolean isTurningRight();
-	public abstract boolean isBreaking();
+	public abstract boolean isBraking();
 }
