@@ -11,42 +11,44 @@ public class Track {
 	public float yPos;
 	public int textureSelect;
 	public int finishAngle;
+	public float turnDirection;
 	public static final int TRACK_SIZE = 250;
-	public Track(float xPos, float yPos, int textureSelect) {
+	public Track(float xPos, float yPos, int textureSelect, float turnDirection) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.textureSelect = textureSelect;
+		this.turnDirection = turnDirection;
 	}
 	
 	public void draw(float delta, Player p) {
 		if(this.xPos < p.getXPos() + Display.getWidth()/2 + Track.TRACK_SIZE && this.xPos > p.getXPos() - Display.getWidth()/2 - Track.TRACK_SIZE
 				&& this.yPos <  p.getYPos() + Display.getHeight()/2 + Track.TRACK_SIZE&& this.yPos > p.getYPos() - Display.getHeight()/2- Track.TRACK_SIZE) {
 
-			if(textureSelect == 0) {
+			if(textureSelect == 0 || textureSelect == 112 || textureSelect == 148) {
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 			}
-			if(textureSelect == 2) {
+			if(textureSelect == 2 || textureSelect == 172 || textureSelect == 160) {
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 			}
-			if(textureSelect == 1) {
+			if(textureSelect == 1 || textureSelect == 124 || textureSelect == 184) {
 				hvlRotate(this.xPos, this.yPos,90);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 3) {
+			if(textureSelect == 3 || textureSelect == 76 || textureSelect == 200) {
 				hvlRotate(this.xPos, this.yPos,90);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.STR_ROAD_INDEX));
 				hvlResetRotation();
 			}
 			
 			if(textureSelect == 4) {
-				if(TrackGenerator.tracks.get(TrackGenerator.tracks.size() - 2).textureSelect == 0) {
+				if(Game.trackGen.tracks.get(Game.trackGen.tracks.size() - 2).textureSelect == 0) {
 					finishAngle = 0;
-				} else if (TrackGenerator.tracks.get(TrackGenerator.tracks.size() - 2).textureSelect == 1) {
+				} else if (Game.trackGen.tracks.get(Game.trackGen.tracks.size() - 2).textureSelect == 1) {
 					finishAngle = 90;
-				} else if (TrackGenerator.tracks.get(TrackGenerator.tracks.size() - 2).textureSelect == 2) {
+				} else if (Game.trackGen.tracks.get(Game.trackGen.tracks.size() - 2).textureSelect == 2) {
 					finishAngle = 180;
-				} else if (TrackGenerator.tracks.get(TrackGenerator.tracks.size() - 2).textureSelect == 3) {
+				} else if (Game.trackGen.tracks.get(Game.trackGen.tracks.size() - 2).textureSelect == 3) {
 					finishAngle = 270;
 				}
 				hvlRotate(this.xPos, this.yPos, finishAngle);
@@ -59,37 +61,37 @@ public class Track {
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 99) {
+			if(textureSelect == 88) {
 				hvlRotate(this.xPos, this.yPos,270);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 98) {
+			if(textureSelect == 76) {
 				hvlRotate(this.xPos, this.yPos,0);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 97) {
+			if(textureSelect == 64) {
 				hvlRotate(this.xPos, this.yPos,180);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 96) {
+			if(textureSelect == 52) {
 				hvlRotate(this.xPos, this.yPos,0);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 95) {
+			if(textureSelect == 40) {
 				hvlRotate(this.xPos, this.yPos,270);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 94) {
+			if(textureSelect == 28) {
 				hvlRotate(this.xPos, this.yPos,180);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();
 			}
-			if(textureSelect == 93) {
+			if(textureSelect == 16) {
 				hvlRotate(this.xPos, this.yPos,90);
 				hvlDrawQuadc(this.xPos, this.yPos, TRACK_SIZE, TRACK_SIZE, MainClient.getTexture(MainClient.TURN_ROAD_INDEX));
 				hvlResetRotation();

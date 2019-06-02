@@ -48,13 +48,14 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int THORNS_INDEX = 32;
 	public final static int TIRE_INDEX = 33;
 	public final static int DRAG_INDEX = 34;
+	public final static int NODE_INDEX = 35;
 
 	@Override
 	public void initialize(){		
 		getTextureLoader().loadResource("needle"); //0
 		getTextureLoader().loadResource("tach"); //1
 		getTextureLoader().loadResource("osfont");//2
-		getTextureLoader().loadResource("circle");//3
+		getTextureLoader().loadResource("redCircle");//3
 
 		getTextureLoader().loadResource("wrx");//4
 		getTextureLoader().loadResource("ALPHAwrx");//5
@@ -88,7 +89,8 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("Thorns");//32
 		getTextureLoader().loadResource("tire");//33
 		getTextureLoader().loadResource("drag");//34
-
+		
+		getTextureLoader().loadResource("circle");//34
 		gameFont =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL,.18f,8f,0); //font definition
 		MenuManager.initialize();
 		CarEffectApplicator.initialize();

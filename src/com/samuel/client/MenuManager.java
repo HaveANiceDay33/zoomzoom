@@ -398,13 +398,12 @@ public class MenuManager {
 		
 		} else if(HvlMenu.getCurrent() == menuMap) {
 			int trackNum = 0;
-			if(!singlePlayer) {
-				trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
-			}else {
-				trackNum = HvlMath.randomIntBetween(0, 6);
-			}
+//			if(!singlePlayer) {
+//				trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
+//			}else {
+//				trackNum = HvlMath.randomIntBetween(0, 6);
+//			}
 			
-			//int trackNum = 0;
 			switch(trackNum) {
 				case 0:
 					selectedTrack = new TestTrack();

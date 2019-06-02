@@ -5,15 +5,19 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotatio
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.input.HvlInput;
+import com.samuel.Main;
+import com.samuel.Network;
+import com.samuel.NetworkMain;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
-public class Player {
+public class Player implements Cloneable{
 	private float xPos;
 	private float yPos;
 	float xSpeed;
@@ -30,16 +34,22 @@ public class Player {
 	public boolean onTrack;
 	public boolean hitWall;
 	public boolean trackComplete;
+	public boolean dead;
 	float accurateAngleRPM;
 	float accurateAngleSpeed;
+	float sittingTimer;
 	HvlInput shiftUpInput;
 	HvlInput shiftDownInput;
 	
 	public float finalTrackTime;
 	Car selectedCar;
-	public Player(float xArg, float yArg){
-		xPos = xArg;
-		yPos = yArg;
+	
+	public Network decisionNet;
+	public float fitness;
+	
+	public Player(){
+		xPos = Display.getWidth()/2;
+		yPos = Display.getHeight()/2;
 		selectedCar = MenuManager.selectedCar;
 		currentGear = 1;
 		currentRPM = selectedCar.MIN_RPM;
@@ -47,12 +57,17 @@ public class Player {
 		speedGoal = 0;
 		currentRPMGoal = 0;
 		speed = 0;
+		turnAngle = 0;
 		trackComplete = false;
+		dead = false;
+		sittingTimer = 6;
+		
+		decisionNet = new Network(8,10,8,6);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
 			public float getCurrentOutput() {
-				if(Keyboard.isKeyDown(Keyboard.KEY_P)&& Game.startTimer <= 0.1) {
+				if(isShiftingUp() && Game.startTimer <= 0.1) {
 					return 1;
 				}
 				else {
@@ -63,7 +78,7 @@ public class Player {
 		shiftDownInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
 			public float getCurrentOutput() {
-				if(Keyboard.isKeyDown(Keyboard.KEY_L)) {
+				if(isShiftingDown()) {
 					return 1;
 				}
 				else {
@@ -107,73 +122,95 @@ public class Player {
 	public void drawUI(float delta) {
 		drawTach(190, 870);
 		drawSpeed(1730, 870);
+		decisionNet.draw(delta, MainClient.gameFont, MainClient.getTexture(MainClient.NODE_INDEX), 0.4f);
 	}
 	
 	public void update(float delta) {
-		updateTrackAndBorderCollisions(delta);
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			rpmMod = (selectedCar.ACCELERATION / currentGear);
-		} else if(Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			rpmMod = (-50 / currentGear);
-		} else {
-			rpmMod = (-Game.FRICTION/currentGear);
-		}
-		
-		if(Game.startTimer <= 0.1) {
-			speedGoal = HvlMath.stepTowards(speedGoal, 0.5f * 142 * delta, 
-					(((float)currentRPMGoal / (float)selectedCar.MAX_RPM) * (float)selectedCar.maxSpeedsPerGear[currentGear - 1]));
-		}
-		if(speedGoal <= 0) {speedGoal = 0;}
-		if(currentRPMGoal <= selectedCar.MIN_RPM) {currentRPMGoal = selectedCar.MIN_RPM;}
-		if(currentRPMGoal >= selectedCar.MAX_RPM) {currentRPMGoal = selectedCar.MAX_RPM;}
-		if(Game.startTimer >= 0.1 && currentRPMGoal > 3000) {currentRPMGoal = 3000;}
-		if(!onTrack) {
-			if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-				rpmMod = (float)(selectedCar.ACCELERATION / currentGear/3.5);
+		if(!dead) {
+			if((xSpeed == 0 && ySpeed == 0) || turnAngleSpeed > 0) {
+				sittingTimer -= delta;
+			} else {
+				sittingTimer = 3;
 			}
-			if(currentRPMGoal > 1300) {
-				currentRPMGoal -= (20 * 142 *delta);
-			}		
-		}
-		if(hitWall) {
-			if(xSpeed > 0) {xPos -= 32;}
-			if(xSpeed < 0) {xPos += 32;}
-			if(ySpeed > 0) {yPos += 32;}
-			if(ySpeed < 0) {yPos -= 32;}
-			xSpeed = 0;
-			ySpeed = 0;
-			currentRPMGoal = 0;
-			throttle = 0;
-		}
+			updateTrackAndBorderCollisions(delta);
+			updateNetwork();
+			fitness = GeneticsHandler.calcFitness(this);
+			if(isAccelerating()) {
+				rpmMod = (selectedCar.ACCELERATION / currentGear);
+			} else if(isBraking()) {
+				rpmMod = (-50 / currentGear);
+			} else {
+				rpmMod = (-Game.FRICTION/currentGear);
+			}
+			
+			
+			
+			if(Game.startTimer <= 0.1) {
+				speedGoal = HvlMath.stepTowards(speedGoal, 0.5f * 142 * delta, 
+						(((float)currentRPMGoal / (float)selectedCar.MAX_RPM) * (float)selectedCar.maxSpeedsPerGear[currentGear - 1]));
+			}
+			if(speedGoal <= 0) {speedGoal = 0;}
+			if(currentRPMGoal <= selectedCar.MIN_RPM) {currentRPMGoal = selectedCar.MIN_RPM;}
+			if(currentRPMGoal >= selectedCar.MAX_RPM) {currentRPMGoal = selectedCar.MAX_RPM;}
+			if(Game.startTimer >= 0.1 && currentRPMGoal > 3000) {currentRPMGoal = 3000;}
+			if(!onTrack) {
+				if(isAccelerating()) {
+					rpmMod = (float)(selectedCar.ACCELERATION / currentGear/3.5);
+				}
+				if(currentRPMGoal > 1300) {
+					currentRPMGoal -= (20 * 142 *delta);
+				}		
+			}
+			if(hitWall) {
+				if(xSpeed > 0) {xPos -= 32;}
+				if(xSpeed < 0) {xPos += 32;}
+				if(ySpeed > 0) {yPos += 32;}
+				if(ySpeed < 0) {yPos -= 32;}
+				xSpeed = 0;
+				ySpeed = 0;
+				currentRPMGoal = 0;
+				throttle = 0;
+			}
+			
+			currentRPMGoal += (rpmMod * 142 *delta);
 		
-		currentRPMGoal += (rpmMod * 142 *delta);
-	
-		currentRPM = (int) HvlMath.stepTowards(currentRPM, 35 * 142 * delta, currentRPMGoal); 
-		speed = (int) HvlMath.stepTowards(speed, 1, speedGoal);
+			currentRPM = (int) HvlMath.stepTowards(currentRPM, 35 * 142 * delta, currentRPMGoal); 
+			speed = (int) HvlMath.stepTowards(speed, 1, speedGoal);
 
-		throttle = speed;
-	
-		if(Keyboard.isKeyDown(Keyboard.KEY_A) && throttle > 0) {
-			turnAngleSpeed = -1 * Math.abs(130 - throttle)/142;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_D) && throttle > 0) {
-			turnAngleSpeed = Math.abs(130 - throttle)/142;
-		}
+			throttle = speed;
 		
-		turnAngle += turnAngleSpeed * 150 * delta;
-		turnAngleSpeed = HvlMath.stepTowards(turnAngleSpeed, (float)(selectedCar.TIRE_GRIP/throttle) * 142 * delta, 0);
+			if(isTurningLeft() && throttle > 0) {
+				turnAngleSpeed = -1 * Math.abs(130 - throttle)/142;
+			}
+			if(isTurningRight() && throttle > 0) {
+				turnAngleSpeed = Math.abs(130 - throttle)/142;
+			}
+			
+			turnAngle += turnAngleSpeed * 150 * delta;
+			turnAngleSpeed = HvlMath.stepTowards(turnAngleSpeed, (float)(selectedCar.TIRE_GRIP/throttle) * 142 * delta, 0);
 
-		ySpeed = (float) ((throttle / 12) * Math.cos(Math.toRadians(turnAngle)));
-		xSpeed = (float) ((throttle / 12) * Math.sin(Math.toRadians(turnAngle)));
+			ySpeed = (float) ((throttle / 12) * Math.cos(Math.toRadians(turnAngle)));
+			xSpeed = (float) ((throttle / 12) * Math.sin(Math.toRadians(turnAngle)));
 
-		yPos -= ySpeed * delta * 142; 
-		xPos += xSpeed * delta * 142;
+			yPos -= ySpeed * delta * 142; 
+			xPos += xSpeed * delta * 142;
+		}
 	}
 	
-	private Track closestTrack() {
+	public boolean isDead() {
+		if(sittingTimer <= 0 || !onTrack  || trackComplete) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void die() {
+		dead = true;
+	}
+	
+	public Track closestTrack() {
 		Track closestTrack = null;
-		for(Track fullTrack : TrackGenerator.tracks) {
+		for(Track fullTrack : Game.trackGen.tracks) {
 			if(closestTrack == null) {
 				closestTrack = fullTrack;
 			}
@@ -189,7 +226,7 @@ public class Player {
 	
 	private Border closestBorder() {
 		Border closestBorder = null;
-		for(Border allBorders : TrackGenerator.borders) {
+		for(Border allBorders : Game.trackGen.borders) {
 			if(closestBorder == null) {
 				closestBorder = allBorders;
 			}
@@ -217,7 +254,7 @@ public class Player {
 			trackComplete = true;
 		}
 		
-		if(TrackGenerator.borders.size() > 0) {
+		if(Game.trackGen.borders.size() > 0) {
 			if(xPos > closestBorder().xPos - closestBorder().xSize*32 && xPos < closestBorder().xPos + closestBorder().xSize*32) {
 				if(yPos > closestBorder().yPos - closestBorder().ySize*32 && yPos < closestBorder().yPos + closestBorder().ySize*32) {
 					hitWall = true;
@@ -229,6 +266,103 @@ public class Player {
 				hitWall = false;
 			}
 		}
+	}
+	
+	/**
+	 * CUSTOM AI STUFF
+	 * 
+	 * INPUTS:
+	 *  
+	 * Track type
+	 * gear
+	 * RPM
+	 * speed
+	 * turn angle
+	 * onTrack
+	 * 
+	 * OUTPUTS:
+	 * 
+	 * Gear up
+	 * gear down
+	 * accelerate
+	 * turn right
+	 * turn left
+	 * brake
+	 */
+	
+	private void updateNetwork() {
+		
+		int finishIndex = Game.trackGen.tracks.size()-1;
+		int playerTrack = Game.trackGen.tracks.indexOf(closestTrack());
+		
+		
+		float trackNum = 0;
+		if(finishIndex - playerTrack != 0) {
+			if(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).xPos > closestTrack().xPos) {
+				trackNum = 1;
+			} else if (Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).xPos == closestTrack().xPos) {
+				trackNum = 0.5f;
+			} else {
+				trackNum = 1f;
+			}
+		}
+		
+		decisionNet.layers.get(0).nodes.get(0).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
+		decisionNet.layers.get(0).nodes.get(1).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
+		decisionNet.layers.get(0).nodes.get(2).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
+		decisionNet.layers.get(0).nodes.get(3).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
+		decisionNet.layers.get(0).nodes.get(4).value = HvlMath.map(closestTrack().textureSelect, 0, 200, 0, 1);
+		
+		if(finishIndex - playerTrack != 0) {
+			decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).textureSelect, 0, 200, 0, 1);
+			decisionNet.layers.get(0).nodes.get(6).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 5;
+		}
+		
+		decisionNet.layers.get(0).nodes.get(7).value = closestTrack().turnDirection * 5;
+		//decisionNet.layers.get(0).nodes.get(5).value = onTrack ? 1 : 0;
+		
+		NetworkMain.propogateAsNetwork(decisionNet);
+	}
+	
+	public boolean isShiftingUp() {
+		if(decisionNet.lastLayer().nodes.get(0).value > 0.75) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isShiftingDown() {
+		if(decisionNet.lastLayer().nodes.get(1).value > 0.75) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isAccelerating() {
+		if(decisionNet.lastLayer().nodes.get(2).value > 0.75) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isTurningLeft() {
+		if(decisionNet.lastLayer().nodes.get(3).value > 0.75) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isTurningRight() {;
+		if(decisionNet.lastLayer().nodes.get(4).value > 0.75) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isBraking() {
+		if(decisionNet.lastLayer().nodes.get(5).value > 0.75) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void drawTach(int x, int y) {
@@ -291,6 +425,23 @@ public class Player {
 	
 	public float getYPos() {
 		return yPos;
+	}
+	
+	public void setXPos(float x) {
+		xPos = x;
+	}
+	
+	public void setYPos(float y) {
+		yPos = y;
+	}
+	
+	public float getFitness() {
+		return fitness;
+	}
+	
+	protected Object clone() throws CloneNotSupportedException {
+	    Player cloned = (Player)super.clone();  
+	    return cloned;
 	}
 	
 }

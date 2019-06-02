@@ -14,15 +14,23 @@ public class TrackGenerator {
 	int finishOr;
 	Level selectedLevel;
 	
-	public static ArrayList<Track> tracks;
-	public static ArrayList<Border> borders;
+	public ArrayList<Track> tracks;
+	public ArrayList<Border> borders;
 	public TrackGenerator() {
 		selectedLevel = MenuManager.selectedTrack;
 		tracks = new ArrayList<Track>();
 		borders = new ArrayList<Border>();
 	}
 	public void generateTrack() {
-		Track startTrack = new Track(START_X, START_Y, selectedLevel.tiles[0]);
+		float startTurn = 0.5f;
+		if(selectedLevel.tiles[0] == 0 || selectedLevel.tiles[0] == 2) {
+			startTurn = 0f;
+		} else if(selectedLevel.tiles[0] == 1) {
+			startTurn = 1f;
+		} else if(selectedLevel.tiles[0] == 3) {
+			startTurn = -1f;
+		}
+		Track startTrack = new Track(START_X, START_Y, selectedLevel.tiles[0], startTurn);
 		tracks.add(startTrack);
 		for(int i = 4; i <= selectedLevel.numBorders * 4; i+=4) {
 			Border border = new Border(selectedLevel.borderArgs[i-4], selectedLevel.borderArgs[i-3],selectedLevel.borderArgs[i-2],selectedLevel.borderArgs[i-1]);
@@ -41,72 +49,111 @@ public class TrackGenerator {
 			}
 			
 			if(orientation == 0) { //UP
-				Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos - Track.TRACK_SIZE, orientation);
+				Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos - Track.TRACK_SIZE, orientation, 0f);
 				tracks.add(track);
 			} else if(orientation == 1) { //RIGHT
-				Track track = new Track(tracks.get(i-1).xPos+ Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation);
+				Track track = new Track(tracks.get(i-1).xPos+ Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation, 0f);
 				tracks.add(track);
 			} else if(orientation == 2) { //DOWN
-				Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos+ Track.TRACK_SIZE, orientation);
+				Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos+ Track.TRACK_SIZE, orientation, 0f);
 				tracks.add(track);
 			} else if(orientation == 3) { //LEFT
-				Track track = new Track(tracks.get(i-1).xPos- Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation);
+				Track track = new Track(tracks.get(i-1).xPos- Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation, 0f);
 				tracks.add(track);
 			} else if(orientation == 4) { //FINISH
 				if(tracks.get(i-1).textureSelect == 0){
-					Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos - Track.TRACK_SIZE, orientation);
+					Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos - Track.TRACK_SIZE, orientation, 0f);
 					tracks.add(track);
 				}else if(tracks.get(i-1).textureSelect == 1) {
-					Track track = new Track(tracks.get(i-1).xPos+ Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation);
+					Track track = new Track(tracks.get(i-1).xPos+ Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation, 0f);
 					tracks.add(track);
 				}else if(tracks.get(i-1).textureSelect == 2) {
-					Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos+ Track.TRACK_SIZE, orientation);
+					Track track = new Track(tracks.get(i-1).xPos, tracks.get(i-1).yPos+ Track.TRACK_SIZE, orientation, 0f);
 					tracks.add(track);
 				}else if(tracks.get(i-1).textureSelect == 3) {
-					Track track = new Track(tracks.get(i-1).xPos- Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation);
+					Track track = new Track(tracks.get(i-1).xPos- Track.TRACK_SIZE,tracks.get(i-1).yPos, orientation, 0f);
 					tracks.add(track);
 				}
 
 			}
 			if(tracks.get(i-1).textureSelect == 1 && tracks.get(i).textureSelect == 0) {
 				tracks.get(i-1).textureSelect = 100;
+				tracks.get(i-1).turnDirection = -1;
 				//System.out.println("right to up");
 			}
 			if(tracks.get(i-1).textureSelect == 0 && tracks.get(i).textureSelect == 1) {
-				tracks.get(i-1).textureSelect = 99;
+				tracks.get(i-1).textureSelect = 88;
+				tracks.get(i-1).turnDirection = 1;
 				//System.out.println("up to right");
 			}
 			if(tracks.get(i-1).textureSelect == 0 && tracks.get(i).textureSelect == 3) {
-				tracks.get(i-1).textureSelect = 98;
+				tracks.get(i-1).textureSelect = 76;
+				tracks.get(i-1).turnDirection = -1;
 				//System.out.println("up to left");
 			}
 			if(tracks.get(i-1).textureSelect == 3 && tracks.get(i).textureSelect == 0) {
-				tracks.get(i-1).textureSelect = 97;
+				tracks.get(i-1).textureSelect = 64;
+				tracks.get(i-1).turnDirection = 1;
 				//System.out.println("left to up");
 			}
 			
 			if(tracks.get(i-1).textureSelect == 1 && tracks.get(i).textureSelect == 2) {
-				tracks.get(i-1).textureSelect = 96;//98
+				tracks.get(i-1).textureSelect = 52;//98
+				tracks.get(i-1).turnDirection = 1;
 				//System.out.println("right to down");
 			}
 			if(tracks.get(i-1).textureSelect == 3 && tracks.get(i).textureSelect == 2) {
-				tracks.get(i-1).textureSelect = 95;//99
+				tracks.get(i-1).textureSelect = 40;//99
+				tracks.get(i-1).turnDirection = -1;
 				//System.out.println("left to down");
 			}
 			if(tracks.get(i-1).textureSelect == 2 && tracks.get(i).textureSelect == 1) {
-				tracks.get(i-1).textureSelect = 94;//97
+				tracks.get(i-1).textureSelect = 28;//97
+				tracks.get(i-1).turnDirection = -1;
 				//System.out.println("down to right");
 			}
 			if(tracks.get(i-1).textureSelect == 2 && tracks.get(i).textureSelect == 3) {
-				tracks.get(i-1).textureSelect = 93; //100
+				tracks.get(i-1).textureSelect = 16; //100
+				tracks.get(i-1).turnDirection = 1;
 				//System.out.println("down to left");
 			}
+			////////////////////////////////////////////////////////////////////////////////
+			if(tracks.get(i-1).textureSelect == 100 && tracks.get(i).textureSelect == 0) {
+				tracks.get(i).textureSelect = 112;
+			}
 			
+			if(tracks.get(i-1).textureSelect == 88 && tracks.get(i).textureSelect == 1) {
+				tracks.get(i).textureSelect = 124;
+			}
+			
+			if(tracks.get(i-1).textureSelect == 76 && tracks.get(i).textureSelect == 3) {
+				tracks.get(i).textureSelect = 136;
+			}
+			
+			if(tracks.get(i-1).textureSelect == 64 && tracks.get(i).textureSelect == 0) {
+				tracks.get(i).textureSelect = 148;
+			}
+			
+			if(tracks.get(i-1).textureSelect == 52 && tracks.get(i).textureSelect == 2) {
+				tracks.get(i).textureSelect = 160;
+			}
+			
+			if(tracks.get(i-1).textureSelect == 40 && tracks.get(i).textureSelect == 2) {
+				tracks.get(i).textureSelect = 172;
+			}
+			
+			if(tracks.get(i-1).textureSelect == 28 && tracks.get(i).textureSelect == 1) {
+				tracks.get(i).textureSelect = 184;
+			}
+			
+			if(tracks.get(i-1).textureSelect == 16 && tracks.get(i).textureSelect == 3) {
+				tracks.get(i).textureSelect = 200;
+			}
 			
 		}
 	}
 	public void update(float delta) {
-		for(Track fullTrack : TrackGenerator.tracks) {fullTrack.draw(delta, Game.player);}
-		for(Border allBorders : TrackGenerator.borders) {allBorders.draw(delta);}
+		for(Track fullTrack : Game.trackGen.tracks) {fullTrack.draw(delta, GeneticsHandler.population.get(0));}
+		for(Border allBorders : Game.trackGen.borders) {allBorders.draw(delta);}
 	}
 }
