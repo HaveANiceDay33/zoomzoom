@@ -30,6 +30,8 @@ public class GeneticsHandler {
 		int playerTrack = Game.trackGen.tracks.indexOf(p.closestTrack());
 		if(p.trackComplete) {
 			return (p.finalTrackTime) / 1000;
+		} else if(!p.trackComplete && finishIndex - playerTrack == 0){
+			return 0.5f + Math.abs(HvlMath.map(HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()), 0, 2.5f*Track.TRACK_SIZE, 0f, 0.49f));
 		} else {
 			return finishIndex - playerTrack;
 		}
@@ -122,7 +124,7 @@ public class GeneticsHandler {
 					}
 				}
 				double biasRand = Math.random();
-				if(biasRand < 0.05) {
+				if(biasRand < 0.01) {
 					p.decisionNet.layers.get(l).nodes.get(n).bias = (float) Math.random();
 				}
 			}

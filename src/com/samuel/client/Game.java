@@ -140,8 +140,11 @@ public class Game {
 			Player par1 = GeneticsHandler.population.get(0);
 			Player par2 = GeneticsHandler.population.get(1);
 			GeneticsHandler.population.clear();
+			trackGen.borders.clear();
+			trackGen.tracks.clear();
 			GeneticsHandler.duplicateParents(par1, par2);
 			numAlive = GeneticsHandler.population.size();
+			trackGen.generateTrack();
 		}
 		//MARKED
 		Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
@@ -184,7 +187,6 @@ public class Game {
 		else {
 			//MARKED
 			if(GeneticsHandler.population.get(0).trackComplete == true) {
-				GeneticsHandler.population.get(0).finalTrackTime = trackTimer;
 				MainClient.gameFont.drawWordc("Your final time is: "+HvlMath.cropDecimals(GeneticsHandler.population.get(0).finalTrackTime, 2), 1500, 100, Color.black, 2.5f);
 				//MainClient.gameFont.drawWordc("Time Until Next Race: "+(int)endTimer, 1500, 200, Color.black, 2f);
 
@@ -193,12 +195,10 @@ public class Game {
 					//MenuManager.menuCar.getFirstArrangerBox().getFirstOfType(HvlCheckbox.class).setChecked(false);
 					//HvlMenu.setCurrent(MenuManager.menuCar);
 				}
-			} else {
-				trackTimer += delta;
-				minutesElap = (int)trackTimer/60;
-				secsElap = trackTimer % 60;
 			}
-
+			trackTimer += delta;
+			minutesElap = (int)trackTimer/60;
+			secsElap = trackTimer % 60;
 		}
 		MainClient.gameFont.drawWord((int)minutesElap+":"+ HvlMath.cropDecimals(secsElap, 2), 100, 100, Color.black, 2f);
 		//MARKED

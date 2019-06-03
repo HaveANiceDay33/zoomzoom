@@ -62,7 +62,7 @@ public class Player implements Cloneable{
 		dead = false;
 		sittingTimer = 6;
 		
-		decisionNet = new Network(8,10,8,6);
+		decisionNet = new Network(10,11,9,6);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -127,7 +127,7 @@ public class Player implements Cloneable{
 	
 	public void update(float delta) {
 		if(!dead) {
-			if((xSpeed == 0 && ySpeed == 0) || turnAngleSpeed > 0) {
+			if(xSpeed == 0 && ySpeed == 0) {
 				sittingTimer -= delta;
 			} else {
 				sittingTimer = 3;
@@ -142,8 +142,6 @@ public class Player implements Cloneable{
 			} else {
 				rpmMod = (-Game.FRICTION/currentGear);
 			}
-			
-			
 			
 			if(Game.startTimer <= 0.1) {
 				speedGoal = HvlMath.stepTowards(speedGoal, 0.5f * 142 * delta, 
@@ -198,7 +196,8 @@ public class Player implements Cloneable{
 	}
 	
 	public boolean isDead() {
-		if(sittingTimer <= 0 || !onTrack  || trackComplete) {
+		boolean marginExceeded = HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) > 2.5*Track.TRACK_SIZE;
+		if(sittingTimer <= 0 || marginExceeded || trackComplete || hitWall) {
 			return true;
 		}
 		return false;
@@ -252,6 +251,8 @@ public class Player implements Cloneable{
 				&& yPos <= closestTrack().yPos + (Track.TRACK_SIZE/2)&& yPos >= closestTrack().yPos - (Track.TRACK_SIZE/2) && closestTrack().textureSelect == 4) {
 			onTrack = true;
 			trackComplete = true;
+			finalTrackTime = Game.trackTimer;
+			//System.out.println(finalTrackTime);
 		}
 		
 		if(Game.trackGen.borders.size() > 0) {
@@ -295,7 +296,6 @@ public class Player implements Cloneable{
 		int finishIndex = Game.trackGen.tracks.size()-1;
 		int playerTrack = Game.trackGen.tracks.indexOf(closestTrack());
 		
-		
 		float trackNum = 0;
 		if(finishIndex - playerTrack != 0) {
 			if(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).xPos > closestTrack().xPos) {
@@ -315,11 +315,13 @@ public class Player implements Cloneable{
 		
 		if(finishIndex - playerTrack != 0) {
 			decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).textureSelect, 0, 200, 0, 1);
-			decisionNet.layers.get(0).nodes.get(6).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 2.5f;
+			decisionNet.layers.get(0).nodes.get(6).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 5f;
 		}
 		
 		decisionNet.layers.get(0).nodes.get(7).value = closestTrack().turnDirection * 5;
-		//decisionNet.layers.get(0).nodes.get(5).value = onTrack ? 1 : 0;
+		decisionNet.layers.get(0).nodes.get(8).value = onTrack ? 1 : 0;
+		float distanceToCloseTrack = yPos > closestTrack().yPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) : -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos);
+		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(distanceToCloseTrack, -2.5f*Track.TRACK_SIZE, 2.5f*Track.TRACK_SIZE, -1f, 1f) * 2f;
 		
 		NetworkMain.propogateAsNetwork(decisionNet);
 	}
