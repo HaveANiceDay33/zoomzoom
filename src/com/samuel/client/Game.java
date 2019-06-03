@@ -24,7 +24,7 @@ public class Game {
 
 
 
-	static HvlCamera2D tracker;
+	public static HvlCamera2D tracker;
 	HvlMenu menu;
 	HvlMenu game;
 
@@ -38,7 +38,7 @@ public class Game {
 
 	@Deprecated
 	public static Player player;
-	static TrackGenerator trackGen;
+	public static TrackGenerator trackGen;
 
 	public static void drawOtherPlayers(float xPos, float yPos, float turnAngle, int textureIndex, Color customColor, CarEffect carEffect, String userName) {
 		CarEffectApplicator.drawCar(carEffect, xPos, yPos, turnAngle, textureIndex, customColor);
@@ -101,7 +101,7 @@ public class Game {
 	public static final boolean CAMERA_MODE = false;
 
 	public static void initialize(){
-		MainClient.gameManager.initializePlayers(MenuManager.singlePlayer);
+		MainClient.gameManager.initialize(MenuManager.singlePlayer);
 
 		tracker = new HvlCamera2D(Display.getWidth()/2, Display.getHeight()/2, 0 , CAMERA_MODE ? 0.1f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
 		trackGen = new TrackGenerator();

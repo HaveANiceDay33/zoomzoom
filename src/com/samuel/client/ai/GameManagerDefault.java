@@ -17,7 +17,8 @@ public class GameManagerDefault extends GameManager{
 	}
 
 	@Override
-	public void initializePlayers(boolean singlePlayer){
+	public void initialize(boolean singlePlayer){
+		players.clear();
 		players.add(new Player(new ControllerHuman()));
 	}
 

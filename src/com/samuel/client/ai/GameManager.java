@@ -14,7 +14,7 @@ public abstract class GameManager {
 	}
 	
 	public abstract HvlCoord2D getCameraLocation();
-	public abstract void initializePlayers(boolean singlePlayer);
+	public abstract void initialize(boolean singlePlayer);
 	public abstract void preUpdate(float delta);
 	public void postUpdate(float delta){}
 	public abstract Player getUIPlayer();
