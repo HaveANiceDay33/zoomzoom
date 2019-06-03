@@ -4,19 +4,15 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.FBOUnsupportedException;
 import com.osreboot.ridhvl.painter.HvlShader;
 import com.samuel.client.Game;
 import com.samuel.client.MainClient;
-import com.samuel.client.Player;
 
 public class CarEffectApplicator {
 

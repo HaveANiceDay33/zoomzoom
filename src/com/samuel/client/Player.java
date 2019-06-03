@@ -36,12 +36,12 @@ public class Player implements Cloneable{
 	HvlInput shiftUpInput;
 	HvlInput shiftDownInput;
 	
-	public Controller inputMethod; 
+	public Controller controller; 
 	
 	public float finalTrackTime;
 	public Car selectedCar;
 	
-	public Player(Controller inputMethodArg){
+	public Player(Controller controllerArg){
 		xPos = Display.getWidth()/2;
 		yPos = Display.getHeight()/2;
 		selectedCar = MenuManager.selectedCar;
@@ -54,12 +54,12 @@ public class Player implements Cloneable{
 		trackComplete = false;
 		turnAngle = 0;
 		
-		inputMethod = inputMethodArg;
+		controller = controllerArg;
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
 			public float getCurrentOutput() {
-				if(inputMethod != null && inputMethod.isShiftingUp() && Game.startTimer <= 0.1) {
+				if(controller != null && controller.isShiftingUp() && Game.startTimer <= 0.1) {
 					return 1;
 				}
 				else {
@@ -70,7 +70,7 @@ public class Player implements Cloneable{
 		shiftDownInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
 			public float getCurrentOutput() {
-				if(inputMethod != null && inputMethod.isShiftingDown()) {
+				if(controller != null && controller.isShiftingDown()) {
 					return 1;
 				}
 				else {
@@ -120,9 +120,9 @@ public class Player implements Cloneable{
 		draw(delta);
 		updateTrackAndBorderCollisions(delta);
 		
-		if(inputMethod != null && inputMethod.isAccelerating()) {
+		if(controller != null && controller.isAccelerating()) {
 			rpmMod = (selectedCar.ACCELERATION / currentGear);
-		} else if(inputMethod != null && inputMethod.isBraking()) {
+		} else if(controller != null && controller.isBraking()) {
 			rpmMod = (-50 / currentGear);
 		} else {
 			rpmMod = (-Game.FRICTION/currentGear);
@@ -137,7 +137,7 @@ public class Player implements Cloneable{
 		if(currentRPMGoal >= selectedCar.MAX_RPM) {currentRPMGoal = selectedCar.MAX_RPM;}
 		if(Game.startTimer >= 0.1 && currentRPMGoal > 3000) {currentRPMGoal = 3000;}
 		if(!onTrack) {
-			if(inputMethod != null && inputMethod.isAccelerating()) {
+			if(controller != null && controller.isAccelerating()) {
 				rpmMod = (float)(selectedCar.ACCELERATION / currentGear/3.5);
 			}
 			if(currentRPMGoal > 1300) {
@@ -162,10 +162,10 @@ public class Player implements Cloneable{
 
 		throttle = speed;
 	
-		if(inputMethod != null && inputMethod.isTurningLeft() && throttle > 0) {
+		if(controller != null && controller.isTurningLeft() && throttle > 0) {
 			turnAngleSpeed = -1 * Math.abs(130 - throttle)/142;
 		}
-		if(inputMethod != null && inputMethod.isTurningRight() && throttle > 0) {
+		if(controller != null && controller.isTurningRight() && throttle > 0) {
 			turnAngleSpeed = Math.abs(130 - throttle)/142;
 		}
 		

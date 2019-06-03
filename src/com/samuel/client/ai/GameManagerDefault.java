@@ -21,4 +21,24 @@ public class GameManagerDefault extends GameManager{
 		players.add(new Player(new ControllerHuman()));
 	}
 
+	@Override
+	public void preUpdate(float delta){
+		
+	}
+	
+	@Override
+	public void postUpdate(float delta){
+		
+	}
+
+	@Override
+	public Player getUIPlayer(){
+		return players.get(0);
+	}
+
+	@Override
+	public boolean isOverridingGameFinishState(){
+		return false;
+	}
+
 }

@@ -2,8 +2,6 @@ package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
-import com.samuel.Main;
-
 public class Border {
 	public float xPos, yPos, xSize, ySize;
 	

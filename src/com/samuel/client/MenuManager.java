@@ -289,6 +289,7 @@ public class MenuManager {
 
 		color = new Color(Color.white);
 	}
+	
 	public static void update(float delta) {
 		HvlMenu.updateMenus(delta);
 		if(MainClient.getNewestInstance().isAuthenticated() && HvlMenu.getCurrent() == ip){
