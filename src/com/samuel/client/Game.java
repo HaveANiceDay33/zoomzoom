@@ -1,6 +1,14 @@
 package com.samuel.client;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -127,6 +135,30 @@ public class Game {
 			if(p.isDead() && !p.dead) {
 				p.die();
 				numAlive--;
+			}
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+			try {
+				File bestPlayerData = new File("bestPlayer.txt");
+				File file;
+				if(!bestPlayerData.exists()) {
+					file = new File("bestPlayer.txt");
+					file.createNewFile();
+				}
+				FileOutputStream f = new FileOutputStream(new File("bestPlayer.txt"));
+				ObjectOutputStream o = new ObjectOutputStream(f);
+
+				// Write objects to file
+				o.writeObject(GeneticsHandler.population.get(0));
+				
+				o.close();
+				f.close();
+
+			} catch (FileNotFoundException e) {
+				System.out.println("File not found");
+			} catch (IOException e) {
+				System.out.println("Error initializing stream");
 			}
 		}
 		//MARKED

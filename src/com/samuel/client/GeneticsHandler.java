@@ -1,30 +1,71 @@
 package com.samuel.client;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
 
 public class GeneticsHandler {
 	public static final int MAX_POP = 10000;
-	
+
 	public static int currentGeneration = 1;
 	public static ArrayList<Player> population;
-	
+
 	public static void init() {
 		population = new ArrayList<>();
-		for(int i = 0; i < MAX_POP; i++) {
-			populate(new Player());
+		File bestPlayerData = new File("bestPlayer.txt");
+		if(bestPlayerData.exists()) {
+			try {
+				
+				FileInputStream fi = new FileInputStream(new File("bestPlayer.txt"));
+				ObjectInputStream oi = new ObjectInputStream(fi);
+				System.out.println("READ");
+				// Read objects
+				Player p = (Player) oi.readObject();
+				p.selectedCar = MenuManager.selectedCar;
+				
+				p.currentGear = 1;
+				p.currentRPM = p.selectedCar.MIN_RPM;
+				p.currentRPMGoal = p.selectedCar.MIN_RPM;
+				p.speedGoal = 0;
+				p.currentRPMGoal = 0;
+				p.speed = 0;
+				p.turnAngle = 0;
+				p.trackComplete = false;
+				p.dead = false;
+				p.sittingTimer = 6;
+				population.add(p);
+				population.add(p);
+				oi.close();
+				fi.close();
+			} catch (FileNotFoundException e) {
+				System.out.println("File not found");
+			} catch (IOException e) {
+				System.out.println("Error initializing stream");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			for(int i = 2; i < MAX_POP; i++) {
+				populate(new Player());
+			}
+		} else {
+			for(int i = 0; i < MAX_POP; i++) {
+				populate(new Player());
+			}
 		}
 	} 
-	
+
 	public static void populate(Player p) {
 		population.add(p);
 	}
-	
+
 	public static float calcFitness(Player p) {
 		int finishIndex = Game.trackGen.tracks.size()-1;
 		int playerTrack = Game.trackGen.tracks.indexOf(p.closestTrack());
@@ -35,9 +76,9 @@ public class GeneticsHandler {
 		} else {
 			return finishIndex - playerTrack;
 		}
-		
+
 	}
-	
+
 	public static void duplicateParents(Player par1, Player par2) {
 
 		Player parent1 = par1;
@@ -73,7 +114,7 @@ public class GeneticsHandler {
 			p2.sittingTimer = 6;
 			populate(p2);
 		} catch (CloneNotSupportedException e) {}
-		
+
 		try {
 			for(int i = 0; i < (MAX_POP-2); i++) {
 				Player child1 = (Player) parent1.clone();
@@ -81,18 +122,18 @@ public class GeneticsHandler {
 				mutatePlayer(crossOverGenes(child1, child2));
 			}
 		} catch (CloneNotSupportedException e) {} 
-		
+
 		Game.trackTimer = 0;
 		currentGeneration++;
 		Game.generationTimer = 60;
 	}
-	
+
 	public static Player crossOverGenes(Player c1, Player c2) {
-		
+
 		Player child = new Player();
-		
+
 		float geneticBias = (c2.getFitness() - c1.getFitness())/c2.getFitness();
-	
+
 		for(int l = 0; l < child.decisionNet.layers.size(); l++) {
 			for(int n = 0; n < child.decisionNet.layers.get(l).numNodes; n++) {
 				for(int i = 0; i < child.decisionNet.layers.get(l).nodes.get(n).connectionWeights.size(); i++) {
@@ -131,11 +172,11 @@ public class GeneticsHandler {
 		}
 		populate(p);
 	}
-	
+
 	public static Comparator<Player> compareByScore = new Comparator<Player>() {
-	    @Override
-	    public int compare(Player p1, Player p2) {
-	        return Float.compare(p1.getFitness(), p2.getFitness());
-	    }
+		@Override
+		public int compare(Player p1, Player p2) {
+			return Float.compare(p1.getFitness(), p2.getFitness());
+		}
 	};
 }
