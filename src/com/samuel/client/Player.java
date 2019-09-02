@@ -19,11 +19,8 @@ import com.samuel.NetworkMain;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
-public class Player implements Cloneable, Serializable{
-	/**
-	 * Serial version ID
-	 */
-	private static final long serialVersionUID = 1016957616090976949L;
+public class Player implements Cloneable{
+	
 	private float xPos;
 	private float yPos;
 	float xSpeed;
@@ -68,7 +65,7 @@ public class Player implements Cloneable, Serializable{
 		dead = false;
 		sittingTimer = 6;
 		
-		decisionNet = new Network(12,14,10,6);
+		decisionNet = new Network(11,8,6);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -102,6 +99,7 @@ public class Player implements Cloneable, Serializable{
 				}
 			}
 		});
+		
 		shiftDownInput.setPressedAction(new HvlAction1<HvlInput>() {
 			@Override
 			public void run(HvlInput a) {
@@ -141,6 +139,11 @@ public class Player implements Cloneable, Serializable{
 			updateTrackAndBorderCollisions(delta);
 			updateNetwork();
 			fitness = GeneticsHandler.calcFitness(this);
+			/*
+			if(fitness < GeneticsHandler.hero.fitness) {
+				GeneticsHandler.setHero(this);
+			}
+			*/
 			if(isAccelerating()) {
 				rpmMod = (selectedCar.ACCELERATION / currentGear);
 			} else if(isBraking()) {
@@ -202,7 +205,7 @@ public class Player implements Cloneable, Serializable{
 	}
 	
 	public boolean isDead() {
-		boolean marginExceeded = HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) > 1.0*Track.TRACK_SIZE;
+		boolean marginExceeded = HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) > Track.TRACK_SIZE;
 		if(sittingTimer <= 0 || marginExceeded || trackComplete || hitWall) {
 			return true;
 		}
@@ -302,38 +305,30 @@ public class Player implements Cloneable, Serializable{
 		int finishIndex = Game.trackGen.tracks.size()-1;
 		int playerTrack = Game.trackGen.tracks.indexOf(closestTrack());
 		
-		float trackNum = 0;
-		if(finishIndex - playerTrack != 0) {
-			if(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).xPos > closestTrack().xPos) {
-				trackNum = 1;
-			} else if (Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).xPos == closestTrack().xPos) {
-				trackNum = 0.5f;
-			} else {
-				trackNum = 1f;
-			}
-		}
+		if(playerTrack <= finishIndex - 2) {decisionNet.layers.get(0).nodes.get(1).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+2).turnDirection * 1.5f;}
+		if(playerTrack <= finishIndex - 1) {decisionNet.layers.get(0).nodes.get(0).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 2.0f;}
+		decisionNet.layers.get(0).nodes.get(2).value = closestTrack().turnDirection * 2.5f;
+		if(playerTrack > 0) {decisionNet.layers.get(0).nodes.get(3).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-1).turnDirection * 2.0f;}
+		if(playerTrack > 1) {decisionNet.layers.get(0).nodes.get(4).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-2).turnDirection * 1.5f;}
 		
-		decisionNet.layers.get(0).nodes.get(0).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
-		decisionNet.layers.get(0).nodes.get(1).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
-		decisionNet.layers.get(0).nodes.get(2).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
-		decisionNet.layers.get(0).nodes.get(3).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
-		//decisionNet.layers.get(0).nodes.get(4).value = HvlMath.map(closestTrack().textureSelect, 0, 200, 0, 1);
+		float yDistanceToCloseTrack = yPos > closestTrack().yPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed) : -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed);
+		float xDistanceToCloseTrack = xPos > closestTrack().xPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed): -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed);
+	
+		if(closestTrack().textureSelect == 1 || closestTrack().textureSelect == 124 || closestTrack().textureSelect == 184 ||
+				closestTrack().textureSelect == 3 || closestTrack().textureSelect == 136 || closestTrack().textureSelect == 200) {
+			    decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f) * 1.25f;
+		} else {decisionNet.layers.get(0).nodes.get(5).value = 0;}
 		
-		if(finishIndex - playerTrack != 0) {
-			decisionNet.layers.get(0).nodes.get(4).value = HvlMath.map(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).textureSelect, 0, 200, 0, 1);
-			decisionNet.layers.get(0).nodes.get(5).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 5f;
-		}
+		if(closestTrack().textureSelect == 0 || closestTrack().textureSelect == 112 || closestTrack().textureSelect == 148 ||
+				closestTrack().textureSelect == 2 || closestTrack().textureSelect == 172 || closestTrack().textureSelect == 160) {
+			    decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f) * 1.25f;
+		} else {decisionNet.layers.get(0).nodes.get(7).value = 0;}
 		
-		decisionNet.layers.get(0).nodes.get(6).value = closestTrack().turnDirection * 5;
-		decisionNet.layers.get(0).nodes.get(7).value = onTrack ? 1 : 0;
-		float yDistanceToCloseTrack = yPos > closestTrack().yPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) : -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos);
-		float xDistanceToCloseTrack = xPos > closestTrack().xPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) : -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos);
-		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(yDistanceToCloseTrack, -1.0f*Track.TRACK_SIZE, 1.0f*Track.TRACK_SIZE, -1f, 1f) * 1f;
-		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(finishIndex - playerTrack, 0, MenuManager.selectedTrack.tiles.length, 0f, 1f);
-		if(finishIndex - playerTrack != finishIndex) {
-			decisionNet.layers.get(0).nodes.get(10).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-1).turnDirection * 5f;
-		}
-		decisionNet.layers.get(0).nodes.get(11).value = HvlMath.map(xDistanceToCloseTrack, -1.0f*Track.TRACK_SIZE, 1.0f*Track.TRACK_SIZE, -1f, 1f) * 1f;
+		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
+		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
+		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
+		decisionNet.layers.get(0).nodes.get(10).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
+		
 		NetworkMain.propogateAsNetwork(decisionNet);
 	}
 	
@@ -452,7 +447,11 @@ public class Player implements Cloneable, Serializable{
 		return fitness;
 	}
 	
-	protected Object clone() throws CloneNotSupportedException {
+	public void setNetwork(Network n) {
+		decisionNet = n;
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
 	    Player cloned = (Player)super.clone();  
 	    return cloned;
 	}

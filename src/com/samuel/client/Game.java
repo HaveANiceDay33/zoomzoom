@@ -21,8 +21,10 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
+import com.osreboot.ridhvl2.HvlConfig;
 import com.samuel.InfoGame;
 import com.samuel.KC;
+import com.samuel.Network;
 import com.samuel.client.effects.CarEffect;
 import com.samuel.client.effects.CarEffectApplicator;
 
@@ -118,7 +120,7 @@ public class Game {
 		endTimer = 5;
 		trackTimer = 0;
 		secsElap = 0;
-		generationTimer = 60;
+		generationTimer = 45;
 		numAlive = GeneticsHandler.MAX_POP;
 	
 		
@@ -139,31 +141,12 @@ public class Game {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			try {
-				File bestPlayerData = new File("bestPlayer.txt");
-				File file;
-				if(!bestPlayerData.exists()) {
-					file = new File("bestPlayer.txt");
-					file.createNewFile();
-				}
-				FileOutputStream f = new FileOutputStream(new File("bestPlayer.txt"));
-				ObjectOutputStream o = new ObjectOutputStream(f);
-
-				// Write objects to file
-				o.writeObject(GeneticsHandler.population.get(0));
-				
-				o.close();
-				f.close();
-
-			} catch (FileNotFoundException e) {
-				System.out.println("File not found");
-			} catch (IOException e) {
-				System.out.println("Error initializing stream");
-			}
+			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
+			HvlConfig.PJSON.save(GeneticsHandler.population.get(0).decisionNet, "championNetwork.json");
 		}
 		//MARKED
 		generationTimer -= delta;
-		if(Keyboard.isKeyDown(Keyboard.KEY_K) || generationTimer <= 0) {
+		if(Keyboard.isKeyDown(Keyboard.KEY_K) || generationTimer <= 0 || (GeneticsHandler.population.get(0).trackComplete && GeneticsHandler.population.get(1).trackComplete)) {
 			numAlive = 0;
 		}
 		//MARKED
@@ -171,6 +154,9 @@ public class Game {
 			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
 			Player par1 = GeneticsHandler.population.get(0);
 			Player par2 = GeneticsHandler.population.get(1);
+			for(int p = 2; p < GeneticsHandler.population.size(); p++) {
+				Network.deleteNetwork(GeneticsHandler.population.get(p).decisionNet);
+			}
 			GeneticsHandler.population.clear();
 			trackGen.borders.clear();
 			trackGen.tracks.clear();

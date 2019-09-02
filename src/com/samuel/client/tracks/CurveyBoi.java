@@ -7,9 +7,9 @@ public class CurveyBoi extends Level{
 	private static final String NAME = "CurveyBoi";	
 	public CurveyBoi() {
 		super(GENERATOR, NAME, 1);
-		borderArgs[0] = 1400;
-		borderArgs[1] = -800;
-		borderArgs[2] = 16;
+		borderArgs[0] = 2500;
+		borderArgs[1] = -700;
+		borderArgs[2] = 64;
 		borderArgs[3] = 1;
 	}
 }

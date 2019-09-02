@@ -11,48 +11,30 @@ import java.util.Comparator;
 import org.lwjgl.opengl.Display;
 
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl2.HvlConfig;
+import com.samuel.Network;
 
 public class GeneticsHandler {
 	public static final int MAX_POP = 10000;
 
 	public static int currentGeneration = 1;
 	public static ArrayList<Player> population;
+	
+	//public static Player hero;
 
 	public static void init() {
 		population = new ArrayList<>();
-		File bestPlayerData = new File("bestPlayer.txt");
+		//hero = new Player();
+		//hero.fitness = 100;
+		File bestPlayerData = new File("championNetwork.json");
 		if(bestPlayerData.exists()) {
-			try {
+			Network championNet = HvlConfig.PJSON.load("championNetwork.json");
+			Player p = new Player();
+		
+			p.setNetwork(championNet);
+			populate(p);
 				
-				FileInputStream fi = new FileInputStream(new File("bestPlayer.txt"));
-				ObjectInputStream oi = new ObjectInputStream(fi);
-				System.out.println("READ");
-				// Read objects
-				Player p = (Player) oi.readObject();
-				p.selectedCar = MenuManager.selectedCar;
-				
-				p.currentGear = 1;
-				p.currentRPM = p.selectedCar.MIN_RPM;
-				p.currentRPMGoal = p.selectedCar.MIN_RPM;
-				p.speedGoal = 0;
-				p.currentRPMGoal = 0;
-				p.speed = 0;
-				p.turnAngle = 0;
-				p.trackComplete = false;
-				p.dead = false;
-				p.sittingTimer = 6;
-				population.add(p);
-				population.add(p);
-				oi.close();
-				fi.close();
-			} catch (FileNotFoundException e) {
-				System.out.println("File not found");
-			} catch (IOException e) {
-				System.out.println("Error initializing stream");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			for(int i = 2; i < MAX_POP; i++) {
+			for(int i = 1; i < MAX_POP; i++) {
 				populate(new Player());
 			}
 		} else {
@@ -67,65 +49,43 @@ public class GeneticsHandler {
 	}
 
 	public static float calcFitness(Player p) {
+	
 		int finishIndex = Game.trackGen.tracks.size()-1;
 		int playerTrack = Game.trackGen.tracks.indexOf(p.closestTrack());
 		if(p.trackComplete) {
 			return (p.finalTrackTime) / 1000;
 		} else if(!p.trackComplete && finishIndex - playerTrack == 0){
-			return 0.5f + Math.abs(HvlMath.map(HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()), 0, 2.5f*Track.TRACK_SIZE, 0f, 0.49f));
+			return 0.5f + Math.abs(HvlMath.map(HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()), 0, 1.5f*Track.TRACK_SIZE, 0f, 0.49f));
 		} else {
 			return finishIndex - playerTrack;
 		}
-
 	}
 
 	public static void duplicateParents(Player par1, Player par2) {
 
-		Player parent1 = par1;
-		Player parent2 = par2;
+		Network parent1Network = par1.decisionNet;
+		Network parent2Network = par2.decisionNet;
 		//Keep the originals
 		try {
-			Player p = (Player) parent1.clone();
-			p.setXPos(Display.getWidth()/2);
-			p.setYPos(Display.getHeight()/2);
-			p.currentGear = 1;
-			p.currentRPM = p.selectedCar.MIN_RPM;
-			p.currentRPMGoal = p.selectedCar.MIN_RPM;
-			p.speedGoal = 0;
-			p.currentRPMGoal = 0;
-			p.speed = 0;
-			p.turnAngle = 0;
-			p.trackComplete = false;
-			p.dead = false;
-			p.sittingTimer = 6;
+			Player p = new Player();
+			p.setNetwork((Network)parent1Network.clone());
 			populate(p);
-			Player p2 = (Player) parent2.clone();
-			p2.setXPos(Display.getWidth()/2);
-			p2.setYPos(Display.getHeight()/2);
-			p2.currentGear = 1;
-			p2.currentRPM = p2.selectedCar.MIN_RPM;
-			p2.currentRPMGoal = p2.selectedCar.MIN_RPM;
-			p2.speedGoal = 0;
-			p2.currentRPMGoal = 0;
-			p2.speed = 0;
-			p2.turnAngle = 0;
-			p2.trackComplete = false;
-			p2.dead = false;
-			p2.sittingTimer = 6;
+			Player p2 = new Player();
+			p2.setNetwork((Network)parent2Network.clone());
 			populate(p2);
 		} catch (CloneNotSupportedException e) {}
 
 		try {
 			for(int i = 0; i < (MAX_POP-2); i++) {
-				Player child1 = (Player) parent1.clone();
-				Player child2 = (Player) parent2.clone();
+				Player child1 = (Player) par1.clone();
+				Player child2 = (Player) par2.clone();
 				mutatePlayer(crossOverGenes(child1, child2));
 			}
 		} catch (CloneNotSupportedException e) {} 
 
 		Game.trackTimer = 0;
 		currentGeneration++;
-		Game.generationTimer = 60;
+		Game.generationTimer = 45;
 	}
 
 	public static Player crossOverGenes(Player c1, Player c2) {
@@ -160,12 +120,12 @@ public class GeneticsHandler {
 			for(int n = 0; n < p.decisionNet.layers.get(l).numNodes; n++) {
 				for(int i = 0; i < p.decisionNet.layers.get(l).nodes.get(n).connectionWeights.size(); i++) {
 					double rand = Math.random();
-					if(rand < 0.01) {
+					if(rand < 0.05) {
 						p.decisionNet.layers.get(l).nodes.get(n).connectionWeights.put(i, (float) Math.random());
 					}
 				}
 				double biasRand = Math.random();
-				if(biasRand < 0.01) {
+				if(biasRand < 0.05) {
 					p.decisionNet.layers.get(l).nodes.get(n).bias = (float) Math.random();
 				}
 			}
@@ -179,4 +139,8 @@ public class GeneticsHandler {
 			return Float.compare(p1.getFitness(), p2.getFitness());
 		}
 	};
+	
+//	public static void setHero(Player p) {
+//		hero = p;
+//	}
 }
