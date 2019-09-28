@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/HVOL-B"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HVOL-Direct"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NeuralNet"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Ridhvl2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

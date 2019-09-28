@@ -65,7 +65,7 @@ public class Player implements Cloneable{
 		dead = false;
 		sittingTimer = 6;
 		
-		decisionNet = new Network(11,8,6);
+		decisionNet = new Network(7,6,6);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -322,12 +322,12 @@ public class Player implements Cloneable{
 		if(closestTrack().textureSelect == 0 || closestTrack().textureSelect == 112 || closestTrack().textureSelect == 148 ||
 				closestTrack().textureSelect == 2 || closestTrack().textureSelect == 172 || closestTrack().textureSelect == 160) {
 			    decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f) * 1.25f;
-		} else {decisionNet.layers.get(0).nodes.get(7).value = 0;}
+		} else {decisionNet.layers.get(0).nodes.get(6).value = 0;}
 		
-		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
-		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
-		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
-		decisionNet.layers.get(0).nodes.get(10).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
+//		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
+//		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
+//		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
+//		decisionNet.layers.get(0).nodes.get(10).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
 		
 		NetworkMain.propogateAsNetwork(decisionNet);
 	}
