@@ -189,6 +189,8 @@ public class Game {
 							p.draw(delta);
 						}
 					}
+					//GeneticsHandler.population.get(0).draw(delta);
+
 					
 				}
 
