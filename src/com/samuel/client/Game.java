@@ -153,14 +153,19 @@ public class Game {
 		if(numAlive == 0) {
 			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
 			Player par1 = GeneticsHandler.population.get(0);
+			System.out.println(par1.getFitness());
 			Player par2 = GeneticsHandler.population.get(1);
+			/*
 			for(int p = 2; p < GeneticsHandler.population.size(); p++) {
 				Network.deleteNetwork(GeneticsHandler.population.get(p).decisionNet);
 			}
+			*/
+			GeneticsHandler.oldPop = new ArrayList<Player>(GeneticsHandler.population);
 			GeneticsHandler.population.clear();
 			trackGen.borders.clear();
 			trackGen.tracks.clear();
 			GeneticsHandler.duplicateParents(par1, par2);
+			GeneticsHandler.fillWithRankedChoice();
 			numAlive = GeneticsHandler.population.size();
 			trackGen.generateTrack();
 		}
@@ -189,7 +194,7 @@ public class Game {
 							p.draw(delta);
 						}
 					}
-					//GeneticsHandler.population.get(0).draw(delta);
+					GeneticsHandler.population.get(0).draw(delta);
 
 					
 				}

@@ -14,6 +14,6 @@ public class Main{
 	
 	public static void main(String [] args){
 		new MainClient(new HvlGameInfo(INFO_GAME, INFO_VERSION, INFO_PORT));
-//		new MainServer(new HvlGameInfo(INFO_GAME, INFO_VERSION, INFO_PORT));
+ 	//new MainServer(new HvlGameInfo(INFO_GAME, INFO_VERSION, INFO_PORT));
 	}
 }

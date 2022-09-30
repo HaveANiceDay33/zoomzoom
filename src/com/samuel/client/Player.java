@@ -19,7 +19,7 @@ import com.samuel.NetworkMain;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
-public class Player implements Cloneable{
+public class Player{
 	
 	private float xPos;
 	private float yPos;
@@ -65,7 +65,9 @@ public class Player implements Cloneable{
 		dead = false;
 		sittingTimer = 6;
 		
-		decisionNet = new Network(7,6,6);
+		fitness = 10000;
+		
+		decisionNet = new Network(7, 12,6);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -139,6 +141,7 @@ public class Player implements Cloneable{
 			updateTrackAndBorderCollisions(delta);
 			updateNetwork();
 			fitness = GeneticsHandler.calcFitness(this);
+
 			/*
 			if(fitness < GeneticsHandler.hero.fitness) {
 				GeneticsHandler.setHero(this);
@@ -213,6 +216,7 @@ public class Player implements Cloneable{
 	}
 	
 	public void die() {
+		fitness = GeneticsHandler.calcFitness(this);
 		dead = true;
 	}
 	
@@ -305,23 +309,23 @@ public class Player implements Cloneable{
 		int finishIndex = Game.trackGen.tracks.size()-1;
 		int playerTrack = Game.trackGen.tracks.indexOf(closestTrack());
 		
-		if(playerTrack <= finishIndex - 2) {decisionNet.layers.get(0).nodes.get(1).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+2).turnDirection * 1.5f;}
-		if(playerTrack <= finishIndex - 1) {decisionNet.layers.get(0).nodes.get(0).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 2.0f;}
-		decisionNet.layers.get(0).nodes.get(2).value = closestTrack().turnDirection * 2.5f;
-		if(playerTrack > 0) {decisionNet.layers.get(0).nodes.get(3).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-1).turnDirection * 2.0f;}
-		if(playerTrack > 1) {decisionNet.layers.get(0).nodes.get(4).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-2).turnDirection * 1.5f;}
+		if(playerTrack <= finishIndex - 2) {decisionNet.layers.get(0).nodes.get(0).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+2).turnDirection;} else {decisionNet.layers.get(0).nodes.get(0).value = 0;}
+		if(playerTrack <= finishIndex - 1) {decisionNet.layers.get(0).nodes.get(1).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection;} else {decisionNet.layers.get(0).nodes.get(1).value = 0;} 
+		decisionNet.layers.get(0).nodes.get(2).value = closestTrack().turnDirection;
+		if(playerTrack > 0) {decisionNet.layers.get(0).nodes.get(3).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-1).turnDirection;} else {decisionNet.layers.get(0).nodes.get(3).value = 0;}
+		if(playerTrack > 1) {decisionNet.layers.get(0).nodes.get(4).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-2).turnDirection;} else {decisionNet.layers.get(0).nodes.get(4).value = 0;}
 		
 		float yDistanceToCloseTrack = yPos > closestTrack().yPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed) : -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed);
 		float xDistanceToCloseTrack = xPos > closestTrack().xPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed): -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed);
 	
 		if(closestTrack().textureSelect == 1 || closestTrack().textureSelect == 124 || closestTrack().textureSelect == 184 ||
 				closestTrack().textureSelect == 3 || closestTrack().textureSelect == 136 || closestTrack().textureSelect == 200) {
-			    decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f) * 1.25f;
+			    decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f);
 		} else {decisionNet.layers.get(0).nodes.get(5).value = 0;}
 		
 		if(closestTrack().textureSelect == 0 || closestTrack().textureSelect == 112 || closestTrack().textureSelect == 148 ||
 				closestTrack().textureSelect == 2 || closestTrack().textureSelect == 172 || closestTrack().textureSelect == 160) {
-			    decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f) * 1.25f;
+			    decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f);
 		} else {decisionNet.layers.get(0).nodes.get(6).value = 0;}
 		
 //		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
@@ -333,41 +337,41 @@ public class Player implements Cloneable{
 	}
 	
 	public boolean isShiftingUp() {
-		if(decisionNet.lastLayer().nodes.get(0).value > 0.75) {
+		if(decisionNet.lastLayer().nodes.get(0).value > 0.9) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean isShiftingDown() {
-		if(decisionNet.lastLayer().nodes.get(1).value > 0.75) {
+		if(decisionNet.lastLayer().nodes.get(1).value > 0.9) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isAccelerating() {
-		if(decisionNet.lastLayer().nodes.get(2).value > 0.75) {
+		if(decisionNet.lastLayer().nodes.get(2).value > 0.9) {
 			return true;
 		}
 		return false;
 	}
 	public boolean isTurningLeft() {
-		if(decisionNet.lastLayer().nodes.get(3).value > 0.75) {
+		if(decisionNet.lastLayer().nodes.get(3).value > 0.9) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isTurningRight() {
-		if(decisionNet.lastLayer().nodes.get(4).value > 0.75) {
+		if(decisionNet.lastLayer().nodes.get(4).value > 0.9) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isBraking() {
-		if(decisionNet.lastLayer().nodes.get(5).value > 0.75) {
+		if(decisionNet.lastLayer().nodes.get(5).value > 0.9) {
 			return true;
 		}
 		return false;
@@ -449,11 +453,6 @@ public class Player implements Cloneable{
 	
 	public void setNetwork(Network n) {
 		decisionNet = n;
-	}
-	
-	public Object clone() throws CloneNotSupportedException {
-	    Player cloned = (Player)super.clone();  
-	    return cloned;
 	}
 	
 }
