@@ -56,7 +56,7 @@ public class GeneticsHandler {
 					HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()), 0,
 					1.5f * Track.TRACK_SIZE, 0f, 0.49f));
 		} else {
-			return (float) ((finishIndex - playerTrack) + HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()) / (Math.sqrt(2)*(Track.TRACK_SIZE/2)*1.5f));
+			return (finishIndex - playerTrack) ;
 		}
 	}
 
@@ -69,7 +69,12 @@ public class GeneticsHandler {
 		newPar2.setNetwork(Network.deepCopy(parent2Network));
 		populate(newPar1);
 		populate(newPar2);
-
+		
+		for (int i = 0; i < (MAX_POP - 2); i++) {
+			mutatePlayer(crossOverGenes(newPar1, newPar2));
+		}
+		
+		
 	}
 
 	public static void fillWithRankedChoice() {
@@ -90,9 +95,7 @@ public class GeneticsHandler {
 
 			mutatePlayer(crossOverGenes(newPar1, newPar2));
 		}
-		Game.trackTimer = 0;
-		currentGeneration++;
-		Game.generationTimer = 45;
+		
 	}
 
 	private static int getTotalRank() {
