@@ -12,6 +12,7 @@ import org.lwjgl.opengl.Display;
 
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl2.HvlConfig;
+import com.osreboot.ridhvl2.menu.HvlType;
 import com.samuel.Network;
 
 public class GeneticsHandler {
@@ -28,6 +29,7 @@ public class GeneticsHandler {
 		//hero.fitness = 100;
 		File bestPlayerData = new File("championNetwork.json");
 		if(bestPlayerData.exists()) {
+			HvlType.cacheForName(Network.class);
 			Network championNet = HvlConfig.PJSON.load("championNetwork.json");
 			Player p = new Player();
 		

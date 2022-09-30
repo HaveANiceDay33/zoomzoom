@@ -65,52 +65,9 @@ public class Player implements Cloneable{
 		dead = false;
 		sittingTimer = 6;
 		
-		decisionNet = new Network(7,6,6);
+		decisionNet = new Network(9,12,6);
 		
-		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
-			@Override
-			public float getCurrentOutput() {
-				if(isShiftingUp() && Game.startTimer <= 0.1) {
-					return 1;
-				}
-				else {
-					return 0;
-				}
-			}
-		});
-		shiftDownInput = new HvlInput(new HvlInput.InputFilter() {
-			@Override
-			public float getCurrentOutput() {
-				if(isShiftingDown()) {
-					return 1;
-				}
-				else {
-					return 0;
-				}
-			}
-		});
-		
-		shiftUpInput.setPressedAction(new HvlAction1<HvlInput>() {
-			@Override
-			public void run(HvlInput a) {
-				if(currentGear < selectedCar.GEAR_COUNT) {
-					currentGear++;
-					currentRPMGoal = (int)((float)selectedCar.MAX_RPM * (float)speed / (float)selectedCar.maxSpeedsPerGear[currentGear - 1]);				
-				}
-			}
-		});
-		
-		shiftDownInput.setPressedAction(new HvlAction1<HvlInput>() {
-			@Override
-			public void run(HvlInput a) {
-				if(currentGear > 1) {
-					currentGear--;
-					currentRPMGoal = (int)((float)selectedCar.MAX_RPM * (float)speed / (float)selectedCar.maxSpeedsPerGear[currentGear - 1]);
-				}
-			}
-		});
 	}
-	
 	public void draw(float delta) {
 		if(MysteryUnlocker.myUnlockedEffect != null){
 			CarEffectApplicator.drawCar(MysteryUnlocker.myUnlockedEffect, xPos, yPos, turnAngle, selectedCar.textureSelect, MenuManager.color);
@@ -305,25 +262,32 @@ public class Player implements Cloneable{
 		int finishIndex = Game.trackGen.tracks.size()-1;
 		int playerTrack = Game.trackGen.tracks.indexOf(closestTrack());
 		
-		if(playerTrack <= finishIndex - 2) {decisionNet.layers.get(0).nodes.get(1).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+2).turnDirection * 1.5f;}
-		if(playerTrack <= finishIndex - 1) {decisionNet.layers.get(0).nodes.get(0).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection * 2.0f;}
+		if(playerTrack <= finishIndex - 2) {decisionNet.layers.get(0).nodes.get(1).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+2).turnDirection;}
+		if(playerTrack <= finishIndex - 1) {decisionNet.layers.get(0).nodes.get(0).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection;}
 		decisionNet.layers.get(0).nodes.get(2).value = closestTrack().turnDirection * 2.5f;
-		if(playerTrack > 0) {decisionNet.layers.get(0).nodes.get(3).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-1).turnDirection * 2.0f;}
-		if(playerTrack > 1) {decisionNet.layers.get(0).nodes.get(4).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-2).turnDirection * 1.5f;}
+		if(playerTrack > 0) {decisionNet.layers.get(0).nodes.get(3).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-1).turnDirection;}
+		if(playerTrack > 1) {decisionNet.layers.get(0).nodes.get(4).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-2).turnDirection;}
 		
 		float yDistanceToCloseTrack = yPos > closestTrack().yPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed) : -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed);
 		float xDistanceToCloseTrack = xPos > closestTrack().xPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed): -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed);
 	
 		if(closestTrack().textureSelect == 1 || closestTrack().textureSelect == 124 || closestTrack().textureSelect == 184 ||
 				closestTrack().textureSelect == 3 || closestTrack().textureSelect == 136 || closestTrack().textureSelect == 200) {
-			    decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f) * 1.25f;
+			    decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f);
 		} else {decisionNet.layers.get(0).nodes.get(5).value = 0;}
 		
 		if(closestTrack().textureSelect == 0 || closestTrack().textureSelect == 112 || closestTrack().textureSelect == 148 ||
 				closestTrack().textureSelect == 2 || closestTrack().textureSelect == 172 || closestTrack().textureSelect == 160) {
-			    decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f) * 1.25f;
+			    decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f);
 		} else {decisionNet.layers.get(0).nodes.get(6).value = 0;}
 		
+		if(playerTrack <= finishIndex - 1) { 
+			decisionNet.layers.get(0).nodes.get(7).value = (float) Math.tanh(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).xPos -  xPos);
+			decisionNet.layers.get(0).nodes.get(8).value = (float) Math.tanh(Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).yPos -  yPos);
+		} else {
+			decisionNet.layers.get(0).nodes.get(7).value = (float) Math.tanh(Game.trackGen.tracks.get(Game.trackGen.tracks.size() -1).xPos -  xPos);
+			decisionNet.layers.get(0).nodes.get(8).value = (float) Math.tanh(Game.trackGen.tracks.get(Game.trackGen.tracks.size() -1).yPos -  yPos);
+		}
 //		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
 //		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
 //		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
@@ -334,6 +298,10 @@ public class Player implements Cloneable{
 	
 	public boolean isShiftingUp() {
 		if(decisionNet.lastLayer().nodes.get(0).value > 0.75) {
+			if(currentGear < selectedCar.GEAR_COUNT) {
+				currentGear++;
+				currentRPMGoal = (int)((float)selectedCar.MAX_RPM * (float)speed / (float)selectedCar.maxSpeedsPerGear[currentGear - 1]);				
+			}
 			return true;
 		}
 		return false;
@@ -341,6 +309,10 @@ public class Player implements Cloneable{
 	
 	public boolean isShiftingDown() {
 		if(decisionNet.lastLayer().nodes.get(1).value > 0.75) {
+			if(currentGear > 1) {
+				currentGear--;
+				currentRPMGoal = (int)((float)selectedCar.MAX_RPM * (float)speed / (float)selectedCar.maxSpeedsPerGear[currentGear - 1]);
+			}
 			return true;
 		}
 		return false;

@@ -4,6 +4,8 @@ import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
+import com.osreboot.ridhvl2.menu.HvlType;
+import com.osreboot.ridhvl2.template.HvlChronology;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
