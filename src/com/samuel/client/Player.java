@@ -4,25 +4,26 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
-import java.io.Serializable;
+import java.util.Random;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.input.HvlInput;
-import com.samuel.Main;
 import com.samuel.Network;
-import com.samuel.NetworkMain;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
 
-public class Player{
+public class Player extends Identified{
 	
-	private float xPos;
-	private float yPos;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	float xPos;
+	float yPos;
 	float xSpeed;
 	float ySpeed;
 	float throttle;
@@ -51,6 +52,7 @@ public class Player{
 	public float fitness;
 	
 	public Player(){
+		super(new Random());	
 		xPos = Display.getWidth()/2;
 		yPos = Display.getHeight()/2;
 		selectedCar = MenuManager.selectedCar;
@@ -67,7 +69,7 @@ public class Player{
 		
 		fitness = 10000;
 		
-		decisionNet = new Network(7,5,6);
+		decisionNet = new Network(7,12,6);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -131,7 +133,20 @@ public class Player{
 		decisionNet.draw(delta, MainClient.gameFont, MainClient.getTexture(MainClient.NODE_INDEX), 0.4f);
 	}
 	
+	public void queueJob() {
+		if(!dead) {
+			MultithreadingManager.queueJob(this);
+		}
+	}
+	
+	public void fetchJob() {
+		if(!dead) {
+			decisionNet = MultithreadingManager.fetchJob(this.uid).decisionNet;
+		}
+	}
+	
 	public void update(float delta) {
+	
 		if(!dead) {
 			if(xSpeed == 0 && ySpeed == 0) {
 				sittingTimer -= delta;
@@ -139,7 +154,8 @@ public class Player{
 				sittingTimer = 3;
 			}
 			updateTrackAndBorderCollisions(delta);
-			updateNetwork();
+			
+			
 			fitness = GeneticsHandler.calcFitness(this);
 
 			/*
@@ -236,6 +252,8 @@ public class Player{
 		return closestTrack;
 	}
 	
+	
+	
 	private Border closestBorder() {
 		Border closestBorder = null;
 		for(Border allBorders : Game.trackGen.borders) {
@@ -304,37 +322,7 @@ public class Player{
 	 * brake
 	 */
 	
-	private void updateNetwork() {
-		
-		int finishIndex = Game.trackGen.tracks.size()-1;
-		int playerTrack = Game.trackGen.tracks.indexOf(closestTrack());
-		
-		if(playerTrack <= finishIndex - 2) {decisionNet.layers.get(0).nodes.get(0).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+2).turnDirection;} else {decisionNet.layers.get(0).nodes.get(0).value = 0;}
-		if(playerTrack <= finishIndex - 1) {decisionNet.layers.get(0).nodes.get(1).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())+1).turnDirection;} else {decisionNet.layers.get(0).nodes.get(1).value = 0;} 
-		decisionNet.layers.get(0).nodes.get(2).value = closestTrack().turnDirection;
-		if(playerTrack > 0) {decisionNet.layers.get(0).nodes.get(3).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-1).turnDirection;} else {decisionNet.layers.get(0).nodes.get(3).value = 0;}
-		if(playerTrack > 1) {decisionNet.layers.get(0).nodes.get(4).value = Game.trackGen.tracks.get(Game.trackGen.tracks.indexOf(closestTrack())-2).turnDirection;} else {decisionNet.layers.get(0).nodes.get(4).value = 0;}
-		
-		float yDistanceToCloseTrack = yPos > closestTrack().yPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed) : -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(ySpeed);
-		float xDistanceToCloseTrack = xPos > closestTrack().xPos ? HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed): -HvlMath.distance(closestTrack().xPos, closestTrack().yPos, xPos, yPos) * Math.signum(xSpeed);
 	
-		if(closestTrack().textureSelect == 1 || closestTrack().textureSelect == 124 || closestTrack().textureSelect == 184 ||
-				closestTrack().textureSelect == 3 || closestTrack().textureSelect == 136 || closestTrack().textureSelect == 200) {
-			    decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f);
-		} else {decisionNet.layers.get(0).nodes.get(5).value = 0;}
-		
-		if(closestTrack().textureSelect == 0 || closestTrack().textureSelect == 112 || closestTrack().textureSelect == 148 ||
-				closestTrack().textureSelect == 2 || closestTrack().textureSelect == 172 || closestTrack().textureSelect == 160) {
-			    decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE, Track.TRACK_SIZE, -1.0f, 1.0f);
-		} else {decisionNet.layers.get(0).nodes.get(6).value = 0;}
-		
-//		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
-//		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
-//		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
-//		decisionNet.layers.get(0).nodes.get(10).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
-		
-		NetworkMain.propogateAsNetwork(decisionNet);
-	}
 	
 	public boolean isShiftingUp() {
 		if(decisionNet.lastLayer().nodes.get(0).value > 0.9) {

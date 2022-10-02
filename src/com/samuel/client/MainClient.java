@@ -1,4 +1,6 @@
 package com.samuel.client;
+import org.lwjgl.Sys;
+
 import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
@@ -49,6 +51,9 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int TIRE_INDEX = 33;
 	public final static int DRAG_INDEX = 34;
 	public final static int NODE_INDEX = 35;
+	
+	private static final long NANOS_IN_SECOND = 1000L * 1000L * 1000L;
+
 
 	@Override
 	public void initialize(){		
@@ -112,5 +117,9 @@ public class MainClient extends HvlTemplateDClient2D{
 	@Override
 	public void onDisconnection(){
 		HvlMenu.setCurrent(MenuManager.ip);
+	}
+	
+	private static long getTime() {
+	    return (Sys.getTime() * NANOS_IN_SECOND) / Sys.getTimerResolution();
 	}
 }

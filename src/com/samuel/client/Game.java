@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -123,7 +124,8 @@ public class Game {
 		generationTimer = 45;
 		numAlive = GeneticsHandler.MAX_POP;
 	
-		
+		MultithreadingManager.init(trackGen.tracks);
+
 		TerrainGenerator.generateTerrain();
 	}
 	
@@ -133,12 +135,20 @@ public class Game {
 		//MARKED
 		
 		for(Player p : GeneticsHandler.population) {
+			p.queueJob();
+		}
+		
+		MultithreadingManager.executeJobs();
+		
+		for(Player p : GeneticsHandler.population) {
+			p.fetchJob();
 			p.update(delta);
 			if(p.isDead() && !p.dead) {
 				p.die();
 				numAlive--;
 			}
 		}
+		
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
@@ -162,14 +172,11 @@ public class Game {
 			*/
 			GeneticsHandler.oldPop = new ArrayList<Player>(GeneticsHandler.population);
 			GeneticsHandler.population.clear();
-			trackGen.borders.clear();
-			trackGen.tracks.clear();
 			GeneticsHandler.duplicateParents(par1, par2);
 			//GeneticsHandler.fillWithRankedChoice();
 			numAlive = GeneticsHandler.population.size();
 			
 			
-			trackGen.generateTrack();
 			Game.trackTimer = 0;
 			GeneticsHandler.currentGeneration++;
 			Game.generationTimer = 45;
