@@ -61,9 +61,14 @@ public class GeneticsHandler {
 		}
 	}
 
-	public static void duplicateParents(Player par1, Player par2) {
-		Network parent1Network = par1.decisionNet;
-		Network parent2Network = par2.decisionNet;
+	public static void duplicateParents() {
+		Network elitePlayer = oldPop.get(0).decisionNet;
+		Player eP = new Player();
+		eP.setNetwork(Network.deepCopy(elitePlayer));
+		populate(eP);
+		
+		Network parent1Network = oldPop.get(new Random().nextInt(10)).decisionNet;
+		Network parent2Network = oldPop.get(new Random().nextInt(10)).decisionNet;
 		Player newPar1 = new Player();
 		newPar1.setNetwork(Network.deepCopy(parent1Network));
 		Player newPar2 = new Player();
@@ -77,7 +82,7 @@ public class GeneticsHandler {
 	}
 	
 	public static void truncatedSelection(Player p1, Player p2) {
-		for (int i = 0; i < (MAX_POP - 2); i++) {
+		for (int i = 0; i < (MAX_POP - 3); i++) {
 			mutatePlayer(crossOverGenes(p1, p2));
 		}
 	}

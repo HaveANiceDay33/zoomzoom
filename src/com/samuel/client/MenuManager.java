@@ -397,7 +397,7 @@ public class MenuManager {
 			}
 		
 		} else if(HvlMenu.getCurrent() == menuMap) {
-			int trackNum = 0;
+			int trackNum = 1;
 //			if(!singlePlayer) {
 //				trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
 //			}else {
