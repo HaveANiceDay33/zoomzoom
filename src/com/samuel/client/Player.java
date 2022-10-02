@@ -67,7 +67,7 @@ public class Player{
 		
 		fitness = 10000;
 		
-		decisionNet = new Network(7, 12,6);
+		decisionNet = new Network(7,5,6);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override

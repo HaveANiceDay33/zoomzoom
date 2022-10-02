@@ -10,7 +10,7 @@ import com.osreboot.ridhvl2.HvlConfig;
 import com.samuel.Network;
 
 public class GeneticsHandler {
-	public static final int MAX_POP = 1000;
+	public static final int MAX_POP = 10000;
 
 	public static int currentGeneration = 1;
 	public static ArrayList<Player> population;
@@ -56,7 +56,8 @@ public class GeneticsHandler {
 					HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()), 0,
 					1.5f * Track.TRACK_SIZE, 0f, 0.49f));
 		} else {
-			return (float) ((finishIndex - playerTrack) + HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()) / (Math.sqrt(2)*(Track.TRACK_SIZE/2)*1.5f));
+			return (float) ((finishIndex - playerTrack) + HvlMath.distance(Game.trackGen.tracks.get(finishIndex).xPos,Game.trackGen.tracks.get(finishIndex).yPos, p.getXPos(), p.getYPos()) / 
+														  HvlMath.distance(Game.trackGen.tracks.get(finishIndex).xPos,Game.trackGen.tracks.get(finishIndex).yPos, Game.trackGen.tracks.get(0).xPos,Game.trackGen.tracks.get(0).yPos));
 		}
 	}
 
@@ -69,7 +70,16 @@ public class GeneticsHandler {
 		newPar2.setNetwork(Network.deepCopy(parent2Network));
 		populate(newPar1);
 		populate(newPar2);
+		
+		//DISABLE FOR RANKED CHOICE
+		truncatedSelection(newPar1, newPar2);
 
+	}
+	
+	public static void truncatedSelection(Player p1, Player p2) {
+		for (int i = 0; i < (MAX_POP - 2); i++) {
+			mutatePlayer(crossOverGenes(p1, p2));
+		}
 	}
 
 	public static void fillWithRankedChoice() {
@@ -90,9 +100,7 @@ public class GeneticsHandler {
 
 			mutatePlayer(crossOverGenes(newPar1, newPar2));
 		}
-		Game.trackTimer = 0;
-		currentGeneration++;
-		Game.generationTimer = 45;
+		
 	}
 
 	private static int getTotalRank() {

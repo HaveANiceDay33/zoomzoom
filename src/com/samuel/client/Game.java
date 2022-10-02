@@ -165,9 +165,14 @@ public class Game {
 			trackGen.borders.clear();
 			trackGen.tracks.clear();
 			GeneticsHandler.duplicateParents(par1, par2);
-			GeneticsHandler.fillWithRankedChoice();
+			//GeneticsHandler.fillWithRankedChoice();
 			numAlive = GeneticsHandler.population.size();
+			
+			
 			trackGen.generateTrack();
+			Game.trackTimer = 0;
+			GeneticsHandler.currentGeneration++;
+			Game.generationTimer = 45;
 		}
 		//MARKED
 		Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
@@ -194,7 +199,7 @@ public class Game {
 							p.draw(delta);
 						}
 					}
-					GeneticsHandler.population.get(0).draw(delta);
+					//GeneticsHandler.population.get(0).draw(delta);
 
 					
 				}

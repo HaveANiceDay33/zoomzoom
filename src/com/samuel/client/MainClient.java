@@ -10,7 +10,7 @@ import com.samuel.client.effects.MysteryUnlocker;
 public class MainClient extends HvlTemplateDClient2D{
 
 	public MainClient(HvlGameInfo gameInfoArg){
-		super(144, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.016f, gameInfoArg);
+		super(60, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.016f, gameInfoArg);
 	}
 	static HvlFontPainter2D gameFont;
 	public final static int NEEDLE_INDEX = 0;
@@ -100,6 +100,7 @@ public class MainClient extends HvlTemplateDClient2D{
 	@Override
 	public void update(float delta){
 		//gameFont.drawWord(getClient().getTable().toString(), 0, 0, Color.darkGray);
+		delta = 1/60f;
 		MenuManager.update(delta);
 	}
 
