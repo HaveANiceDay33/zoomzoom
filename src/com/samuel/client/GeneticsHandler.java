@@ -10,7 +10,7 @@ import com.osreboot.ridhvl2.HvlConfig;
 import com.samuel.Network;
 
 public class GeneticsHandler {
-	public static final int MAX_POP = 1000;
+	public static final int MAX_POP = 10000;
 
 	public static int currentGeneration = 1;
 	public static ArrayList<Player> population;
