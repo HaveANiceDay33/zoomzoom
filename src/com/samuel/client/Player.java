@@ -69,7 +69,7 @@ public class Player extends Identified{
 		
 		fitness = 10000;
 		
-		decisionNet = new Network(7,12,6);
+		decisionNet = new Network(7,12,3);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -332,38 +332,41 @@ public class Player extends Identified{
 	}
 	
 	public boolean isShiftingDown() {
-		if(decisionNet.lastLayer().nodes.get(1).value > 0.9) {
+		if(decisionNet.lastLayer().nodes.get(0).value < -0.9) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isAccelerating() {
-		if(decisionNet.lastLayer().nodes.get(2).value > 0.9) {
+		if(decisionNet.lastLayer().nodes.get(1).value > 0.9) {
 			return true;
 		}
 		return false;
 	}
+	
+	public boolean isBraking() {
+		if(decisionNet.lastLayer().nodes.get(1).value < -0.9) {
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean isTurningLeft() {
-		if(decisionNet.lastLayer().nodes.get(3).value > 0.9) {
+		if(decisionNet.lastLayer().nodes.get(2).value > 0.9) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isTurningRight() {
-		if(decisionNet.lastLayer().nodes.get(4).value > 0.9) {
+		if(decisionNet.lastLayer().nodes.get(2).value < -0.9) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isBraking() {
-		if(decisionNet.lastLayer().nodes.get(5).value > 0.9) {
-			return true;
-		}
-		return false;
-	}
+	
 	
 	public void drawTach(int x, int y) {
 		accurateAngleRPM = HvlMath.map(currentRPM, 0, 8000, -145, 145);
