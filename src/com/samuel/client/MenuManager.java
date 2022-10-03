@@ -286,20 +286,31 @@ public class MenuManager {
 		}).build());
 		menuCar.getFirstArrangerBox().add(new HvlSpacer(100,50));
 		menuCar.getFirstArrangerBox().add(new HvlCheckbox.Builder().build());
+		
+		game.add(new HvlArrangerBox.Builder().setStyle(ArrangementStyle.VERTICAL).setWidth(250).setHeight(400).setX(50).setY(50).build());
+		game.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Toggle Elite").setTextScale(0.8f).setWidth(200).setClickedCommand(new HvlAction1<HvlButton>() {
+
+			@Override
+			public void run(HvlButton a) {
+				Game.showElite = !Game.showElite;
+			}
+		}).build());
 
 		HvlMenu.setCurrent(ip);
 
 		color = new Color(Color.white);
 	}
 	public static void update(float delta) {
-		HvlMenu.updateMenus(delta);
 		if(MainClient.getNewestInstance().isAuthenticated() && HvlMenu.getCurrent() == ip){
+			HvlMenu.updateMenus(delta);
 			HvlMenu.setCurrent(menuCar);
 			MysteryUnlocker.initialize();
 			menuCar.getFirstArrangerBox().getFirstOfType(HvlCheckbox.class).setChecked(false);
 		}
 
 		if(HvlMenu.getCurrent() == menuCar){
+			HvlMenu.updateMenus(delta);
+
 			hvlDrawQuad(0,0, 1920, 1080, new Color(19,80, 255, 75));
 			
 			if(!singlePlayer) {
@@ -380,6 +391,8 @@ public class MenuManager {
 			}
 			
 			Game.update(delta);
+			HvlMenu.updateMenus(delta);
+
 			if(!singlePlayer) {
 				if(MainClient.getNClient().hasValue(KC.key_PlayerGameInfo(MainClient.getNUIDK()))){
 					InfoLobby lobbyInfo = MainClient.getNClient().<InfoLobby>getValue(KC.key_PlayerLobbyInfo(MainClient.getNUIDK()));
@@ -397,6 +410,8 @@ public class MenuManager {
 			}
 		
 		} else if(HvlMenu.getCurrent() == menuMap) {
+			HvlMenu.updateMenus(delta);
+
 			int trackNum = 0;
 //			if(!singlePlayer) {
 //				trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
@@ -447,12 +462,15 @@ public class MenuManager {
 			
 			
 		}else if(HvlMenu.getCurrent() == ip) {
+			HvlMenu.updateMenus(delta);
+
 			hvlDrawQuad(0,0, 1920, 1080, new Color(19,80, 255, 75));
 			MainClient.gameFont.drawWordc("If nothing happens, it either means: \n\n1) The game you are trying to join is in a race, \n2) The entered IP is incorrect, \n3) The client and server versions mismatch" , 420, 540, Color.white);
 			MainClient.gameFont.drawWordc("Contact me: \n\nInstagram: @munro.samuel\nSnapchat: munrosamuel1\nSteam: HaveANiceDay33" , 280, 960, Color.white);
 			MainClient.gameFont.drawWordc("Controls: \n\nW: Forward\nA: Turn Left\nD: Turn Right\nS/Space: Brake\nP: Shift up\nL: Shift Down" , 200, 200, Color.white);
 			MainClient.gameFont.drawWordc("Version: "+Main.INFO_VERSION , 1800, 50, Color.white, 0.7f);
 		}
+
 
 	}
 
