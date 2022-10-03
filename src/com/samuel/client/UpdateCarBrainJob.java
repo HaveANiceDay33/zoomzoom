@@ -9,14 +9,16 @@ import com.samuel.NetworkMain;
 public class UpdateCarBrainJob {
 	
 	Network decisionNet;
-	float xPos, yPos, xSpeed, ySpeed;
+	float xPos, yPos, xSpeed, ySpeed, speed,maxSpeed;
 	
-	public UpdateCarBrainJob(Network n, float x, float y, float xs, float ys) {
+	public UpdateCarBrainJob(Network n, float x, float y, float xs, float ys, float s, float ms) {
 		decisionNet = n;
 		xPos = x;
 		yPos = y;
 		xSpeed = xs;
 		ySpeed = ys;
+		speed = s;
+		maxSpeed = ms;
 	}
 
 	public void updateNetwork(ArrayList<Track> tracks) {
@@ -79,7 +81,7 @@ public class UpdateCarBrainJob {
 
 //		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
 //		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
-//		decisionNet.layers.get(0).nodes.get(9).value = HvlMath.map(speed, 0, selectedCar.maxSpeedsPerGear[currentGear-1], 0, 1);
+		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(speed, 0, maxSpeed, 0, 1);
 //		decisionNet.layers.get(0).nodes.get(10).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
 
 		NetworkMain.propogateAsNetwork(decisionNet);

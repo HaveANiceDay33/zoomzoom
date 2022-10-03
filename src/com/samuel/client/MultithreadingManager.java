@@ -53,7 +53,7 @@ public final class MultithreadingManager {
 	}
 
 	public static void queueJob(Player p) {
-		jobs.put(p.uid, new UpdateCarBrainJob(p.decisionNet, p.xPos, p.yPos, p.xSpeed, p.ySpeed));
+		jobs.put(p.uid, new UpdateCarBrainJob(p.decisionNet, p.xPos, p.yPos, p.xSpeed, p.ySpeed, p.speed, p.selectedCar.maxSpeedsPerGear[p.selectedCar.maxSpeedsPerGear.length - 1]));
 	}
 
 	public static UpdateCarBrainJob fetchJob(String uid) {

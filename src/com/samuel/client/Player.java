@@ -69,7 +69,7 @@ public class Player extends Identified{
 		
 		fitness = 10000;
 		
-		decisionNet = new Network(7,12,3);
+		decisionNet = new Network(8,12,3);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
