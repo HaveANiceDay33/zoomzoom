@@ -25,19 +25,21 @@ public class GeneticsHandler implements Environment{
 	}
 	
 	public float calcFitness(Player p) {
-
+		float fitness = 0;
 		int finishIndex = Game.trackGen.tracks.size() - 1;
 		int playerTrack = Game.trackGen.tracks.indexOf(p.closestTrack());
 		if (p.trackComplete) {
-			return 10000 - (p.finalTrackTime) / 1000;
+			fitness = (p.finalTrackTime) / 1000;
 		} else if (!p.trackComplete && finishIndex - playerTrack == 0) {
-			return 10000 - 0.5f + Math.abs(HvlMath.map(
+			fitness = 0.5f + Math.abs(HvlMath.map(
 					HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()), 0,
 					1.5f * Track.TRACK_SIZE, 0f, 0.49f));
 		} else {
-			return 10000 - (float) ((finishIndex - playerTrack) + HvlMath.distance(Game.trackGen.tracks.get(finishIndex).xPos,Game.trackGen.tracks.get(finishIndex).yPos, p.getXPos(), p.getYPos()) / 
+			fitness = (float) ((finishIndex - playerTrack) + HvlMath.distance(Game.trackGen.tracks.get(finishIndex).xPos,Game.trackGen.tracks.get(finishIndex).yPos, p.getXPos(), p.getYPos()) / 
 														  HvlMath.distance(Game.trackGen.tracks.get(finishIndex).xPos,Game.trackGen.tracks.get(finishIndex).yPos, Game.trackGen.tracks.get(0).xPos,Game.trackGen.tracks.get(0).yPos));
 		}
+		
+		return 1000 - fitness;
 	}
 
 	@Override

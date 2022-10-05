@@ -180,7 +180,8 @@ public class Game {
 		if (numAlive == 0) {
 
 			gh.pool.evaluateFitness(gh);
-
+			
+			System.out.println(gh.currentGeneration + "\t" + gh.pool.getTopGenome().getPoints());
 			Game.trackTimer = 0;
 			gh.currentGeneration++;
 			gh.pool.breedNewGeneration();
@@ -191,10 +192,7 @@ public class Game {
 		}
 		// MARKED
 
-		if (!showElite)
-			// Collections.sort(gh.pool.getAllGenome(), GeneticsHandler.compareByScore);
-
-			tracker.setX(top.p.getXPos());
+		tracker.setX(top.p.getXPos());
 		tracker.setY(top.p.getYPos());
 
 		tracker.doTransform(new HvlAction0() {
