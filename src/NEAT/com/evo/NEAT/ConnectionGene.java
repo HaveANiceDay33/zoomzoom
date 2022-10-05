@@ -1,4 +1,4 @@
-package com.evo.NEAT;
+package NEAT.com.evo.NEAT;
 
 /**
  * ConnectionGene Represents the connection(Axon) of the neuron

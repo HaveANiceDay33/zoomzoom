@@ -1,4 +1,4 @@
-package com.evo.NEAT;
+package NEAT.com.evo.NEAT;
 
 import java.util.ArrayList;
 

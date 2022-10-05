@@ -1,4 +1,4 @@
-package com.evo.NEAT;
+package NEAT.com.evo.NEAT;
 
 /**
  * Created by vishnughosh on 04/03/17.

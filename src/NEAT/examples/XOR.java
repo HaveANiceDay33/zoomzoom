@@ -60,5 +60,6 @@ public class XOR implements Environment {
 
         }
         System.out.println(topGenome.evaluateNetwork(new float[]{1,0})[0]);
+        System.out.println(topGenome.toString());
     }
 }

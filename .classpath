@@ -9,7 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Ridhvl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HVOL-B"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HVOL-Direct"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/NeuralNet"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ridhvl2"/>
 	<classpathentry kind="lib" path="E:/Documents/Java Games/Libraries/anji_2_01/anji_2_01/lib/anji.jar"/>
 	<classpathentry kind="output" path="bin"/>

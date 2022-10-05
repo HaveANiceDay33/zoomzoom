@@ -26,7 +26,6 @@ import com.osreboot.ridhvl.painter.HvlCamera2D;
 import com.osreboot.ridhvl2.HvlConfig;
 import com.samuel.InfoGame;
 import com.samuel.KC;
-import com.samuel.Network;
 import com.samuel.client.effects.CarEffect;
 import com.samuel.client.effects.CarEffectApplicator;
 
@@ -128,13 +127,11 @@ public class Game {
 				HvlCamera2D.ALIGNMENT_CENTER);
 		trackGen = new TrackGenerator();
 		trackGen.generateTrack();
-		GeneticsHandler.init();
 		startTimer = 3;
 		endTimer = 5;
 		trackTimer = 0;
 		secsElap = 0;
 		generationTimer = 45;
-		numAlive = GeneticsHandler.MAX_POP;
 		showElite = false;
 		MultithreadingManager.init(trackGen.tracks);
 
@@ -145,11 +142,12 @@ public class Game {
 		// Main.gameFont.drawWordc(currentRPM + " RPM", 600, 345,Color.white);
 
 		// MARKED
-
+		
+		/*
 		for (Player p : GeneticsHandler.population) {
 			p.queueJob();
 		}
-
+*/
 		MultithreadingManager.executeJobs();
 
 		for (Player p : GeneticsHandler.population) {
@@ -161,10 +159,7 @@ public class Game {
 			}
 		}
 
-		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
-			HvlConfig.PJSON.save(GeneticsHandler.population.get(0).decisionNet, "championNetwork.json");
-		}
+		
 		// MARKED
 		generationTimer -= delta;
 		if (Keyboard.isKeyDown(Keyboard.KEY_K) || generationTimer <= 0) {
@@ -172,18 +167,8 @@ public class Game {
 		}
 		// MARKED
 		if (numAlive == 0) {
-			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
 
-			System.out.println(GeneticsHandler.population.get(0).getFitness());
-
-			/*
-			 * for(int p = 2; p < GeneticsHandler.population.size(); p++) {
-			 * Network.deleteNetwork(GeneticsHandler.population.get(p).decisionNet); }
-			 */
-			GeneticsHandler.oldPop = new ArrayList<Player>(GeneticsHandler.population);
-			GeneticsHandler.population.clear();
-			GeneticsHandler.duplicateParents();
-			// GeneticsHandler.fillWithRankedChoice();
+			
 			numAlive = GeneticsHandler.population.size();
 
 			Game.trackTimer = 0;
@@ -191,11 +176,12 @@ public class Game {
 			Game.generationTimer = 45;
 		}
 		// MARKED
+		
 		if (!showElite)
-			Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
+			//Collections.sort(GeneticsHandler.population, GeneticsHandler.compareByScore);
 		tracker.setX(GeneticsHandler.population.get(0).getXPos());
 		tracker.setY(GeneticsHandler.population.get(0).getYPos());
-
+	
 		tracker.doTransform(new HvlAction0() {
 			@Override
 			public void run() {

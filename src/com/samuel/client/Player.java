@@ -12,9 +12,10 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.input.HvlInput;
-import com.samuel.Network;
 import com.samuel.client.effects.CarEffectApplicator;
 import com.samuel.client.effects.MysteryUnlocker;
+
+import NEAT.com.evo.NEAT.Genome;
 
 public class Player extends Identified{
 	
@@ -48,7 +49,8 @@ public class Player extends Identified{
 	public float finalTrackTime;
 	Car selectedCar;
 	
-	public Network decisionNet;
+	Genome decisionNet;
+	
 	public float fitness;
 	
 	public Player(){
@@ -69,7 +71,6 @@ public class Player extends Identified{
 		
 		fitness = 10000;
 		
-		decisionNet = new Network(8,12,3);
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -130,7 +131,6 @@ public class Player extends Identified{
 	public void drawUI(float delta) {
 		drawTach(190, 870);
 		drawSpeed(1730, 870);
-		decisionNet.draw(delta, MainClient.gameFont, MainClient.getTexture(MainClient.NODE_INDEX), 0.4f);
 	}
 	
 	public void queueJob() {
@@ -141,7 +141,7 @@ public class Player extends Identified{
 	
 	public void fetchJob() {
 		if(!dead) {
-			decisionNet = MultithreadingManager.fetchJob(this.uid).decisionNet;
+			//decisionNet = MultithreadingManager.fetchJob(this.uid).decisionNet;
 		}
 	}
 	
@@ -155,8 +155,7 @@ public class Player extends Identified{
 			}
 			updateTrackAndBorderCollisions(delta);
 			
-			
-			fitness = GeneticsHandler.calcFitness(this);
+
 
 			/*
 			if(fitness < GeneticsHandler.hero.fitness) {
@@ -232,7 +231,6 @@ public class Player extends Identified{
 	}
 	
 	public void die() {
-		fitness = GeneticsHandler.calcFitness(this);
 		dead = true;
 	}
 	
@@ -325,44 +323,44 @@ public class Player extends Identified{
 	
 	
 	public boolean isShiftingUp() {
-		if(decisionNet.lastLayer().nodes.get(0).value > 0.9) {
-			return true;
-		}
+//		if(decisionNet.lastLayer().nodes.get(0).value > 0.9) {
+//			return true;
+//		}
 		return false;
 	}
 	
 	public boolean isShiftingDown() {
-		if(decisionNet.lastLayer().nodes.get(0).value < -0.9) {
-			return true;
-		}
+//		if(decisionNet.lastLayer().nodes.get(0).value < -0.9) {
+//			return true;
+//		}
 		return false;
 	}
 
 	public boolean isAccelerating() {
-		if(decisionNet.lastLayer().nodes.get(1).value > 0.9) {
-			return true;
-		}
+//		if(decisionNet.lastLayer().nodes.get(1).value > 0.9) {
+//			return true;
+//		}
 		return false;
 	}
 	
 	public boolean isBraking() {
-		if(decisionNet.lastLayer().nodes.get(1).value < -0.9) {
-			return true;
-		}
+//		if(decisionNet.lastLayer().nodes.get(1).value < -0.9) {
+//			return true;
+//		}
 		return false;
 	}
 	
 	public boolean isTurningLeft() {
-		if(decisionNet.lastLayer().nodes.get(2).value > 0.9) {
-			return true;
-		}
+//		if(decisionNet.lastLayer().nodes.get(2).value > 0.9) {
+//			return true;
+//		}
 		return false;
 	}
 
 	public boolean isTurningRight() {
-		if(decisionNet.lastLayer().nodes.get(2).value < -0.9) {
-			return true;
-		}
+//		if(decisionNet.lastLayer().nodes.get(2).value < -0.9) {
+//			return true;
+//		}
 		return false;
 	}
 
@@ -440,10 +438,6 @@ public class Player extends Identified{
 	
 	public float getFitness() {
 		return fitness;
-	}
-	
-	public void setNetwork(Network n) {
-		decisionNet = n;
 	}
 	
 }
