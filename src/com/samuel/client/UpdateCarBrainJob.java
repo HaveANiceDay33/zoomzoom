@@ -91,9 +91,7 @@ public class UpdateCarBrainJob {
 		
 		float[] inputs = {t2, t1, t0, tm1, tm2, y, x, s};
 		// Propogate
-		output = genome.evaluateNetwork(inputs);
-		
-		
+		output = genome.evaluateNetwork(inputs);	
 	}
 	
 	public Track closestTrack(ArrayList<Track> tracks) {

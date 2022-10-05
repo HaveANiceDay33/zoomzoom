@@ -108,7 +108,9 @@ public class MainClient extends HvlTemplateDClient2D{
 	public void update(float delta){
 		//gameFont.drawWord(getClient().getTable().toString(), 0, 0, Color.darkGray);
 		delta = 1/60f;
+		
 		MenuManager.update(delta);
+		
 	}
 
 	@Override
