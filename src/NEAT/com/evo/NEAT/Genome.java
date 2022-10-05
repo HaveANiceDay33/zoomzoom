@@ -3,6 +3,10 @@ package NEAT.com.evo.NEAT;
 import NEAT.com.evo.NEAT.com.evo.NEAT.config.NEAT_Config;
 
 import javax.management.RuntimeErrorException;
+
+import com.samuel.client.MultithreadingManager;
+import com.samuel.client.Player;
+
 import java.io.*;
 import java.util.*;
 
@@ -15,7 +19,9 @@ public class Genome implements Comparable {
     private float points;
     private ArrayList<ConnectionGene> connectionGeneList = new ArrayList<>();           // DNA- MAin archive of gene information
     private TreeMap<Integer, NodeGene> nodes = new TreeMap<>();                          // Generated while performing network operation
-    private float adjustedFitness;                                      // For number of child to breed in species
+    private float adjustedFitness; // For number of child to breed in species
+    
+    public Player p;
 
     private HashMap<MutationKeys, Float> mutationRates = new HashMap<>();
 
@@ -64,6 +70,8 @@ public class Genome implements Comparable {
         this.mutationRates.put(MutationKeys.BIAS_CONNECTION_MUTATION_CHANCE , NEAT_Config.BIAS_CONNECTION_MUTATION_CHANCE);
         this.mutationRates.put(MutationKeys.DISABLE_MUTATION_CHANCE , NEAT_Config.DISABLE_MUTATION_CHANCE);
         this.mutationRates.put(MutationKeys.ENABLE_MUTATION_CHANCE , NEAT_Config.ENABLE_MUTATION_CHANCE);
+        
+        p = new Player();
     }
 
     public Genome(Genome child) {
@@ -76,8 +84,21 @@ public class Genome implements Comparable {
         this.adjustedFitness = child.adjustedFitness;
 
         this.mutationRates = (HashMap<MutationKeys, Float>) child.mutationRates.clone();
-
+        
+        p = new Player();
     }
+    
+    public void queueJob() {
+		if(!p.dead) {
+			MultithreadingManager.queueJob(this);
+		}
+	}
+	
+	public void fetchJob() {
+		if(!p.dead) {
+			p.setDecisionNetOutput(MultithreadingManager.fetchJob(this.p.uid).output);
+		}
+	}
 
 
     public float getFitness() {
@@ -266,13 +287,14 @@ public class Genome implements Comparable {
                         sum += nodes.get(conn.getInto()).getValue() * conn.getWeight();
                     }
                 }
-                node.setValue(sigmoid(sum));
+                node.setValue((float)Math.tanh(sum));
             }
         }
 
         for (int i = 0; i < NEAT_Config.OUTPUTS; i++) {
             output[i] = nodes.get(NEAT_Config.INPUTS + NEAT_Config.HIDDEN_NODES + i).getValue();
         }
+                
         return output;
     }
 
@@ -414,6 +436,10 @@ public class Genome implements Comparable {
                 ", connectionGeneList=" + connectionGeneList +
                 ", nodeGenes=" + nodes +
                 '}';
+    }
+    
+    public TreeMap<Integer, NodeGene> getNodes(){
+    	return nodes;
     }
 
     public void setAdjustedFitness(float adjustedFitness) {

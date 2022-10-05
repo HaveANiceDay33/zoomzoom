@@ -288,13 +288,13 @@ public class MenuManager {
 		menuCar.getFirstArrangerBox().add(new HvlCheckbox.Builder().build());
 		
 		game.add(new HvlArrangerBox.Builder().setStyle(ArrangementStyle.VERTICAL).setWidth(250).setHeight(400).setX(50).setY(50).build());
-		game.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Toggle Elite").setTextScale(0.8f).setWidth(200).setClickedCommand(new HvlAction1<HvlButton>() {
-
-			@Override
-			public void run(HvlButton a) {
-				Game.showElite = !Game.showElite;
-			}
-		}).build());
+//		game.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Toggle Elite").setTextScale(0.8f).setWidth(200).setClickedCommand(new HvlAction1<HvlButton>() {
+//
+//			@Override
+//			public void run(HvlButton a) {
+//				Game.showElite = !Game.showElite;
+//			}
+//		}).build());
 
 		HvlMenu.setCurrent(ip);
 

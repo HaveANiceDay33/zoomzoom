@@ -3,6 +3,8 @@ package com.samuel.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import NEAT.com.evo.NEAT.Genome;
+
 public final class MultithreadingManager {
 	static HashMap<String, UpdateCarBrainJob> jobs;
 	static ArrayList<CarThreadManager> managers;
@@ -52,8 +54,8 @@ public final class MultithreadingManager {
 		}
 	}
 
-	public static void queueJob(Player p) {
-		jobs.put(p.uid, new UpdateCarBrainJob(p.decisionNet, p.xPos, p.yPos, p.xSpeed, p.ySpeed, p.speed, p.selectedCar.maxSpeedsPerGear[p.selectedCar.maxSpeedsPerGear.length - 1]));
+	public static void queueJob(Genome genome) {
+		jobs.put(genome.p.uid, new UpdateCarBrainJob(genome, genome.p.xPos, genome.p.yPos, genome.p.xSpeed, genome.p.ySpeed, genome.p.throttle, genome.p.selectedCar.maxSpeedsPerGear[genome.p.selectedCar.maxSpeedsPerGear.length - 1]));
 	}
 
 	public static UpdateCarBrainJob fetchJob(String uid) {

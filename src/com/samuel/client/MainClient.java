@@ -51,6 +51,7 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int TIRE_INDEX = 33;
 	public final static int DRAG_INDEX = 34;
 	public final static int NODE_INDEX = 35;
+	public final static int NEURON_INDEX = 36;
 	
 	private static final long NANOS_IN_SECOND = 1000L * 1000L * 1000L;
 
@@ -95,7 +96,8 @@ public class MainClient extends HvlTemplateDClient2D{
 		getTextureLoader().loadResource("tire");//33
 		getTextureLoader().loadResource("drag");//34
 		
-		getTextureLoader().loadResource("circle");//34
+		getTextureLoader().loadResource("circle");//35
+		getTextureLoader().loadResource("node-circle");//36
 		gameFont =  new HvlFontPainter2D(getTexture(FONT_INDEX), HvlFontPainter2D.Preset.FP_INOFFICIAL,.18f,8f,0); //font definition
 		MenuManager.initialize();
 		CarEffectApplicator.initialize();

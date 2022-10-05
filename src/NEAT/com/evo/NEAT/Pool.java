@@ -123,6 +123,18 @@ public class Pool {
 
         return allGenome.get(0);
     }
+    
+    public ArrayList<Genome> getAllGenome(){
+        ArrayList<Genome> allGenome = new ArrayList<>();
+
+        for(Species s: species){
+            for(Genome g: s.getGenomes()){
+                allGenome.add(g);
+            }
+        }
+
+        return allGenome;
+    }
     // all species must have the totalAdjustedFitness calculated
     public float calculateGlobalAdjustedFitness() {
         float total = 0;

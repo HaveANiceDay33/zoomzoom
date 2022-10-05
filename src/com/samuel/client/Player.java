@@ -49,10 +49,8 @@ public class Player extends Identified{
 	public float finalTrackTime;
 	Car selectedCar;
 	
-	Genome decisionNet;
-	
-	public float fitness;
-	
+	float[] decisionNet;
+		
 	public Player(){
 		super(new Random());	
 		xPos = Display.getWidth()/2;
@@ -68,9 +66,8 @@ public class Player extends Identified{
 		trackComplete = false;
 		dead = false;
 		sittingTimer = 6;
-		
-		fitness = 10000;
-		
+				
+		decisionNet = new float[3];
 		
 		shiftUpInput = new HvlInput(new HvlInput.InputFilter() {
 			@Override
@@ -133,17 +130,7 @@ public class Player extends Identified{
 		drawSpeed(1730, 870);
 	}
 	
-	public void queueJob() {
-		if(!dead) {
-			MultithreadingManager.queueJob(this);
-		}
-	}
 	
-	public void fetchJob() {
-		if(!dead) {
-			//decisionNet = MultithreadingManager.fetchJob(this.uid).decisionNet;
-		}
-	}
 	
 	public void update(float delta) {
 	
@@ -323,44 +310,44 @@ public class Player extends Identified{
 	
 	
 	public boolean isShiftingUp() {
-//		if(decisionNet.lastLayer().nodes.get(0).value > 0.9) {
-//			return true;
-//		}
+		if(decisionNet[0] > 0.9) {
+			return true;
+		}
 		return false;
 	}
 	
 	public boolean isShiftingDown() {
-//		if(decisionNet.lastLayer().nodes.get(0).value < -0.9) {
-//			return true;
-//		}
+		if(decisionNet[0] < -0.9) {
+			return true;
+		}
 		return false;
 	}
 
 	public boolean isAccelerating() {
-//		if(decisionNet.lastLayer().nodes.get(1).value > 0.9) {
-//			return true;
-//		}
+		if(decisionNet[1] > 0.9) {
+			return true;
+		}
 		return false;
 	}
 	
 	public boolean isBraking() {
-//		if(decisionNet.lastLayer().nodes.get(1).value < -0.9) {
-//			return true;
-//		}
+		if(decisionNet[1] < -0.9) {
+			return true;
+		}
 		return false;
 	}
 	
 	public boolean isTurningLeft() {
-//		if(decisionNet.lastLayer().nodes.get(2).value > 0.9) {
-//			return true;
-//		}
+		if(decisionNet[2] > 0.9) {
+			return true;
+		}
 		return false;
 	}
 
 	public boolean isTurningRight() {
-//		if(decisionNet.lastLayer().nodes.get(2).value < -0.9) {
-//			return true;
-//		}
+		if(decisionNet[2] < -0.9) {
+			return true;
+		}
 		return false;
 	}
 
@@ -436,8 +423,8 @@ public class Player extends Identified{
 		yPos = y;
 	}
 	
-	public float getFitness() {
-		return fitness;
+	public void setDecisionNetOutput(float[] outputs) {
+		decisionNet = outputs;
 	}
 	
 }

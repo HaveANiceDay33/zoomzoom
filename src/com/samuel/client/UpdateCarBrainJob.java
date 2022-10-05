@@ -9,17 +9,19 @@ import NEAT.com.evo.NEAT.Genome;
 
 public class UpdateCarBrainJob {
 	
-	Genome decisionNet;
+	Genome genome;
+	public float[] output;
 	float xPos, yPos, xSpeed, ySpeed, speed,maxSpeed;
 	
 	public UpdateCarBrainJob(Genome n, float x, float y, float xs, float ys, float s, float ms) {
-		decisionNet = n;
+		genome = n;
 		xPos = x;
 		yPos = y;
 		xSpeed = xs;
 		ySpeed = ys;
 		speed = s;
 		maxSpeed = ms;
+		output = new float[7];
 	}
 
 	public void updateNetwork(ArrayList<Track> tracks) {
@@ -28,31 +30,33 @@ public class UpdateCarBrainJob {
 		
 		int finishIndex = tracks.size() - 1;
 		int playerTrack = tracks.indexOf(ct);
+		
+		float t2, t1, t0, tm1, tm2, x, y, s;
 
 		if (playerTrack <= finishIndex - 2) {
-//			decisionNet.layers.get(0).nodes.get(0).value = tracks
-//					.get(playerTrack + 2).turnDirection;
+			t2 = tracks
+					.get(playerTrack + 2).turnDirection;
 		} else {
-			//decisionNet.layers.get(0).nodes.get(0).value = 0;
+			t2 = 0;
 		}
 		if (playerTrack <= finishIndex - 1) {
-//			decisionNet.layers.get(0).nodes.get(1).value = tracks
-//					.get(playerTrack + 1).turnDirection;
+			t1 = tracks
+					.get(playerTrack + 1).turnDirection;
 		} else {
-//			decisionNet.layers.get(0).nodes.get(1).value = 0;
+			t1 = 0;
 		}
-//		decisionNet.layers.get(0).nodes.get(2).value = ct.turnDirection;
+		t0 = ct.turnDirection;
 		if (playerTrack > 0) {
-//			decisionNet.layers.get(0).nodes.get(3).value = tracks
-//					.get(playerTrack - 1).turnDirection;
+			tm1 = tracks
+					.get(playerTrack - 1).turnDirection;
 		} else {
-//			decisionNet.layers.get(0).nodes.get(3).value = 0;
+			tm1 = 0;
 		}
 		if (playerTrack > 1) {
-//			decisionNet.layers.get(0).nodes.get(4).value = tracks
-//					.get(playerTrack - 2).turnDirection;
+			tm2 = tracks
+					.get(playerTrack - 2).turnDirection;
 		} else {
-//			decisionNet.layers.get(0).nodes.get(4).value = 0;
+			tm2 = 0;
 		}
 
 		float yDistanceToCloseTrack = yPos > ct.yPos
@@ -65,27 +69,30 @@ public class UpdateCarBrainJob {
 		if (ct.textureSelect == 1 || ct.textureSelect == 124
 				|| ct.textureSelect == 184 || ct.textureSelect == 3
 				|| ct.textureSelect == 136 || ct.textureSelect == 200) {
-//			decisionNet.layers.get(0).nodes.get(5).value = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE,
-//					Track.TRACK_SIZE, -1.0f, 1.0f);
+			y = HvlMath.map(yDistanceToCloseTrack, -Track.TRACK_SIZE,
+					Track.TRACK_SIZE, -1.0f, 1.0f);
 		} else {
-//			decisionNet.layers.get(0).nodes.get(5).value = 0;
+			y = 0;
 		}
 
 		if (ct.textureSelect == 0 || ct.textureSelect == 112
 				|| ct.textureSelect == 148 || ct.textureSelect == 2
 				|| ct.textureSelect == 172 || ct.textureSelect == 160) {
-//			decisionNet.layers.get(0).nodes.get(6).value = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE,
-//					Track.TRACK_SIZE, -1.0f, 1.0f);
+			x = HvlMath.map(xDistanceToCloseTrack, -Track.TRACK_SIZE,
+					Track.TRACK_SIZE, -1.0f, 1.0f);
 		} else {
-//			decisionNet.layers.get(0).nodes.get(6).value = 0;
+			x = 0;
 		}
 
 //		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(currentGear, 1, selectedCar.GEAR_COUNT, 0, 1);	
 //		decisionNet.layers.get(0).nodes.get(8).value = HvlMath.map(currentRPM, 0, selectedCar.MAX_RPM, 0, 1);
-//		decisionNet.layers.get(0).nodes.get(7).value = HvlMath.map(speed, 0, maxSpeed, 0, 1);
+		s = HvlMath.map(speed, 0, maxSpeed, 0, 1);
 //		decisionNet.layers.get(0).nodes.get(10).value = HvlMath.map(turnAngle, -360, 360, 0, 1);
-
+		
+		float[] inputs = {t2, t1, t0, tm1, tm2, y, x, s};
 		// Propogate
+		output = genome.evaluateNetwork(inputs);
+		
 		
 	}
 	
