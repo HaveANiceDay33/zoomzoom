@@ -66,6 +66,8 @@ public class Player extends Identified{
 		trackComplete = false;
 		dead = false;
 		sittingTimer = 6;
+		
+		finalTrackTime = 500;
 				
 		decisionNet = new float[3];
 		

@@ -29,7 +29,7 @@ public class GeneticsHandler implements Environment{
 		int finishIndex = Game.trackGen.tracks.size() - 1;
 		int playerTrack = Game.trackGen.tracks.indexOf(p.closestTrack());
 		if (p.trackComplete) {
-			fitness = (p.finalTrackTime) / 1000;
+			fitness = 0;
 		} else if (!p.trackComplete && finishIndex - playerTrack == 0) {
 			fitness = 0.5f + Math.abs(HvlMath.map(
 					HvlMath.distance(p.closestTrack().xPos, p.closestTrack().yPos, p.getXPos(), p.getYPos()), 0,
@@ -39,7 +39,7 @@ public class GeneticsHandler implements Environment{
 														  HvlMath.distance(Game.trackGen.tracks.get(finishIndex).xPos,Game.trackGen.tracks.get(finishIndex).yPos, Game.trackGen.tracks.get(0).xPos,Game.trackGen.tracks.get(0).yPos));
 		}
 		
-		return 1000 - fitness;
+		return 1000 - fitness - p.finalTrackTime;
 	}
 
 	@Override
