@@ -25,8 +25,8 @@ public class Player extends Identified{
 	private static final long serialVersionUID = 1L;
 	float xPos;
 	float yPos;
-	float xSpeed;
-	float ySpeed;
+	public float xSpeed;
+	public float ySpeed;
 	float throttle;
 	float turnAngle;
 	public float turnAngleSpeed;

@@ -138,10 +138,15 @@ public class Game {
 		generationTimer = 20;
 		showElite = false;
 		MultithreadingManager.init(trackGen.tracks);
-
+		
 		gh = new GeneticsHandler();
 
 		allGenes = gh.pool.getAllGenome();
+		
+		for (Genome p : allGenes) {
+			p.queueJob();
+		}
+		MultithreadingManager.initGen();
 
 		df = new DecimalFormat();
 		df.setMaximumFractionDigits(3);
@@ -157,7 +162,7 @@ public class Game {
 
 		Genome top = gh.pool.getTopGenome();
 		for (Genome p : allGenes) {
-			p.queueJob();
+			p.queueInput();
 		}
 
 		MultithreadingManager.executeJobs();
@@ -184,9 +189,16 @@ public class Game {
 			System.out.println(gh.currentGeneration + "\t" + gh.pool.getTopGenome().getPoints());
 			Game.trackTimer = 0;
 			gh.currentGeneration++;
+			
 			gh.pool.breedNewGeneration();
+			
 			Game.generationTimer = 20;
 			allGenes = gh.pool.getAllGenome();
+			for (Genome p : allGenes) {
+				p.queueJob();
+			}
+			MultithreadingManager.initGen();
+
 			numAlive = allGenes.size();
 
 		}

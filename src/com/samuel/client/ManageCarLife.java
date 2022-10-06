@@ -7,13 +7,13 @@ import com.osreboot.ridhvl.HvlMath;
 
 import NEAT.com.evo.NEAT.Genome;
 
-public class UpdateCarBrainJob {
+public class ManageCarLife {
 	
 	Genome genome;
 	public float[] output;
 	float xPos, yPos, xSpeed, ySpeed, speed,maxSpeed;
 	
-	public UpdateCarBrainJob(Genome n, float x, float y, float xs, float ys, float s, float ms) {
+	public ManageCarLife(Genome n, float x, float y, float xs, float ys, float s, float ms) {
 		genome = n;
 		xPos = x;
 		yPos = y;

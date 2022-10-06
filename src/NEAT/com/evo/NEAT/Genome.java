@@ -93,10 +93,17 @@ public class Genome implements Comparable {
 			MultithreadingManager.queueJob(this);
 		}
 	}
+    
+    public void queueInput() {
+		if(!p.dead) {
+			MultithreadingManager.queueInput(this.p.uid, new float[] {this.p.getXPos(), this.p.getYPos(), this.p.xSpeed, this.p.ySpeed, this.p.speed});
+		}
+	}
+    
 	
 	public void fetchJob() {
 		if(!p.dead) {
-			p.setDecisionNetOutput(MultithreadingManager.fetchJob(this.p.uid).output);
+			p.setDecisionNetOutput(MultithreadingManager.fetchOutput(this.p.uid));
 		}
 	}
 
