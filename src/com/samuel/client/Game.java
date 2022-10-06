@@ -161,10 +161,11 @@ public class Game {
 		gh.pool.evaluateFitness(gh);
 
 		Genome top = gh.pool.getTopGenome();
+		
 		for (Genome p : allGenes) {
 			p.queueInput();
 		}
-
+		
 		MultithreadingManager.executeJobs();
 
 		for (Genome g : allGenes) {

@@ -16,7 +16,7 @@ public final class MultithreadingManager {
 	private MultithreadingManager() {
 	}
 
-	private static final int NUM_THREADS = 150;
+	private static final int NUM_THREADS = 12;
 
 	public static void init(ArrayList<Track> t) {
 		jobs = new HashMap<>();
