@@ -412,7 +412,7 @@ public class MenuManager {
 		} else if(HvlMenu.getCurrent() == menuMap) {
 			HvlMenu.updateMenus(delta);
 
-			int trackNum = 0;
+			int trackNum = 1;
 //			if(!singlePlayer) {
 //				trackNum = MainClient.getNClient().<Integer>getValue(KC.key_GameMap());
 //			}else {

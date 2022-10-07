@@ -1,0 +1,218 @@
+/*[CLASS TRACE, DO NOT MODIFY -> NEAT.com.evo.NEAT.Genome]*/
+{
+  "fitness" : 999.0,
+  "points" : 482.36798,
+  "connectionGeneList" : [
+    {
+      "into" : 0,
+      "out" : 0,
+      "innovation" : 0,
+      "weight" : -1.603759,
+      "enabled" : false
+    },
+    {
+      "into" : 1000009,
+      "out" : 1000010,
+      "innovation" : 2100,
+      "weight" : 0.24399424,
+      "enabled" : false
+    },
+    {
+      "into" : 8,
+      "out" : 1000008,
+      "innovation" : 967,
+      "weight" : 0.3837854,
+      "enabled" : false
+    },
+    {
+      "into" : 8,
+      "out" : 1000009,
+      "innovation" : 152,
+      "weight" : 1.8222557,
+      "enabled" : true
+    },
+    {
+      "into" : 8,
+      "out" : 1000010,
+      "innovation" : 1082,
+      "weight" : -1.3572373,
+      "enabled" : true
+    },
+    {
+      "into" : 2,
+      "out" : 1000010,
+      "innovation" : 2364,
+      "weight" : 1.2494465,
+      "enabled" : true
+    },
+    {
+      "into" : 1,
+      "out" : 1000010,
+      "innovation" : 3133,
+      "weight" : -1.3429614,
+      "enabled" : true
+    }
+  ],
+  "nodes" : {
+    "0" : {
+      "value" : 0.0,
+      "incomingCon" : [
+        {
+          "into" : 0,
+          "out" : 0,
+          "innovation" : 0,
+          "weight" : -1.603759,
+          "enabled" : false
+        }
+      ]
+    },
+    "1" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "2" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "3" : {
+      "value" : 1.0,
+      "incomingCon" : [ ]
+    },
+    "4" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "5" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "6" : {
+      "value" : 1.0060594,
+      "incomingCon" : [ ]
+    },
+    "7" : {
+      "value" : 0.22777778,
+      "incomingCon" : [ ]
+    },
+    "8" : {
+      "value" : 1.0,
+      "incomingCon" : [ ]
+    },
+    "1000008" : {
+      "value" : 0.0,
+      "incomingCon" : [
+        {
+          "into" : 8,
+          "out" : 1000008,
+          "innovation" : 967,
+          "weight" : 0.3837854,
+          "enabled" : false
+        }
+      ]
+    },
+    "1000009" : {
+      "value" : 0.9490628,
+      "incomingCon" : [
+        {
+          "into" : 8,
+          "out" : 1000009,
+          "innovation" : 152,
+          "weight" : 1.8222557,
+          "enabled" : true
+        }
+      ]
+    },
+    "1000010" : {
+      "value" : -0.8757508,
+      "incomingCon" : [
+        {
+          "into" : 1000009,
+          "out" : 1000010,
+          "innovation" : 2100,
+          "weight" : 0.24399424,
+          "enabled" : false
+        },
+        {
+          "into" : 8,
+          "out" : 1000010,
+          "innovation" : 1082,
+          "weight" : -1.3572373,
+          "enabled" : true
+        },
+        {
+          "into" : 2,
+          "out" : 1000010,
+          "innovation" : 2364,
+          "weight" : 1.2494465,
+          "enabled" : true
+        },
+        {
+          "into" : 1,
+          "out" : 1000010,
+          "innovation" : 3133,
+          "weight" : -1.3429614,
+          "enabled" : true
+        }
+      ]
+    }
+  },
+  "adjustedFitness" : 246.0,
+  "p" : {
+    "uid" : "b47f0c17108d3c12",
+    "xPos" : 2206.5522,
+    "yPos" : -9.716233,
+    "xSpeed" : 2.5295355,
+    "ySpeed" : -2.29675,
+    "throttle" : 41.0,
+    "turnAngle" : 132.2386,
+    "turnAngleSpeed" : 0.0,
+    "currentGear" : 1,
+    "speed" : 41,
+    "currentRPM" : 6970,
+    "currentRPMGoal" : 6970,
+    "rpmMod" : 6.0,
+    "speedGoal" : 41.64276,
+    "onTrack" : false,
+    "hitWall" : false,
+    "trackComplete" : false,
+    "dead" : true,
+    "accurateAngleRPM" : 107.662506,
+    "accurateAngleSpeed" : -78.94444,
+    "sittingTimer" : 3.0,
+    "finalTrackTime" : 500.0,
+    "selectedCar" : {
+      "NAME" : "Acura NSX",
+      "GEAR_COUNT" : 7,
+      "maxSpeedsPerGear" : [
+        45,
+        76,
+        99,
+        110,
+        147,
+        167,
+        180
+      ],
+      "TIRE_GRIP" : 0.38,
+      "ACCELERATION" : 31,
+      "MAX_RPM" : 7600,
+      "MIN_RPM" : 0,
+      "textureSelect" : 8
+    },
+    "decisionNet" : [
+      0.0,
+      0.9490628,
+      -0.8757508
+    ]
+  },
+  "mutationRates" : {
+    "WEIGHT_CHANCE" : 0.31578898,
+    "BIAS_CONNECTION_MUTATION_CHANCE" : 0.15789449,
+    "NODE_MUTATION_CHANCE" : 0.052631497,
+    "PERTURB_CHANCE" : 0.85499996,
+    "CONNECTION_MUTATION_CHANCE" : 0.052631497,
+    "DISABLE_MUTATION_CHANCE" : 0.095,
+    "STEPS" : 0.095,
+    "WEIGHT_MUTATION_CHANCE" : 0.85499996,
+    "ENABLE_MUTATION_CHANCE" : 0.19
+  }
+}

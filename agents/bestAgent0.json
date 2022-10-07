@@ -1,0 +1,115 @@
+/*[CLASS TRACE, DO NOT MODIFY -> NEAT.com.evo.NEAT.Genome]*/
+{
+  "fitness" : 999.0,
+  "points" : 446.00165,
+  "connectionGeneList" : [ ],
+  "nodes" : {
+    "0" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "1" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "2" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "3" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "4" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "5" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "6" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "7" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "8" : {
+      "value" : 1.0,
+      "incomingCon" : [ ]
+    },
+    "1000008" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "1000009" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "1000010" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    }
+  },
+  "adjustedFitness" : 0.0,
+  "p" : {
+    "uid" : "2bf0cadc005c318f",
+    "xPos" : 960.0,
+    "yPos" : 530.0,
+    "xSpeed" : 0.0,
+    "ySpeed" : 0.0,
+    "throttle" : 0.0,
+    "turnAngle" : 0.0,
+    "turnAngleSpeed" : 0.0,
+    "currentGear" : 1,
+    "speed" : 0,
+    "currentRPM" : -88,
+    "currentRPMGoal" : -88,
+    "rpmMod" : -20.0,
+    "speedGoal" : 0.0,
+    "onTrack" : true,
+    "hitWall" : false,
+    "trackComplete" : false,
+    "dead" : false,
+    "accurateAngleRPM" : 0.0,
+    "accurateAngleSpeed" : 0.0,
+    "sittingTimer" : 5.96875,
+    "finalTrackTime" : 500.0,
+    "selectedCar" : {
+      "NAME" : "Acura NSX",
+      "GEAR_COUNT" : 7,
+      "maxSpeedsPerGear" : [
+        45,
+        76,
+        99,
+        110,
+        147,
+        167,
+        180
+      ],
+      "TIRE_GRIP" : 0.38,
+      "ACCELERATION" : 31,
+      "MAX_RPM" : 7600,
+      "MIN_RPM" : 0,
+      "textureSelect" : 8
+    },
+    "decisionNet" : [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "mutationRates" : {
+    "WEIGHT_CHANCE" : 0.3,
+    "BIAS_CONNECTION_MUTATION_CHANCE" : 0.15,
+    "NODE_MUTATION_CHANCE" : 0.05,
+    "PERTURB_CHANCE" : 0.9,
+    "CONNECTION_MUTATION_CHANCE" : 0.05,
+    "DISABLE_MUTATION_CHANCE" : 0.1,
+    "STEPS" : 0.1,
+    "WEIGHT_MUTATION_CHANCE" : 0.9,
+    "ENABLE_MUTATION_CHANCE" : 0.2
+  }
+}

@@ -4,6 +4,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
@@ -17,7 +18,7 @@ import com.samuel.client.effects.MysteryUnlocker;
 
 import NEAT.com.evo.NEAT.Genome;
 
-public class Player extends Identified{
+public class Player extends Identified implements Serializable{
 	
 	/**
 	 * 
@@ -43,8 +44,8 @@ public class Player extends Identified{
 	float accurateAngleRPM;
 	float accurateAngleSpeed;
 	float sittingTimer;
-	HvlInput shiftUpInput;
-	HvlInput shiftDownInput;
+	transient HvlInput shiftUpInput;
+	transient HvlInput shiftDownInput;
 	
 	public float finalTrackTime;
 	Car selectedCar;

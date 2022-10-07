@@ -135,7 +135,7 @@ public class Game {
 		endTimer = 5;
 		trackTimer = 0;
 		secsElap = 0;
-		generationTimer = 20;
+		generationTimer = 45;
 		showElite = false;
 		MultithreadingManager.init(trackGen.tracks);
 		
@@ -187,19 +187,23 @@ public class Game {
 
 			gh.pool.evaluateFitness(gh);
 			
+			if(gh.currentGeneration % 100 ==0 ) {
+				gh.pool.getTopGenome().saveToFile(gh.currentGeneration);
+			}
+			
 			System.out.println(gh.currentGeneration + "\t" + gh.pool.getTopGenome().getPoints());
 			Game.trackTimer = 0;
 			gh.currentGeneration++;
 			
 			gh.pool.breedNewGeneration();
 			
-			Game.generationTimer = 20;
+			Game.generationTimer = 45;
 			allGenes = gh.pool.getAllGenome();
 			for (Genome p : allGenes) {
 				p.queueJob();
 			}
 			MultithreadingManager.initGen();
-
+			
 			numAlive = allGenes.size();
 
 		}

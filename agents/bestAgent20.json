@@ -1,0 +1,193 @@
+/*[CLASS TRACE, DO NOT MODIFY -> NEAT.com.evo.NEAT.Genome]*/
+{
+  "fitness" : 999.0,
+  "points" : 482.36798,
+  "connectionGeneList" : [
+    {
+      "into" : 8,
+      "out" : 1000010,
+      "innovation" : 112,
+      "weight" : -1.3047287,
+      "enabled" : true
+    },
+    {
+      "into" : 8,
+      "out" : 9,
+      "innovation" : 752,
+      "weight" : 1.1039366,
+      "enabled" : false
+    },
+    {
+      "into" : 9,
+      "out" : 1000009,
+      "innovation" : 753,
+      "weight" : 1.524481,
+      "enabled" : false
+    },
+    {
+      "into" : 8,
+      "out" : 1000009,
+      "innovation" : 663,
+      "weight" : 1.502477,
+      "enabled" : true
+    },
+    {
+      "into" : 1,
+      "out" : 1000010,
+      "innovation" : 1487,
+      "weight" : -0.38709593,
+      "enabled" : true
+    }
+  ],
+  "nodes" : {
+    "0" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "1" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "2" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "3" : {
+      "value" : 1.0,
+      "incomingCon" : [ ]
+    },
+    "4" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "5" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "6" : {
+      "value" : 1.0060594,
+      "incomingCon" : [ ]
+    },
+    "7" : {
+      "value" : 0.22777778,
+      "incomingCon" : [ ]
+    },
+    "8" : {
+      "value" : 1.0,
+      "incomingCon" : [ ]
+    },
+    "9" : {
+      "value" : 0.0,
+      "incomingCon" : [
+        {
+          "into" : 8,
+          "out" : 9,
+          "innovation" : 752,
+          "weight" : 1.1039366,
+          "enabled" : false
+        }
+      ]
+    },
+    "1000008" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "1000009" : {
+      "value" : 0.9055949,
+      "incomingCon" : [
+        {
+          "into" : 9,
+          "out" : 1000009,
+          "innovation" : 753,
+          "weight" : 1.524481,
+          "enabled" : false
+        },
+        {
+          "into" : 8,
+          "out" : 1000009,
+          "innovation" : 663,
+          "weight" : 1.502477,
+          "enabled" : true
+        }
+      ]
+    },
+    "1000010" : {
+      "value" : -0.86293554,
+      "incomingCon" : [
+        {
+          "into" : 8,
+          "out" : 1000010,
+          "innovation" : 112,
+          "weight" : -1.3047287,
+          "enabled" : true
+        },
+        {
+          "into" : 1,
+          "out" : 1000010,
+          "innovation" : 1487,
+          "weight" : -0.38709593,
+          "enabled" : true
+        }
+      ]
+    }
+  },
+  "adjustedFitness" : 0.0,
+  "p" : {
+    "uid" : "9aa4c48e369e3a32",
+    "xPos" : 2206.5522,
+    "yPos" : -9.716233,
+    "xSpeed" : 2.5295355,
+    "ySpeed" : -2.29675,
+    "throttle" : 41.0,
+    "turnAngle" : 132.2386,
+    "turnAngleSpeed" : 0.0,
+    "currentGear" : 1,
+    "speed" : 41,
+    "currentRPM" : 6970,
+    "currentRPMGoal" : 6970,
+    "rpmMod" : 6.0,
+    "speedGoal" : 41.64276,
+    "onTrack" : false,
+    "hitWall" : false,
+    "trackComplete" : false,
+    "dead" : true,
+    "accurateAngleRPM" : 107.662506,
+    "accurateAngleSpeed" : -78.94444,
+    "sittingTimer" : 3.0,
+    "finalTrackTime" : 500.0,
+    "selectedCar" : {
+      "NAME" : "Acura NSX",
+      "GEAR_COUNT" : 7,
+      "maxSpeedsPerGear" : [
+        45,
+        76,
+        99,
+        110,
+        147,
+        167,
+        180
+      ],
+      "TIRE_GRIP" : 0.38,
+      "ACCELERATION" : 31,
+      "MAX_RPM" : 7600,
+      "MIN_RPM" : 0,
+      "textureSelect" : 8
+    },
+    "decisionNet" : [
+      0.0,
+      0.9055949,
+      -0.86293554
+    ]
+  },
+  "mutationRates" : {
+    "WEIGHT_CHANCE" : 0.31578898,
+    "BIAS_CONNECTION_MUTATION_CHANCE" : 0.15789449,
+    "NODE_MUTATION_CHANCE" : 0.0475,
+    "PERTURB_CHANCE" : 0.85499996,
+    "CONNECTION_MUTATION_CHANCE" : 0.0475,
+    "DISABLE_MUTATION_CHANCE" : 0.105262995,
+    "STEPS" : 0.105262995,
+    "WEIGHT_MUTATION_CHANCE" : 0.85499996,
+    "ENABLE_MUTATION_CHANCE" : 0.19
+  }
+}

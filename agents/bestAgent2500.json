@@ -1,0 +1,146 @@
+/*[CLASS TRACE, DO NOT MODIFY -> NEAT.com.evo.NEAT.Genome]*/
+{
+  "fitness" : 999.0,
+  "points" : 446.98907,
+  "connectionGeneList" : [
+    {
+      "into" : 8,
+      "out" : 1000009,
+      "innovation" : 116,
+      "weight" : -1.7571136,
+      "enabled" : false
+    },
+    {
+      "into" : 8,
+      "out" : 1000010,
+      "innovation" : 339945,
+      "weight" : -0.59931684,
+      "enabled" : true
+    }
+  ],
+  "nodes" : {
+    "0" : {
+      "value" : -1.0,
+      "incomingCon" : [ ]
+    },
+    "1" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "2" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "3" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "4" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "5" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "6" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "7" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "8" : {
+      "value" : 1.0,
+      "incomingCon" : [ ]
+    },
+    "1000008" : {
+      "value" : 0.0,
+      "incomingCon" : [ ]
+    },
+    "1000009" : {
+      "value" : 0.0,
+      "incomingCon" : [
+        {
+          "into" : 8,
+          "out" : 1000009,
+          "innovation" : 116,
+          "weight" : -1.7571136,
+          "enabled" : false
+        }
+      ]
+    },
+    "1000010" : {
+      "value" : -0.5365633,
+      "incomingCon" : [
+        {
+          "into" : 8,
+          "out" : 1000010,
+          "innovation" : 339945,
+          "weight" : -0.59931684,
+          "enabled" : true
+        }
+      ]
+    }
+  },
+  "adjustedFitness" : 0.0,
+  "p" : {
+    "uid" : "c32b6565bd98351e",
+    "xPos" : 683.0,
+    "yPos" : 372.0,
+    "xSpeed" : 0.0,
+    "ySpeed" : 0.0,
+    "throttle" : 0.0,
+    "turnAngle" : 0.0,
+    "turnAngleSpeed" : 0.0,
+    "currentGear" : 1,
+    "speed" : 0,
+    "currentRPM" : -88,
+    "currentRPMGoal" : -88,
+    "rpmMod" : -20.0,
+    "speedGoal" : 0.0,
+    "onTrack" : false,
+    "hitWall" : false,
+    "trackComplete" : false,
+    "dead" : true,
+    "accurateAngleRPM" : 0.0,
+    "accurateAngleSpeed" : 0.0,
+    "sittingTimer" : 5.96875,
+    "finalTrackTime" : 500.0,
+    "selectedCar" : {
+      "NAME" : "Acura NSX",
+      "GEAR_COUNT" : 7,
+      "maxSpeedsPerGear" : [
+        45,
+        76,
+        99,
+        110,
+        147,
+        167,
+        180
+      ],
+      "TIRE_GRIP" : 0.38,
+      "ACCELERATION" : 31,
+      "MAX_RPM" : 7600,
+      "MIN_RPM" : 0,
+      "textureSelect" : 8
+    },
+    "decisionNet" : [
+      0.0,
+      0.0,
+      -0.5365633
+    ]
+  },
+  "mutationRates" : {
+    "WEIGHT_CHANCE" : 0.31578898,
+    "BIAS_CONNECTION_MUTATION_CHANCE" : 0.1425,
+    "NODE_MUTATION_CHANCE" : 0.052631497,
+    "PERTURB_CHANCE" : 0.94736695,
+    "CONNECTION_MUTATION_CHANCE" : 0.052631497,
+    "DISABLE_MUTATION_CHANCE" : 0.095,
+    "STEPS" : 0.105262995,
+    "WEIGHT_MUTATION_CHANCE" : 0.94736695,
+    "ENABLE_MUTATION_CHANCE" : 0.19
+  }
+}

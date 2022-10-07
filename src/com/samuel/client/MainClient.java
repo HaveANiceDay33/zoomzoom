@@ -1,9 +1,12 @@
 package com.samuel.client;
 import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 
 import com.osreboot.hvol.base.HvlGameInfo;
 import com.osreboot.hvol.dclient.HvlTemplateDClient2D;
+import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
+import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.samuel.client.effects.CarEffectApplicator;
@@ -12,7 +15,7 @@ import com.samuel.client.effects.MysteryUnlocker;
 public class MainClient extends HvlTemplateDClient2D{
 
 	public MainClient(HvlGameInfo gameInfoArg){
-		super(120, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.016f, gameInfoArg);
+		super(32, 1920, 1080, "Zoom Zoom", new HvlDisplayModeDefault(), "localhost", 25565, 0.016f, gameInfoArg);
 	}
 	static HvlFontPainter2D gameFont;
 	public final static int NEEDLE_INDEX = 0;
@@ -52,9 +55,9 @@ public class MainClient extends HvlTemplateDClient2D{
 	public final static int DRAG_INDEX = 34;
 	public final static int NODE_INDEX = 35;
 	public final static int NEURON_INDEX = 36;
-	
+	HvlInput simInput;
+	int gi;
 	private static final long NANOS_IN_SECOND = 1000L * 1000L * 1000L;
-
 
 	@Override
 	public void initialize(){		
@@ -102,16 +105,40 @@ public class MainClient extends HvlTemplateDClient2D{
 		MenuManager.initialize();
 		CarEffectApplicator.initialize();
 		MysteryUnlocker.initialize();
+		
+		gi= 1;
+				
+		simInput = new HvlInput(new HvlInput.InputFilter() {
+			@Override
+			public float getCurrentOutput() {
+				if(Keyboard.isKeyDown(Keyboard.KEY_T)) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+		});
+		
+		simInput.setPressedAction(new HvlAction1<HvlInput>() {
+			@Override
+			public void run(HvlInput a) {
+				if(gi == 1) {
+					gi = 4;
+				} else {
+					gi = 1;
+				}
+			}
+		});
 	}
 
 	@Override
 	public void update(float delta){
 		//gameFont.drawWord(getClient().getTable().toString(), 0, 0, Color.darkGray);
-		delta = 1/20f;
+		delta = 1/32f;
 		
-		for(int i = 0; i < 4; i ++) {
+		for(int i = 0; i < gi; i ++) {
 			MenuManager.update(delta);
-
 		}
 		
 	}

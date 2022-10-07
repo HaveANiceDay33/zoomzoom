@@ -1,19 +1,36 @@
 package NEAT.com.evo.NEAT;
 
-import NEAT.com.evo.NEAT.com.evo.NEAT.config.NEAT_Config;
+import java.awt.FileDialog;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.management.RuntimeErrorException;
 
+import com.osreboot.ridhvl2.HvlConfig;
 import com.samuel.client.MultithreadingManager;
 import com.samuel.client.Player;
 
-import java.io.*;
-import java.util.*;
+import NEAT.com.evo.NEAT.com.evo.NEAT.config.NEAT_Config;
 
 /**
  * Created by vishnughosh on 28/02/17.
  */
-public class Genome implements Comparable {
+public class Genome implements Comparable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Random rand = new Random();
 	private float fitness; // Global Percentile Rank (higher the better)
 	private float points;
@@ -92,6 +109,11 @@ public class Genome implements Comparable {
 	public void fetchJob() {
 		p.setDecisionNetOutput(MultithreadingManager.fetchOutput(this.p.uid));
 
+	}
+	
+	public void saveToFile(int gen) {
+		
+		HvlConfig.PJSON.save(this, "agents/bestAgent"+gen+".json");
 	}
 
 	public float getFitness() {
