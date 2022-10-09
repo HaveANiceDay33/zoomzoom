@@ -188,7 +188,7 @@ public class MenuManager {
 		
 		ip.getFirstArrangerBox().add(new HvlSpacer(30, 30));
 		
-		ip.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Single Player").setTextScale(0.8f).setWidth(200).setClickedCommand(new HvlAction1<HvlButton>() {
+		ip.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("NEAT Simulator").setTextScale(0.8f).setWidth(200).setClickedCommand(new HvlAction1<HvlButton>() {
 
 			@Override
 			public void run(HvlButton a) {
