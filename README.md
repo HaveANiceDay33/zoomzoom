@@ -8,4 +8,5 @@ Quick Start <br />
 -- AI-General: Does not work <br /><br />
 -- Multi-threading: A better version of AI-branch that uses multithreading and deterministic physics to make genetics more consistent.<br /><br />
 -- legacy-AI: Also does not work.<br /><br />
-
+-- NEAT: working NEAT algorithm for evolution
+-- NEAT-optimization: some multithreading speed ups for NEAT
